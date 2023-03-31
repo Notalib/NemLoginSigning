@@ -13,11 +13,13 @@ namespace NemLoginSigningWebApp.Models
     /// </summary>
     public class SigningModel : ViewModelBase
     {
-        public SigningModel() { }
+        public SigningModel()
+        {
+        }
 
         public SigningModel(SigningPayloadDTO signingPayloadDTO)
         {
-            this.SigningPayloadDTO = signingPayloadDTO;
+            SigningPayloadDTO = signingPayloadDTO;
         }
 
         public SigningModel(SigningPayloadDTO signingPayloadDTO, string signingClientURL, SignersDocument signersDocument, string format)
@@ -35,7 +37,7 @@ namespace NemLoginSigningWebApp.Models
         public SignersDocument SignersDocument { get; set; }
 
         public string Format { get; set; }
-            
+
         public HtmlString SerializedHTMLString()
         {
             using (var stringWriter = new StringWriter())
@@ -47,7 +49,7 @@ namespace NemLoginSigningWebApp.Models
                 };
 
                 serializer.Serialize(jsonWriter, SigningPayloadDTO);
-                                
+
                 var htmlString = new HtmlString(stringWriter.ToString());
 
                 return htmlString;

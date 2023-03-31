@@ -9,6 +9,6 @@ namespace NemLoginSigningWebApp.Logic
     /// </summary>
     public interface IDocumentSigningService
     {
-        public SigningPayloadDTO GenerateSigningPayload(SignatureFormat signatureFormat, SignatureKeys signatureKeys, string language, string referenceText, string filePath);
+        public SigningPayloadDTO GenerateSigningPayload(SignersDocument signersDocument, SignatureParameters signatureParameters, SignatureFormat signatureFormat, SignatureKeys signatureKeys);
     }
 }

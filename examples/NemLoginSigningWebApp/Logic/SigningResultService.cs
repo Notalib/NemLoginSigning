@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Options;
+
 using NemLoginSigningWebApp.Models;
 using NemLoginSignatureValidationService.Service;
-using static NemLoginSignatureValidationService.Model.SignatureValidationContext;
 using NemLoginSignatureValidationService.Model;
 using NemLoginSigningCore.Utilities;
 using NemLoginSigningCore.Configuration;
+
+using static NemLoginSignatureValidationService.Model.SignatureValidationContext;
 
 namespace NemLoginSigningWebApp.Logic
 {
@@ -42,12 +45,12 @@ namespace NemLoginSigningWebApp.Logic
             return index != -1 ? $"{name.Substring(0, index)}-signed.{format}" : $"{name}-signed.{format}";
         }
 
-        public async Task<ValidationReport> ValidateSignedDocumentAsync(string signedDocumentFilename, string documentData)
+        public async Task<ValidationReport> ValidateSignedDocumentAsync(string filename, string document)
         {
             SignatureValidationContext ctx = new SignatureValidationContextBuilder()
-                .WithDocumentName(signedDocumentFilename)
-                .WithDocumentData(Convert.FromBase64String(documentData))
-                .WithValidationServiceUrl(_configuration.ValidationServiceUrl)
+                .WithDocumentName(filename)
+                .WithDocumentData(Convert.FromBase64String(document))
+                .WithValidationServiceUrl(_configuration.ValidationServiceURL)
                 .Build();
 
             var validationReport = await _signingValidationService.Validate(ctx);

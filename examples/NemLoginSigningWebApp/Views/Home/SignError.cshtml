@@ -28,13 +28,10 @@
                         </tr>
                     }
 
-                    @if (Model.HttpStatusCode != null)
-                    {
-                        <tr>
-                            <th>Status</th>
-                            <td>@Model.HttpStatusCode</td> 
-                        </tr>
-                    }
+                    <tr>
+                        <th>Status</th>
+                        <td>@Model.HttpStatusCode</td> 
+                    </tr>
 
                     @if (Model.Message != null)
                     {
@@ -42,11 +39,11 @@
                         <td>@Model.Message</td>
                     }
 
-                    @if (@Model.details.Any())
+                    @if (@Model.Details.Any())
                     {
                         int index = 0;
                         <tr>
-                            @foreach (var item in Model.details)
+                            @foreach (var item in Model.Details)
                             {
                                 index++;
                             <th><span>Detaljer</span> <span></span>@index</th>

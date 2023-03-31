@@ -10,10 +10,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NemLoginSigningCore.Configuration;
 using NemLoginSigningCore.Core;
+using NemLoginSigningCore.DTO;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Utilities;
 using NemLoginSigningWebApp.Logic;
 using NemLoginSigningWebApp.Models;
+using static NemLoginSigningCore.Core.SignatureParameters;
 
 namespace NemLoginSigningWebApp.Controllers
 {
@@ -22,9 +24,9 @@ namespace NemLoginSigningWebApp.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        private readonly string RESULT_TYPE_DOCUMENT_SIGNED = "signedDocument";
-        private readonly string RESULT_TYPE_ERROR = "errorResponse";
-        private readonly string RESULT_TYPE_CANCEL = "cancelSign";
+        private const string RESULT_TYPE_DOCUMENT_SIGNED = "signedDocument";
+        private const string RESULT_TYPE_ERROR = "errorResponse";
+        private const string RESULT_TYPE_CANCEL = "cancelSign";
 
         private readonly ILogger<HomeController> _logger;
         private readonly ISignersDocumentLoader _signersDocumentLoader;
@@ -34,11 +36,10 @@ namespace NemLoginSigningWebApp.Controllers
 
         private readonly SignatureKeysConfiguration _signatureKeysConfiguration;
 
-
-        public HomeController(ILogger<HomeController> logger, 
-            ISignersDocumentLoader signersDocumentLoader, 
+        public HomeController(ILogger<HomeController> logger,
+            ISignersDocumentLoader signersDocumentLoader,
             IDocumentSigningService documentSigningService,
-            IOptions<NemloginConfiguration> nemloginConfiguration, 
+            IOptions<NemloginConfiguration> nemloginConfiguration,
             ISigningResultService signingResultService)
         {
             if (nemloginConfiguration == null)
@@ -52,7 +53,7 @@ namespace NemLoginSigningWebApp.Controllers
             _nemloginConfiguration = nemloginConfiguration.Value;
             _signingResultService = signingResultService ?? throw new ArgumentNullException(nameof(signingResultService));
 
-            _signatureKeysConfiguration = _nemloginConfiguration.SignatureKeysConfiguration.First();
+            _signatureKeysConfiguration = _nemloginConfiguration.SignatureKeysConfiguration;
         }
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace NemLoginSigningWebApp.Controllers
             }
 
             indexModel.Files = _signersDocumentLoader.GetFiles();
-            
+
             return View(indexModel);
         }
 
@@ -119,21 +120,33 @@ namespace NemLoginSigningWebApp.Controllers
 
             language = string.IsNullOrEmpty(language) ? "da" : language.Substring(0, 2);
 
-            SignatureKeys signatureKeys = new SignatureKeysLoader()
+            SignatureKeys keys = new SignatureKeysLoader()
                 .WithKeyStorePath(_signatureKeysConfiguration.KeystorePath)
                 .WithKeyStorePassword(_signatureKeysConfiguration.KeyStorePassword)
                 .WithPrivateKeyPassword(_signatureKeysConfiguration.PrivateKeyPassword)
                 .LoadSignatureKeys();
 
-            var signingPayloadDTO = _documentSigningService.GenerateSigningPayload(signatureFormat, signatureKeys, language, Path.GetFileName(filePath), filePath);
+            SignersDocument document = _signersDocumentLoader.CreateSignersDocumentFromFile(filePath);
 
-            SigningModel signingModel = new SigningModel(signingPayloadDTO, _nemloginConfiguration.SigningClientURL, _signersDocumentLoader.CreateSignersDocumentFromFile(filePath), format);
+            SignatureParameters parameters = new SignatureParametersBuilder()
+                .WithFlowType(FlowType.ServiceProvider)
+                .WithPreferredLanguage(Enum.Parse<Language>(language))
+                .WithReferenceText(filePath)
+                .WithSignersDocumentFormat(document.DocumentFormat)
+                .WithSignatureFormat(signatureFormat)
+                .WithEntityID(_nemloginConfiguration.EntityID)
+                .WithMinAge(18)
+                .Build();
+
+            SigningPayloadDTO payload = _documentSigningService.GenerateSigningPayload(document, parameters, signatureFormat, keys);
+
+            SigningModel signingModel = new SigningModel(payload, _nemloginConfiguration.SigningClientURL, document, format);
 
             return View("Sign", signingModel);
         }
 
         /// <summary>
-        /// When signing is done this is invoked where check for signingresult is done 
+        /// When signing is done this is invoked where check for signingresult is done
         /// and a redirect to either "Signcomplete" page or "SignError" based on the signing result.
         /// </summary>
         /// <param name="type">Result of the signing</param>
@@ -167,7 +180,7 @@ namespace NemLoginSigningWebApp.Controllers
             if (type == RESULT_TYPE_ERROR)
             {
                 SignErrorModel signErrorModel = _signingResultService.ParseError(result);
-                
+
                 return View("SignError", signErrorModel);
             }
 
@@ -196,6 +209,7 @@ namespace NemLoginSigningWebApp.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
+
         public FileResult Download(string fileName, string filePath)
         {
             if (System.IO.File.Exists(filePath))

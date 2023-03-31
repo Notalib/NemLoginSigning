@@ -8,7 +8,9 @@ namespace NemLoginSigningWebApp.Models
     /// </summary>
     public class SignErrorModel : ViewModelBase
     {
-        public SignErrorModel() { }
+        public SignErrorModel()
+        {
+        }
 
         public int HttpStatusCode { get; set; }
 
@@ -16,6 +18,6 @@ namespace NemLoginSigningWebApp.Models
 
         public string Message { get; set; }
 
-        public List<DetailedSigningClientError> details = new List<DetailedSigningClientError>();
+        public List<DetailedSigningClientError> Details = new List<DetailedSigningClientError>();
     }
 }

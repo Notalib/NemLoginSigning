@@ -19,20 +19,20 @@ namespace NemLoginSigningWebApp.Logic
                 throw new ArgumentNullException(nameof(signersDocument));
             }
 
-            if (signatureFormat == NemLoginSigningCore.Format.SignatureFormat.PAdES  && signersDocument.DocumentFormat != DocumentFormat.PDF)
+            if (signatureFormat == NemLoginSigningCore.Format.SignatureFormat.PAdES && signersDocument.DocumentFormat != DocumentFormat.PDF)
             {
                 try
                 {
                     string path = signersDocument.SignersDocumentFile.Path;
                     string directoryName = Path.GetDirectoryName(path);
 
-                    //Look for font with same name
+                    // Look for font with same name
                     foreach (var fontExtension in _fontExtensions)
                     {
                         var fontFile = Path.ChangeExtension(path, fontExtension);
                         if (File.Exists(fontFile))
                         {
-                            TransformationProperties properties = new TransformationProperties();
+                            TransformationProperties properties = new ();
                             properties.Add(keyPrefix + "fonts", "embed, default");
                             properties.Add(keyPrefix + "font[0].name", Path.GetFileName(fontFile));
                             properties.Add(keyPrefix + "font[0].path", Path.GetFullPath(fontFile));
@@ -45,7 +45,6 @@ namespace NemLoginSigningWebApp.Logic
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }

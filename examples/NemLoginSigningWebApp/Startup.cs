@@ -47,8 +47,8 @@ namespace NemLoginSigningWebApp
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
             var nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
-            
-            services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceUrl));
+
+            services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
             services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
@@ -83,6 +83,7 @@ namespace NemLoginSigningWebApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -109,8 +110,8 @@ namespace NemLoginSigningWebApp
         private void LoadAssemblies()
         {
             // Load assembly to be able to do reflection later on
-            Assembly.Load("NemLoginSigningXades"); //, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            Assembly.Load("NemLoginSigningPades"); //, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Assembly.Load("NemLoginSigningXades"); // , Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Assembly.Load("NemLoginSigningPades"); // , Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
         }
     }
 }

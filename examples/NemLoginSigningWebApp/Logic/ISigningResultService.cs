@@ -1,7 +1,7 @@
 ﻿using System;
-using NemLoginSigningWebApp.Models;
 using System.Threading.Tasks;
 using NemLoginSignatureValidationService.Model;
+using NemLoginSigningWebApp.Models;
 
 namespace NemLoginSigningWebApp.Logic
 {
@@ -14,6 +14,6 @@ namespace NemLoginSigningWebApp.Logic
 
         SignErrorModel ParseError(string error);
 
-        Task<ValidationReport> ValidateSignedDocumentAsync(string filname, string document);
+        Task<ValidationReport> ValidateSignedDocumentAsync(string filename, string document);
     }
 }

@@ -1,43 +1,46 @@
-﻿using NemLoginSigningCore.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NemLoginSigningCore.Core;
+using NemLoginSigningWebApp.DTOs;
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
 namespace NemLoginSigningWebApp.Logic
 {
     /// <summary>
-    /// Support class and methods for the controller to load files and signproperties to the WebApp 
+    /// Support class and methods for the controller to load files and signproperties to the WebApp
     /// and for calling the signing workflow.
     /// </summary>
     public class SignersDocumentLoader : ISignersDocumentLoader
     {
-        public SignersDocumentLoader() { }
+        private static readonly string[] FileExtensions = { ".TXT", ".PDF", ".XML", ".HTML", ".HTM" };
+
+        public bool UseMonospaceInTxt { get; set; } = false;
+
+        public SignersDocumentLoader()
+        {
+        }
 
         public IEnumerable<SignersDocument> GetFiles()
         {
-            string[] fileExtensions = { ".TXT", ".PDF", ".XML", ".HTML" };
-
-            string directory = string.Empty;
-
-            directory = Directory.Exists(".\\wwwroot\\content\\UploadedFiles") ? 
-                        ".\\wwwroot\\content\\UploadedFiles" : 
+            string directory = Directory.Exists(".\\wwwroot\\content\\UploadedFiles") ?
+                        ".\\wwwroot\\content\\UploadedFiles" :
                         ".\\wwwroot\\content\\Files";
 
-            var files = Directory.EnumerateFiles(directory).Where(f => fileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
+            IEnumerable<string> files = Directory.EnumerateFiles(directory).Where(f => FileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
 
             if (!files.Any())
             {
                 directory = ".\\wwwroot\\content\\Files";
-                files = Directory.EnumerateFiles(directory).Where(f => fileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
+                files = Directory.EnumerateFiles(directory).Where(f => FileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
             }
 
             List<SignersDocument> signersDocumentList = new List<SignersDocument>();
 
-            foreach (var item in files)
+            foreach (string item in files)
             {
                 signersDocumentList.Add(CreateSignersDocumentFromFile(item));
             }
@@ -48,38 +51,56 @@ namespace NemLoginSigningWebApp.Logic
         public SignersDocument CreateSignersDocumentFromFile(string filePath)
         {
             string fileName = System.IO.Path.GetFileName(filePath);
+
             SignersDocumentFile signersDocumentFile = new SignersDocumentFileBuilder()
                    .WithName(fileName)
                    .WithPath(filePath)
                    .Build();
 
-            var signProperties = GetSignProperties(filePath);
+            return GetSignersDocument(filePath, signersDocumentFile, GetSignProperties(filePath));
+        }
 
+        public SignersDocument CreateSignersDocumentFromContent(string fileName, byte[] content, SignProperties signProperties)
+        {
+            SignersDocumentFile signersDocumentFile = new SignersDocumentFileBuilder()
+                .WithName(fileName)
+                .WithData(content)
+                .Build();
+
+            return GetSignersDocument(fileName, signersDocumentFile, signProperties);
+        }
+
+        public SignersDocument CreateSignersDocumentFromSignFileDTO(SignFileDTO dto)
+        {
+            return CreateSignersDocumentFromContent(dto.FileName, Convert.FromBase64String(dto.ContentsBase64), new SignProperties());
+        }
+
+        private SignersDocument GetSignersDocument(string filePath, SignersDocumentFile signersDocumentFile, SignProperties signProperties)
+        {
+            string fileExtension = Path.GetExtension(filePath).ToUpperInvariant();
             SignersDocument signersDocument = null;
-
-            var fileExtension = Path.GetExtension(fileName);
 
             switch (fileExtension)
             {
-                case ".pdf":
+                case ".PDF":
                     signersDocument = new PdfSignersDocument(signersDocumentFile, signProperties);
                     break;
-                case ".html":
+                case ".HTML":
+                case ".HTM":
                     signersDocument = new HtmlSignersDocument(signersDocumentFile, signProperties);
                     break;
-                case ".txt":
-                    bool useMonoSpace = fileName.ToUpper(CultureInfo.InvariantCulture).Contains("-MONOSPACE", StringComparison.Ordinal);
-                    signersDocument = new PlainTextSignersDocument(signersDocumentFile, useMonoSpace, signProperties);
+                case ".TXT":
+                    signersDocument = new PlainTextSignersDocument(signersDocumentFile, UseMonospaceInTxt, signProperties);
                     break;
-                case ".xml":
-                    signersDocument = new XmlSignersDocument(signersDocumentFile, GetxsltDocumentFile(filePath), signProperties);
+                case ".XML":
+                    signersDocument = new XmlSignersDocument(signersDocumentFile, GetXSLTDocumentFile(filePath), signProperties);
                     break;
             }
 
             return signersDocument;
         }
 
-        private SignersDocumentFile GetxsltDocumentFile(string filePath)
+        private SignersDocumentFile GetXSLTDocumentFile(string filePath)
         {
             string xsltFilename = string.Empty;
 
@@ -101,8 +122,8 @@ namespace NemLoginSigningWebApp.Logic
             {
                 xsltFilename = Path.ChangeExtension(filePath, "xsl");
             }
-            
-            var path = Path.GetFullPath(xsltFilename);
+
+            string path = Path.GetFullPath(xsltFilename);
 
             return new SignersDocumentFileBuilder()
                 .WithName(xsltFilename)
@@ -112,20 +133,20 @@ namespace NemLoginSigningWebApp.Logic
 
         private SignProperties GetSignProperties(string filePath)
         {
-            var propertyFile = GetPropertyFileName(filePath);
+            string propertyFile = GetPropertyFileName(filePath);
 
             if (string.IsNullOrEmpty(propertyFile) || !File.Exists(propertyFile))
             {
                 return new SignProperties();
             }
 
-            var properties = File.ReadAllLines(propertyFile).ToList();
+            List<string> properties = File.ReadAllLines(propertyFile).ToList();
 
             SignProperties signProperties = new SignProperties();
 
-            foreach (var item in properties)
+            foreach (string item in properties)
             {
-                var property = item.Split("=", StringSplitOptions.RemoveEmptyEntries);
+                string[] property = item.Split("=", StringSplitOptions.RemoveEmptyEntries);
                 signProperties.Add(property[0], new SignPropertyValue(property[1], SignPropertyValue.SignPropertyValueType.StringValue));
             }
 
@@ -134,7 +155,8 @@ namespace NemLoginSigningWebApp.Logic
 
         private string GetPropertyFileName(string filePath)
         {
-            var propertiesFile = $"{Path.GetFileNameWithoutExtension(filePath)}.properties";
+            string propertiesFile = $"{Path.GetFileNameWithoutExtension(filePath)}.properties";
+
             return Path.Combine(Path.GetDirectoryName(filePath), propertiesFile);
         }
     }

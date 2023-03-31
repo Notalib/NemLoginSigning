@@ -3,12 +3,14 @@
 namespace NemLoginSigningWebApp.Models
 {
     /// <summary>
-    /// SigningResultModel is used for handling the signed document 
+    /// SigningResultModel is used for handling the signed document
     /// and eventually the validation report.
     /// </summary>
     public class SigningResultModel : ViewModelBase
     {
-        public SigningResultModel() { }
+        public SigningResultModel()
+        {
+        }
 
         public SigningResultModel(ValidationReport validationReport)
         {

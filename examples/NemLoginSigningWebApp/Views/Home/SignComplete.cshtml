@@ -111,52 +111,41 @@
                                     {
                                         @foreach (var signature in Model.ValidationReport.Result.Signatures)
                                         {
-                                            @if (signature.Indication != null)
+                                            @switch (signature.Indication)
                                             {
+                                                case NemLoginSignatureValidationService.Model.Indication.TOTAL_FAILED:
+                                                    <tr style="background-color: red">
+                                                        <th>@Localizer["sign_complete.report.result.indication"]</th>
+                                                        <td>@Localizer["sign_complete.report.result.indication.failed"]</td>
+                                                    </tr>
+                                                    break;
 
-                                                @switch (signature.Indication)
-                                                {
-                                                    case NemLoginSignatureValidationService.Model.Indication.TOTAL_FAILED:
-                                                        <tr style="background-color: red">
-                                                            <th>@Localizer["sign_complete.report.result.indication"]</th>
-                                                            <td>@Localizer["sign_complete.report.result.indication.failed"]</td>
-                                                        </tr>
-                                                        break;
+                                                case NemLoginSignatureValidationService.Model.Indication.INDETERMINATE:
+                                                    <tr style="background-color: orange">
+                                                        <th>@Localizer["sign_complete.report.result.indication"]</th>
+                                                        <td>@Localizer["sign_complete.report.result.indication.indeterminate"]</td>
+                                                    </tr>
+                                                    break;
+                                                case NemLoginSignatureValidationService.Model.Indication.TOTAL_PASSED:
+                                                    <tr style="background-color: green">
+                                                        <th>@Localizer["sign_complete.report.result.indication"]</th>
+                                                        <td>@Localizer["sign_complete.report.result.indication.passed"]</td>
+                                                    </tr>
+                                                    break;
 
-                                                    case NemLoginSignatureValidationService.Model.Indication.INDETERMINATE:
-                                                        <tr style="background-color: orange">
-                                                            <th>@Localizer["sign_complete.report.result.indication"]</th>
-                                                            <td>@Localizer["sign_complete.report.result.indication.indeterminate"]</td>
-                                                        </tr>
-                                                        break;
-                                                    case NemLoginSignatureValidationService.Model.Indication.TOTAL_PASSED:
-                                                        <tr style="background-color: green">
-                                                            <th>@Localizer["sign_complete.report.result.indication"]</th>
-                                                            <td>@Localizer["sign_complete.report.result.indication.passed"]</td>
-                                                        </tr>
-                                                        break;
-
-                                                    default:
-                                                        break;
-                                                }
-
+                                                default:
+                                                    break;
                                             }
 
-                                            @if (signature.SignatureFormat != null)
-                                            {
-                                                <tr>
-                                                    <th>@Localizer["sign_complete.report.result.format"]</th>
-                                                    <td>@signature.SignatureFormat</td>
-                                                </tr>
-                                            }
+                                            <tr>
+                                                <th>@Localizer["sign_complete.report.result.format"]</th>
+                                                <td>@signature.SignatureFormat</td>
+                                            </tr>
 
-                                            @if (signature.SignatureLevel != null)
-                                            {
-                                                <tr>
-                                                    <th>@Localizer["sign_complete.report.result.level"]</th>
-                                                    <td>@signature.SignatureLevel</td>
-                                                </tr>
-                                            }
+                                            <tr>
+                                                <th>@Localizer["sign_complete.report.result.level"]</th>
+                                                <td>@signature.SignatureLevel</td>
+                                            </tr>
 
                                             @if (signature.SigningTime != null)
                                             {
