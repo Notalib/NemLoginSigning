@@ -1,0 +1,310 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@model SigningResultModel
+
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = "SignComplete";
+}
+
+<script th:inline="javascript">
+    /** Convert Bas64-encoded document to a Blob **/
+    function b64toBlob(b64Data, contentType, sliceSize) {
+        sliceSize = sliceSize || 512;
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+        return new Blob(byteArrays, { type: contentType });
+    }
+
+    /** Save the signed document **/
+    function save() {
+        const data = document.signingResult.document.value;
+        const mediaType = '@Model.MediaType';
+        const fileName = '@Model.SignedDocumentFileName';
+        const blob = b64toBlob(data, mediaType);
+        if (window.navigator.msSaveOrOpenBlob) {
+            // IE specific download.
+            navigator.msSaveBlob(blob, fileName);
+        } else {
+            const downloadLink = document.createElement("a");
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.setAttribute("href", window.URL.createObjectURL(blob));
+            downloadLink.setAttribute("download", fileName);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    }
+</script>
+
+<div>
+    <div class="container page-layout">
+        <div class="page-content">
+
+            <div class="mb-3">
+                <span style="float: right">
+                    <a href="/" class="btn btn-secondary">@Localizer["back"]</a>
+                </span>
+                <span style="float: right" class="mr-2">
+
+                </span>
+                <h2>@Localizer["sign_complete.title"]</h2>
+            </div>
+
+            <div class="text-center m-5">
+                <form asp-controller="Home" name="signingResult" asp-action="ValidateSigningResult" method="post">
+                    <div class="card bg-light" style="width: 400px; margin: 0 auto;">
+                        <div class="card-header">
+                            <h4>@Model.Name</h4>
+                        </div>
+                        <div class="card-body text-left">
+
+                            <button type="button" class="btn btn-outline-secondary" onclick="save()">
+                                <i class="fas fa-file-download"></i>
+                                <span>Download</span>
+                            </button>
+
+                            <button type="submit" class="btn btn-outline-secondary float-right">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Validate</span>
+                            </button>
+
+                            <input type="hidden" name="document" value="@Model.SignedDocument">
+                            <input type="hidden" name="filename" value="@Model.Name">
+                            <input type="hidden" name="format" value="@Model.Format">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @if (Model.ValidationReport != null)
+            {
+                <div class="card text-center mt-5">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#validationResult" role="tab" id="validation-result">@Localizer["sign_complete.report.result"]</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#etsiReport" role="tab" id="etsi-report">@Localizer["sign_complete.report.etsi"]</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content text-left validation-result">
+                            <!-- Validation Result -->
+                            <div id="validationResult" class="tab-pane fade show active" role="tabpanel">
+                                <table class="table mt-4">
+                                    @if (Model.ValidationReport.Result.Signatures.Any())
+                                    {
+                                        @foreach (var signature in Model.ValidationReport.Result.Signatures)
+                                        {
+                                            @if (signature.Indication != null)
+                                            {
+
+                                                @switch (signature.Indication)
+                                                {
+                                                    case NemLoginSignatureValidationService.Model.Indication.TOTAL_FAILED:
+                                                        <tr style="background-color: red">
+                                                            <th>@Localizer["sign_complete.report.result.indication"]</th>
+                                                            <td>@Localizer["sign_complete.report.result.indication.failed"]</td>
+                                                        </tr>
+                                                        break;
+
+                                                    case NemLoginSignatureValidationService.Model.Indication.INDETERMINATE:
+                                                        <tr style="background-color: orange">
+                                                            <th>@Localizer["sign_complete.report.result.indication"]</th>
+                                                            <td>@Localizer["sign_complete.report.result.indication.indeterminate"]</td>
+                                                        </tr>
+                                                        break;
+                                                    case NemLoginSignatureValidationService.Model.Indication.TOTAL_PASSED:
+                                                        <tr style="background-color: green">
+                                                            <th>@Localizer["sign_complete.report.result.indication"]</th>
+                                                            <td>@Localizer["sign_complete.report.result.indication.passed"]</td>
+                                                        </tr>
+                                                        break;
+
+                                                    default:
+                                                        break;
+                                                }
+
+                                            }
+
+                                            @if (signature.SignatureFormat != null)
+                                            {
+                                                <tr>
+                                                    <th>@Localizer["sign_complete.report.result.format"]</th>
+                                                    <td>@signature.SignatureFormat</td>
+                                                </tr>
+                                            }
+
+                                            @if (signature.SignatureLevel != null)
+                                            {
+                                                <tr>
+                                                    <th>@Localizer["sign_complete.report.result.level"]</th>
+                                                    <td>@signature.SignatureLevel</td>
+                                                </tr>
+                                            }
+
+                                            @if (signature.SigningTime != null)
+                                            {
+                                                <tr>
+                                                    <th>@Localizer["sign_complete.report.result.signing_time"]</th>
+                                                    <td>@signature.SigningTime</td>
+                                                </tr>
+                                            }
+
+                                            @if (signature.SignedBy != null)
+                                            {
+                                                <tr>
+                                                    <th>@Localizer["sign_complete.report.result.signed_by"]</th>
+                                                    <td>@signature.SignedBy</td>
+                                                </tr>
+                                            }
+
+                                            @if (signature.Email != null)
+                                            {
+                                                <tr>
+                                                    <th>@Localizer["sign_complete.report.result.email"]</th>
+                                                    <td>@signature.SignedBy</td>
+                                                </tr>
+                                            }
+
+                                            @if (signature.CertificateChain.Any())
+                                            {
+                                                int i = 0;
+
+                                                @foreach (var certificate in signature.CertificateChain)
+                                                {
+                                                    <tr>
+                                                        <th>
+                                                            @switch (i)
+                                                            {
+                                                                case 0:
+                                                                    <span>@Localizer["sign_complete.report.result.signing_cert"]</span>
+                                                                    break;
+                                                                case 1:
+                                                                    <span>@Localizer["sign_complete.report.result.issuing_ca"]</span>
+                                                                    break;
+                                                                case 2:
+                                                                    <span>@Localizer["sign_complete.report.result.issued_by"]</span>
+                                                                    break;
+
+                                                                default:
+                                                                    break;
+                                                            }
+
+                                                        </th>
+                                                        <td>
+                                                            <div>@certificate.SubjectDN</div>
+                                                            @if (i == 0)
+                                                            {
+                                                                <div>
+                                                                    <div>
+                                                                        <span>@Localizer["sign_complete.report.result.serial_number"]</span>
+                                                                        <span>@certificate.SerialNumber</span>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <span>@Localizer["sign_complete.report.result.valid_period"]</span>
+                                                                        @if (certificate.NotBefore != null)
+                                                                        {
+                                                                            <span>@certificate.NotBefore</span>
+                                                                        }
+
+                                                                        @if (certificate.NotAfter != null)
+                                                                        {
+                                                                            <span>@certificate.NotAfter</span>
+                                                                        }
+                                                                    </div>
+
+                                                                    @if (certificate.Policies.Any())
+                                                                    {
+                                                                        string policystring = string.Empty;
+                                                                        <div>
+                                                                            <span>@Localizer["sign_complete.report.result.policies"]</span>
+
+                                                                            @foreach (var policy in certificate.Policies)
+                                                                            {
+                                                                                policystring = policystring + policy + ", ";
+                                                                            }
+                                                                            <span>@policystring.Substring(0, policystring.Length - 1)</span>
+                                                                        </div>
+                                                                    }
+                                                                </div>
+                                                            }
+
+
+                                                        </td>
+
+                                                    </tr>
+                                                    i++;
+                                                }
+                                            }
+
+
+                                            @if (signature.Errors != null && signature.Errors.Any())
+                                            {
+
+                                                @foreach (var error in signature.Errors)
+                                                {
+                                                    <tr>
+                                                        <th>@Localizer["sign_complete.report.result.error"]</th>
+                                                        <td>@error</td>
+                                                    </tr>
+                                                }
+
+                                            }
+
+                                            @if (signature.Warnings != null && signature.Warnings.Any())
+                                            {
+                                                @foreach (var warning in signature.Warnings)
+                                                {
+                                                    <tr>
+                                                        <th>@Localizer["sign_complete.report.result.warning"]</th>
+                                                        <th>@warning</th>
+                                                    </tr>
+                                                }
+
+                                            }
+
+                                            @if (signature.Infos != null && signature.Infos.Any())
+                                            {
+
+                                                @foreach (var info in signature.Infos)
+                                                {
+                                                    <tr>
+                                                        <th>@Localizer["sign_complete.report.result.info"]</th>
+                                                        <th>@info</th>
+                                                    </tr>
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                </table>
+                            </div>
+
+                            <!-- Etsi Rapport -->
+                            <div id="etsiReport" class="tab-pane fade show" role="tabpanel">
+                                <pre><code class="language-xml">@Model.EtsiReport</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

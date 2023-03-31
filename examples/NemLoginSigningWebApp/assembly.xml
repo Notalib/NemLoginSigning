@@ -1,0 +1,44 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+  <id>bundle</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>true</includeBaseDirectory>
+  <fileSets>
+    <fileSet>
+      <directory>../../library/SignSDKWebAPI</directory>
+      <outputDirectory>library/SignSDKWebAPI</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>../../library/NemLoginSigningService</directory>
+      <outputDirectory>library/NemLoginSigningService</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>../../library/NemLoginSigningCore</directory>
+      <outputDirectory>library/NemLoginSigningCore</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>../../library/NemLoginSigningPades</directory>
+      <outputDirectory>library/NemLoginSigningPades</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>../../library/NemLoginSigningXades</directory>
+      <outputDirectory>library/NemLoginSigningXades</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>../../library/NemLoginSigningValidation</directory>
+      <outputDirectory>library/NemLoginSigningValidation</outputDirectory>
+    </fileSet>
+    <fileSet>
+      <directory>../../library/html-agility-pack</directory>
+      <outputDirectory>library/html-agility-pack</outputDirectory>
+    </fileSet>
+  </fileSets>
+  <files>
+    <file>
+      <source>../../SignSDK.Common.props</source>
+      <outputDirectory></outputDirectory>
+    </file>
+  </files>
+</assembly>

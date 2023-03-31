@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dk.gov.nemlogin</groupId>
+    <artifactId>nemlogin-sign-sdk-dotnet-signing-test</artifactId>
+    <packaging>pom</packaging>
+    <version>999-SNAPSHOT</version> <!-- irrelevant, managed by jgitver -->
+
+    <name>NemLog-In SP dotNet SDK Signing Test</name>
+    <description>SDK Signing Test</description>
+
+    <properties>
+        <sln>NemLoginSigningTest.csproj</sln>
+        <altCoverage>${env.altCoverage}</altCoverage>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- execute unit test -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>clean</phase>
+                        <id>clean</id>
+                        <configuration>
+                            <target>
+                                <echo message="dotnet clean"/>
+                                <exec executable="dotnet">
+                                    <arg value="clean"/>
+                                    <arg value="${sln}"/>
+                                    <arg value="--configuration"/>
+                                    <arg value="Release"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <phase>compile</phase>
+                        <id>unit test signSDK</id>
+                        <configuration>
+                            <target>
+                                <echo message="dotnet build"/>
+                                <exec executable="dotnet">
+                                    <arg value="build"/>
+                                    <arg value="${sln}"/>
+                                    <arg value="--configuration"/>
+                                    <arg value="Release"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="dotnet">
+                                    <arg value="test"/>
+                                    <arg value="${sln}"/>
+                                    <arg value="--configuration"/>
+                                    <arg value="Release"/>
+                                    <arg value="/p:AltCover=${altCoverage}" />
+                                    <arg value="--logger"/>
+                                    <arg value="trx;LogFileName=NemLoginSigningTestResults.trx" />
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- disable deployment - we will not deploy this via mvn deploy-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

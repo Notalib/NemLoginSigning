@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <Import Project="..\..\SignSDK.Common.props" />
+  
+  <ItemGroup>
+        <PackageReference Include="coverlet.msbuild" Version="3.1.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <Compile Remove="AngleSharp.Css\**" />
+    <Compile Remove="HTMLValidation\AntiSamyRessources\**" />
+    <EmbeddedResource Remove="AngleSharp.Css\**" />
+    <EmbeddedResource Remove="HTMLValidation\AntiSamyRessources\**" />
+    <None Remove="AngleSharp.Css\**" />
+    <None Remove="HTMLValidation\AntiSamyRessources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="PDFValidation\whitelist-regex.txt" />
+    <None Remove="PDFValidation\whitelist.txt" />
+    <None Remove="PDFValidation\whitelistexclusions.txt" />
+    <None Remove="PDFValidation\whitelistkeys.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="PDFValidation\WhiteListRessources\whitelist-regex.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PDFValidation\WhiteListRessources\whitelist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PDFValidation\WhiteListRessources\whitelistexclusions.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PDFValidation\WhiteListRessources\whitelistkeys.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\html-agility-pack\src\HtmlAgilityPack.NETStandard2_0\HtmlAgilityPack.NETStandard2_0.csproj" />
+    <ProjectReference Include="..\NemLoginSigningCore\NemLoginSigningCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\NemLoginSigningPades\ItextSharp\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker">
+      <HintPath>..\NemLoginSigningPades\ItextSharp\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Update="C:\SourceCode\SignSDK.Net\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+</Project>

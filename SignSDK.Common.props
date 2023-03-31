@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <Authors>NETS A/S</Authors>
+    <Company>NETS A/S</Company>
+    <Product>SignSDK_Net</Product>
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,64 @@
+﻿using System;
+using System.IO;
+using System.Net.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using NemLoginSigningWebApp;
+using Xunit;
+using Microsoft.Extensions.Logging;
+using NemLoginSigningCore.Logging;
+using NemLoginSigningCore.Configuration;
+
+namespace NemloginSigningTest
+{
+    public class WebAppTests
+    {
+        private readonly TestServer server;
+        private readonly HttpClient client;
+        private readonly Uri apiUrl;
+
+        [Fact]
+        public async void TestNemloginSigningWebAppConfiguration()
+        {
+            Uri uri = new Uri(apiUrl + "IsAlive");
+
+            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
+
+            var result = await response.Content.ReadAsStringAsync();
+
+            Assert.Equal("NemloginSigningWebApp is up and running.", result);
+        }
+
+        public WebAppTests()
+        {
+            server = new TestServer(new WebHostBuilder()
+              .ConfigureAppConfiguration(config => config.AddJsonFile("appsettings.json"))
+              .UseEnvironment(Environments.Development)
+              .ConfigureServices(services => services.Configure<NemloginConfiguration>(GetAppSettingsSection(TestConstants.ConfigurationNemlogin)))
+              .UseStartup<Startup>()
+              );
+
+            LoggerCreator.LoggerFactory = server.Services.GetRequiredService<ILoggerFactory>();
+
+            var logger = LoggerCreator.CreateLogger<WebAppTests>();
+            
+            client = server.CreateClient();
+
+            apiUrl = new Uri("https://localhost:44358/Home/");
+
+            logger.LogInformation($"SignSdk - TestServer Setup Done - Server running");
+        }
+
+        public IConfigurationSection GetAppSettingsSection(string section)
+        {
+            var result = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json").Build();
+
+            return result.GetSection(section);
+        }
+    }
+}

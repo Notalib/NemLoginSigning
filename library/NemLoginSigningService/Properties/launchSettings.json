@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NemLoginSigningService": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

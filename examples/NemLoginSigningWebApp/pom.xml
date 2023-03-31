@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dk.gov.nemlogin</groupId>
+    <artifactId>sign-sdk-web-app</artifactId>
+    <packaging>jar</packaging> <!-- must not be pom packaging because of fabric8 -->
+    <version>999-SNAPSHOT</version> <!-- irrelevant, managed by jgitver -->
+
+    <name>SignSdk Nemlogin Signing Web App</name>
+    <description>SignSdk Nemlogin Signing Web App - microservice exposing REST api of wrapped sign api</description>
+
+    <properties>
+        <sln>NemLoginSigningWebApp.csproj</sln>
+        <altCoverage>${env.altCoverage}</altCoverage>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Assemble the DIGST release -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>clean</phase>
+                        <id>clean</id>
+                        <configuration>
+                            <target>
+                                <echo message="dotnet clean"/>
+                                <exec executable="dotnet">
+                                    <arg value="clean"/>
+                                    <arg value="${sln}"/>
+                                    <arg value="--configuration"/>
+                                    <arg value="Release"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <phase>compile</phase>
+                        <id>compile NemLogin Signing Web App</id>
+                        <configuration>
+                            <target>
+                                <exec executable="dotnet">
+                                    <arg value="build"/>
+                                    <arg value="${sln}"/>
+                                    <arg value="--configuration"/>
+                                    <arg value="Release"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>test</id>
+                        <phase>test</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="dotnet">
+                                    <arg value="test"/>
+                                    <arg value="${sln}"/>
+                                    <arg value="--configuration"/>
+                                    <arg value="Release"/>
+                                    <arg value="/p:AltCover=${altCoverage}" />
+                                    <arg value="--logger"/>
+                                    <arg value="trx;LogFileName=NemLoginSigningWebAppTestResults.trx" />
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+
+            <!-- disable deployment - we will not deploy this via mvn deploy - but will use S2I) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <profiles>
+        <profile>
+            <id>openshift</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>fabric8-maven-plugin</artifactId>
+                        <version>3.5.42</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+
+                        <configuration>
+                            <verbose>true</verbose>
+
+                            <enricher>
+                                <excludes>
+                                    <exclude>f8-expose</exclude>
+                                </excludes>
+                            </enricher>
+                            <images>
+                                <image>
+                                    <name>signing-microservice-dotnet-linux:%l</name>
+                                    <build>
+                                        <fromExt>
+                                            <name>dotnet-31-rhel7:3.1-13</name>
+                                            <namespace>nets-third-party</namespace>
+                                            <kind>ImageStreamTag</kind>
+                                        </fromExt>
+                                        <assembly>
+                                            <basedir>/</basedir>
+                                            <descriptor>${basedir}/assembly.xml</descriptor>
+                                        </assembly>
+                                        <env>
+                                            <_DOTNET_VERBOSITY_>diag</_DOTNET_VERBOSITY_>
+                                            <DOTNET_STARTUP_PROJECT>maven/library/SignSDKWebAPI/SignSDKWebAPI.csproj</DOTNET_STARTUP_PROJECT>
+                                            <DOTNET_VERBOSITY>n</DOTNET_VERBOSITY>
+                                            <ASPNETCORE_ENVIRONMENT>Development</ASPNETCORE_ENVIRONMENT>
+                                        </env>
+                                        <ports>
+                                            <port>8080</port>
+                                        </ports>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+    </profiles>
+
+</project>

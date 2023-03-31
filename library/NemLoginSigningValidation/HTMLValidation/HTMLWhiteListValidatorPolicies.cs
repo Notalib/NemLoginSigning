@@ -1,0 +1,163 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using HtmlAgilityPack;
+
+namespace NemLoginSigningValidation.HTMLValidation
+{
+    /// <summary>
+    /// .Net implementation of HTML validation originally from the NemID validation project.
+    /// Validates HTML elements/attributes definition against a whitelist
+    /// </summary>
+    public class HTMLWhiteListValidatorPolicies : List<HTMLWhiteListValidatorPolicy>
+    {
+        private readonly List<HTMLWhiteListValidatorPolicy> _whiteListAttributesOnTypes;
+
+        private HashSet<string> _whiteListElements = new HashSet<string>()
+        {
+             "html" , "body", "head", "meta", "style", "title", "p", "div", "span", "ul", "ol", "li",
+                "h1", "h2", "h3", "h4", "h5", "h6", "table", "tbody", "thead", "tfoot", "tr", "td", "th",
+                "i", "b", "u", "center", "a", "br"
+        };
+
+        public HTMLWhiteListValidatorPolicies()
+        {
+            _whiteListAttributesOnTypes = new List<HTMLWhiteListValidatorPolicy>();
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "xmlns" },
+                                                                            onElements: new[] { "html" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "charset", "http-equiv", "name", "content" },
+                                                                            onElements: new[] { "meta" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "text", "bgcolor", "class", "style" },
+                                                                            onElements: new[] { "body" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "type" },
+                                                                            onElements: new[] { "style" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(allowTextIn: new[] { "style" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "align", "bgcolor", "style", "class" },
+                                                                            onElements: new[] { "p", "div", "span" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "style", "class" },
+                                                                            onElements: new[] { "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "start", "type", "style", "class" },
+                                                                            onElements: new[] { "ol" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "border", "cellspacing", "cellpadding", "width", "align", "style" },
+                                                                            onElements: new[] { "table" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "class", "style" },
+                                                                            onElements: new[] { "tr" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
+                                                                            onElements: new[] { "th" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
+                                                                            onElements: new[] { "td" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
+                                                                onElements: new[] { "td" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "name" },
+                                                                onElements: new[] { "a" }));
+
+            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "href" },
+                                                                onElements: new[] { "a" }, documentLinksOnly: true));
+        }
+
+        public IEnumerable<string> Validate(HtmlNode node)
+        {
+            List<string> errors = new List<string>();
+
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            // Check against whitelist
+            if (!_whiteListElements.Contains(node.Name))
+            {
+                errors.Add($"HTML not valid: {node.Name.ToLowerInvariant()}");
+                return errors;
+            }
+
+            // Validate all attributes
+            foreach (var attribute in node.Attributes)
+            {
+                if (attribute.Name == "style")
+                {
+                    CssContentValidator cssContentValidator = new CssContentValidator();
+                    var result = cssContentValidator.Validate(attribute);
+
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        errors.Add(result);
+                    }
+                }
+                else
+                {
+                    if (!IsElementWhiteListed(node.Name))
+                    {
+                        errors.Add($"HTML not valid: {node.Name}");
+                    }
+
+                    if (!AttributeAllowedOnElement(node.Name, attribute.Name, attribute.Value))
+                    {
+                        errors.Add($"HTML not valid. Element: {node.Name}. Attribute: {attribute.Value}");
+                    }
+                }
+            }
+
+            if (AttributeExistOnlyOnceValidation(node.Attributes, "href"))
+            {
+                errors.Add("Invalid html: href");
+            }
+
+            return errors;
+        }
+
+        private bool AttributeExistOnlyOnceValidation(HtmlAttributeCollection attributes, string name)
+        {
+            var attributesGrouped = attributes.GroupBy(w => w.Name).Where(c => c.Count() > 1);
+            return attributesGrouped.Where(w => w.Key.ToUpperInvariant() == name.ToUpperInvariant()).Any();
+        }
+
+        private bool AttributeAllowedOnElement(string tagName, string attributeName, string value)
+        {
+            var withElementsAndAttributes = _whiteListAttributesOnTypes.Where(w => w.OnElements != null && w.OnElements.Any() && w.AllowedAttributes != null && w.AllowedAttributes.Any()).ToList();
+            var matchingWhiteList = withElementsAndAttributes.Where(w => w.OnElements.Contains(tagName) && w.AllowedAttributes.Contains(attributeName));
+
+            if (!matchingWhiteList.Any())
+            {
+                return false;
+            }
+
+            var anyMatch = matchingWhiteList.FirstOrDefault();
+
+            if (anyMatch != null)
+            {
+                if (anyMatch.DocumentLinksOnly)
+                {
+                    if (!value.StartsWith("#", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool IsElementWhiteListed(string tagName)
+        {
+            return _whiteListElements.Any(c => c.ToUpperInvariant().Contains(tagName.ToUpperInvariant()));
+        }
+
+        private IEnumerable<HTMLWhiteListValidatorPolicy> ElementsToCheck(HtmlNode node)
+        {
+            return _whiteListAttributesOnTypes.Where(c => c.OnElements.Contains(node.Name));
+        }
+    }
+}
