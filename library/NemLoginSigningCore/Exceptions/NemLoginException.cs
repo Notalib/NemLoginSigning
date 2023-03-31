@@ -13,21 +13,31 @@ namespace NemLoginSigningCore.Exceptions
     {
         public ErrorCode ErrorCode { get; set; }
 
-        public NemLoginException() { }
+        public NemLoginException()
+        {
+        }
 
-        public NemLoginException(string message) : base(message) { }
+        public NemLoginException(string message)
+            : base(message)
+        {
+        }
 
-        public NemLoginException(string message, ErrorCode errorCode) : base(message)
+        public NemLoginException(string message, ErrorCode errorCode)
+            : base(message)
         {
             ErrorCode = errorCode;
         }
 
-        public NemLoginException(string message, ErrorCode errorCode, Exception innerException) : base(message, innerException)
+        public NemLoginException(string message, ErrorCode errorCode, Exception innerException)
+            : base(message, innerException)
         {
             ErrorCode = errorCode;
         }
 
-        public NemLoginException(string message, Exception innerException) : base(message, innerException) { }
+        public NemLoginException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
 
         public string ErrorCodeDescription
         {

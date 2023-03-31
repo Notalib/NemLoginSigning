@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logic;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 using static NemLoginSigningCore.Core.SignatureParameters;
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
@@ -15,7 +15,6 @@ namespace NemLoginSigningPades.Logic.Transformators
     /// <summary>
     /// Baseclass for PDF transformations which are inherited from the specific transformation classes
     /// </summary>
-
     public abstract class PdfFormatTransformationService : ITransformator
     {
         public abstract bool CanTransform(Transformation transformation);

@@ -34,6 +34,6 @@ namespace NemLoginSignatureValidationService.Model
 
         public IList<string> Warnings { get; set; }
 
-        public IList<string> Infos{ get; set; }
+        public IList<string> Infos { get; set; }
     }
 }

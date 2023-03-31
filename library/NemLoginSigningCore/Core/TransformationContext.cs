@@ -1,5 +1,5 @@
-﻿using NemLoginSigningCore.Exceptions;
-using System;
+﻿using System;
+using NemLoginSigningCore.Exceptions;
 
 namespace NemLoginSigningCore.Core
 {
@@ -38,11 +38,14 @@ namespace NemLoginSigningCore.Core
             SignatureParameters = signatureParameters;
 
             if (TransformationProperties == null)
+            {
                 TransformationProperties = new TransformationProperties();
+            }
         }
 
-        public TransformationContext(SignersDocument signersDocument, SignatureKeys signatureKeys, 
-                SignatureParameters signatureParameters, TransformationProperties transformationProperties) : this(signersDocument, signatureKeys, signatureParameters)
+        public TransformationContext(SignersDocument signersDocument, SignatureKeys signatureKeys,
+                SignatureParameters signatureParameters, TransformationProperties transformationProperties)
+            : this(signersDocument, signatureKeys, signatureParameters)
         {
             TransformationProperties = transformationProperties;
         }
@@ -56,13 +59,13 @@ namespace NemLoginSigningCore.Core
 
                 throw new InvalidSignatureParametersException($"No valid format for sdFormat={sdFormatValue}, signatureFormat={signatureFormatValue}");
             }
-                        
+
             return ValidTransformation.GetTransformation(SignatureParameters.DocumentFormat.Value, SignatureParameters.SignatureFormat.Value);
         }
 
         public void UpdateDtbsSignedInfo(string signatureEncoded)
         {
-            this.SignatureParameters.DtbsSignedInfo = signatureEncoded;
+            SignatureParameters.DtbsSignedInfo = signatureEncoded;
         }
     }
 }

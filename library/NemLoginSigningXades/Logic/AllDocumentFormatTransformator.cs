@@ -11,7 +11,7 @@ using NemLoginSigningXades.Util;
 namespace NemLoginSigningXades.Logic
 {
     /// <summary>
-    /// Implementation of the ITransformator interface. 
+    /// Implementation of the ITransformator interface.
     /// Handles all the preliminary formats (XML, HTML, TXT, PDF) -> XML transformation.
     /// </summary>
     public class AllDocumentFormatTransformator : ITransformator
@@ -52,14 +52,14 @@ namespace NemLoginSigningXades.Logic
                     signTextType.WithPDFDocument(CreatePDFDocument(ctx.SignersDocument));
                     break;
             }
-            
+
             if (ctx.SignersDocument.SignProperties != null && ctx.SignersDocument.SignProperties.Any())
             {
                 signTextType.WithProperties(ctx.SignersDocument.SignProperties);
             }
-            
+
             SignedDocumentType signedDocumentType = new SignedDocumentType { SignText = signTextType };
-            
+
             try
             {
                 var serializedXML = XMLSerializer.Serialize(signedDocumentType);
@@ -108,7 +108,7 @@ namespace NemLoginSigningXades.Logic
         {
             PDFDocumentType pdfDocumentType = new PDFDocumentType();
             pdfDocumentType.Document = signersDocument.SignersDocumentFile.GetData();
-            
+
             return pdfDocumentType;
         }
     }

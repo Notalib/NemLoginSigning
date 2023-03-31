@@ -1,18 +1,18 @@
 ﻿using System;
-using System.IO;
-using NemLoginSigningCore.Core;
-using NemLoginSigningCore.Format;
-using NemLoginSigningCore.Logic;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using NemLoginSigningCore.Exceptions;
-using iTextSharp.text.pdf;
 using iTextSharp.text;
+using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.security;
-using Org.BouncyCastle.Security;
 using Microsoft.Extensions.Logging;
+using NemLoginSigningCore.Core;
+using NemLoginSigningCore.Exceptions;
+using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logging;
+using NemLoginSigningCore.Logic;
+using Org.BouncyCastle.Security;
 
 namespace NemLoginSigningPades.Logic
 {
@@ -30,7 +30,6 @@ namespace NemLoginSigningPades.Logic
         public const string SIGNATURE_TYPE = "Sig";
         public const string SIGNATURE_NAME = "NemLog-In Signing SDK";
         private const int NO_CHANGE_PERMITTED = 1;
-       
 
         public static readonly PdfName SIGNATURE_DEFAULT_FILTER = PdfName.ADOBE_PPKLITE;
         public static readonly PdfName SIGNATURE_DEFAULT_SUBFILTER = PdfName.ETSI_CADES_DETACHED;
@@ -87,7 +86,7 @@ namespace NemLoginSigningPades.Logic
         private PresignResult PreSignDocumentAndReturnDigest(TransformationContext ctx, byte[] pdfDocument)
         {
             SignatureKeys signatureKeys = new SignatureKeysProducer().CreateSignatureKeys();
-            
+
             return StampSignature(pdfDocument, signatureKeys, ctx);
         }
 
@@ -100,7 +99,7 @@ namespace NemLoginSigningPades.Logic
             PdfSignatureAppearance appearance = CreateSignatureAppearance(stamper);
 
             TemplateSignatureContainer templateSignatureContainer = CreateTemplateSignatureContainer(ctx, signatureKeys);
-            
+
             MakeSignature.SignExternalContainer(appearance, templateSignatureContainer, SIGNATURE_SIZE);
 
             return new PresignResult(ms.ToArray(), templateSignatureContainer.Digest);

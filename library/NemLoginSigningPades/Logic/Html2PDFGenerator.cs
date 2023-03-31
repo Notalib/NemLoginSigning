@@ -13,11 +13,11 @@ namespace NemLoginSigningPades.Logic
         public byte[] GeneratePDFDocument(string inputHtml, TransformationPropertiesHandler propertiesHandler)
         {
             Rectangle pageSize = propertiesHandler.GetPageSizeAndOrientation();
-                        
+
             float pageMargin = propertiesHandler.GetPageMargin();
             float pageMarginInPoints = Utilities.MillimetersToPoints(pageMargin * 10);
 
-            string bodyStyle = "body { font-family: " + propertiesHandler.GetBodyFont() + "; }"; 
+            string bodyStyle = "body { font-family: " + propertiesHandler.GetBodyFont() + "; }";
             string monospaceStyle = "pre { font: " + propertiesHandler.GetMonospaceFont() + "; }";
 
             var doc = new HtmlDocument();
@@ -44,7 +44,7 @@ namespace NemLoginSigningPades.Logic
             string xHtml = CloseTagsToXhtmlCompliance(modifiedHtml);
 
             var pdfDocument = new Document(pageSize, pageMarginInPoints, pageMarginInPoints, pageMarginInPoints, pageMarginInPoints);
-                        
+
             using (var ms = new MemoryStream())
             {
                 PdfWriter writer = PdfWriter.GetInstance(pdfDocument, ms);
@@ -58,7 +58,7 @@ namespace NemLoginSigningPades.Logic
                 using (MemoryStream msXHTML = new MemoryStream(Encoding.UTF8.GetBytes(xHtml)))
                 {
                     var xmlWorkerHelper = XMLWorkerHelper.GetInstance();
-                    
+
                     xmlWorkerHelper.ParseXHtml(writer, pdfDocument, msXHTML, null, Encoding.UTF8, propertiesHandler.GetFontProvider());
                 }
 

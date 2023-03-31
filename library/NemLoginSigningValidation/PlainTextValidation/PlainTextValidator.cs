@@ -15,6 +15,7 @@ namespace NemLoginSigningValidation.PlainTextValidation
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+
         public void Validate(TransformationContext ctx)
         {
             _logger.LogInformation("Validating PlainText - Everything is good..");

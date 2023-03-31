@@ -7,10 +7,18 @@ namespace NemLoginSigningCore.Exceptions
     /// </summary>
     public class InvalidSignatureParametersException : NemLoginException
     {
-        public InvalidSignatureParametersException(string message) : base(message, ErrorCode.SDK002) { }
+        public InvalidSignatureParametersException(string message)
+            : base(message, ErrorCode.SDK002)
+        {
+        }
 
-        public InvalidSignatureParametersException() { }
+        public InvalidSignatureParametersException()
+        {
+        }
 
-        public InvalidSignatureParametersException(string message, Exception innerException) : base(message, ErrorCode.SDK002, innerException) { }
+        public InvalidSignatureParametersException(string message, Exception innerException)
+            : base(message, ErrorCode.SDK002, innerException)
+        {
+        }
     }
 }

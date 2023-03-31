@@ -126,8 +126,8 @@ namespace HtmlAgilityPack
                 uCharVal = text[len];
                 unchecked
                 {
-                    lowByte = (byte) (uCharVal & 0x00ff);
-                    hiByte = (byte) (uCharVal >> 8);
+                    lowByte = (byte)(uCharVal & 0x00ff);
+                    hiByte = (byte)(uCharVal >> 8);
                 }
 
                 oldcrc32 = UPDC32(hiByte, oldcrc32);
@@ -143,14 +143,14 @@ namespace HtmlAgilityPack
 
         internal uint AddToCRC32(int c)
         {
-            return AddToCRC32((ushort) c);
+            return AddToCRC32((ushort)c);
         }
 
         internal uint AddToCRC32(ushort c)
         {
             byte lowByte, hiByte;
-            lowByte = (byte) (c & 0x00ff);
-            hiByte = (byte) (c >> 8);
+            lowByte = (byte)(c & 0x00ff);
+            hiByte = (byte)(c >> 8);
             _crc32 = UPDC32(hiByte, _crc32);
             _crc32 = UPDC32(lowByte, _crc32);
             return ~_crc32;

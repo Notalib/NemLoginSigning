@@ -13,7 +13,7 @@ namespace NemLoginSigningXades.GeneratedSources
 
         public TransformType WithAlgorithm(string algorithm)
         {
-            this.Algorithm = algorithm;
+            Algorithm = algorithm;
             return this;
         }
     }

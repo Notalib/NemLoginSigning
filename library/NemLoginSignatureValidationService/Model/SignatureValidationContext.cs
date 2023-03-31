@@ -14,62 +14,64 @@ namespace NemLoginSignatureValidationService.Model
 
         public string DocumentName { get; private set; }
 
-        private byte[] documentData;
+        private byte[] _documentData;
 
         public byte[] GetDocumentData()
         {
-            return (byte[])documentData.Clone();
+            return (byte[])_documentData.Clone();
         }
 
         public SignatureValidationContext(SignatureValidationContext ctx)
         {
             if (ctx != null)
             {
-                this.ValidationServiceUrl = ctx.ValidationServiceUrl;
-                this.Timeout = ctx.Timeout;
-                this.DocumentName = ctx.DocumentName;
-                this.documentData = ctx.GetDocumentData();
+                ValidationServiceUrl = ctx.ValidationServiceUrl;
+                Timeout = ctx.Timeout;
+                DocumentName = ctx.DocumentName;
+                _documentData = ctx.GetDocumentData();
             }
         }
 
         public class SignatureValidationContextBuilder
         {
-            SignatureValidationContext template = new SignatureValidationContext(null);
-            
+            private SignatureValidationContext _template = new SignatureValidationContext(null);
+
             public SignatureValidationContextBuilder WithValidationServiceUrl(string url)
             {
-                template.ValidationServiceUrl = url;
+                _template.ValidationServiceUrl = url;
                 return this;
             }
 
             public SignatureValidationContextBuilder WithTimeout(int timeout)
             {
-                template.Timeout = timeout;
+                _template.Timeout = timeout;
                 return this;
             }
 
             public SignatureValidationContextBuilder WithDocumentName(string documentName)
             {
-                template.DocumentName = documentName;
+                _template.DocumentName = documentName;
                 return this;
             }
 
             public SignatureValidationContextBuilder WithDocumentData(byte[] documentData)
             {
-                template.documentData = documentData;
+                _template._documentData = documentData;
                 return this;
             }
 
             public SignatureValidationContextBuilder WithDocumentPath(string path)
             {
                 if (!File.Exists(path))
-                    throw new FileNotFoundException("Could not find file to validate");
-
-                template.documentData = File.ReadAllBytes(path);
-
-                if (string.IsNullOrEmpty(template.DocumentName))
                 {
-                    template.DocumentName = Path.GetFileName(path);
+                    throw new FileNotFoundException("Could not find file to validate");
+                }
+
+                _template._documentData = File.ReadAllBytes(path);
+
+                if (string.IsNullOrEmpty(_template.DocumentName))
+                {
+                    _template.DocumentName = Path.GetFileName(path);
                 }
 
                 return this;
@@ -82,11 +84,11 @@ namespace NemLoginSignatureValidationService.Model
                     throw new FileNotFoundException("Could not find file to validate");
                 }
 
-                template.documentData = File.ReadAllBytes(uri.LocalPath);
+                _template._documentData = File.ReadAllBytes(uri.LocalPath);
 
-                if (string.IsNullOrEmpty(template.DocumentName))
+                if (string.IsNullOrEmpty(_template.DocumentName))
                 {
-                    template.DocumentName = Path.GetFileName(uri.LocalPath);
+                    _template.DocumentName = Path.GetFileName(uri.LocalPath);
                 }
 
                 return this;
@@ -94,17 +96,22 @@ namespace NemLoginSignatureValidationService.Model
 
             public SignatureValidationContext Build()
             {
-                if (string.IsNullOrEmpty(template.ValidationServiceUrl))
+                if (string.IsNullOrEmpty(_template.ValidationServiceUrl))
+                {
                     throw new ArgumentNullException("Missing validationServiceUrl value");
+                }
 
-
-                if (string.IsNullOrEmpty(template.DocumentName))
+                if (string.IsNullOrEmpty(_template.DocumentName))
+                {
                     throw new ArgumentNullException("Missing documentName value");
-                
-                if (template.documentData == null)
-                    throw new ArgumentNullException("Missing documentData value");
+                }
 
-                return new SignatureValidationContext(template);
+                if (_template._documentData == null)
+                {
+                    throw new ArgumentNullException("Missing documentData value");
+                }
+
+                return new SignatureValidationContext(_template);
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿
-using NemLoginSigningCore.Core;
+﻿using NemLoginSigningCore.Core;
 
 namespace NemLoginSigningCore.Logic
 {
@@ -9,6 +8,7 @@ namespace NemLoginSigningCore.Logic
     public interface ISourceAttacher
     {
         bool CanAttach(Transformation transformation);
+
         void Attach(TransformationContext ctx);
     }
 }

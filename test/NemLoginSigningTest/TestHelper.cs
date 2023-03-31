@@ -9,7 +9,7 @@ namespace NemloginSigningTest
     /// <summary>
     /// Helper class for general configuration and setup of test properties
     /// </summary>
-    public class TestHelper
+    public static class TestHelper
     {
         public static NemloginConfiguration GetConfiguration(string section)
         {

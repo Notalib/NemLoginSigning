@@ -5,10 +5,10 @@
     /// </summary>
     public class PresignResult
     {
-        public PresignResult(byte[] SignedResult, byte[] Signature)
+        public PresignResult(byte[] signedResult, byte[] signature)
         {
-            this.SignedResult = SignedResult;   
-            this.Signature = Signature;
+            SignedResult = signedResult;
+            Signature = signature;
         }
 
         public byte[] SignedResult { get; private set; }

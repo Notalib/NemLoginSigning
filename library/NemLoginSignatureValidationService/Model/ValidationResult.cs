@@ -8,7 +8,9 @@ namespace NemLoginSignatureValidationService.Model
     /// </summary>
     public class ValidationResult
     {
-        public ValidationResult() { }
+        public ValidationResult()
+        {
+        }
 
         public string DocumentName { get; set; }
 

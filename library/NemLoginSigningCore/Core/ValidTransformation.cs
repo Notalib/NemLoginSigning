@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using NemLoginSigningCore.Format;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System;
 using NemLoginSigningCore.Exceptions;
+using NemLoginSigningCore.Format;
 
 namespace NemLoginSigningCore.Core
 {
@@ -31,7 +31,7 @@ namespace NemLoginSigningCore.Core
 
         public static Transformation GetTransformation(DocumentFormat sdFormat, SignatureFormat dtbsFormat)
         {
-            return Transformations.FirstOrDefault(t => t.SdFormat == sdFormat && t.SignatureFormat == dtbsFormat) 
+            return Transformations.FirstOrDefault(t => t.SdFormat == sdFormat && t.SignatureFormat == dtbsFormat)
                    ?? throw new InvalidSignatureParametersException($"No valid format for sdFormat: {sdFormat}, dtbsFormat: {dtbsFormat}");
         }
     }

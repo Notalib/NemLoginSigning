@@ -5,7 +5,6 @@ namespace NemLoginSigningCore.Format
     /// <summary>
     /// Defines the valid DTBS (Data To Be Signed) formats.
     /// </summary>
-    
     public enum SignatureFormat
     {
         /// <summary>

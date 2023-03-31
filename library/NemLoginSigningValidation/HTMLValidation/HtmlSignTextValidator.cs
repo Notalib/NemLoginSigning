@@ -13,11 +13,11 @@ namespace NemLoginSigningValidation.HTMLValidation
         private readonly HTMLWhiteListValidatorPolicies _htmlWhiteListValidatorPolicies;
 
         public List<string> ErrorMessages { get; private set; }
-        
+
         public string CleanHTML { get; private set; }
-        
+
         public string ErrorString => $"{string.Join(",", ErrorMessages.ToArray())}";
-        
+
         public HtmlSignTextValidator()
         {
             ErrorMessages = new List<string>();

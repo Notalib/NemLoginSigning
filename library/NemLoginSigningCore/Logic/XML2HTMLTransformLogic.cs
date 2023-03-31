@@ -20,7 +20,7 @@ namespace NemLoginSigningCore.Logic
 
             XslCompiledTransform xsltTransformer = new XslCompiledTransform();
             xsltTransformer.Load(xsltReader);
-                        
+
             StringBuilder output = new StringBuilder();
 
             XmlWriterSettings settings = new XmlWriterSettings();

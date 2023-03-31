@@ -14,7 +14,7 @@ namespace NemLoginSigningCore.Utilities
             jsonSerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             jsonSerializerSettings.TypeNameHandling = TypeNameHandling.Auto;
             jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            
+
             return JsonConvert.SerializeObject(value, Formatting.None, jsonSerializerSettings);
         }
 

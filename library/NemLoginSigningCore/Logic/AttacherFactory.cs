@@ -1,13 +1,13 @@
-﻿using NemLoginSigningCore.Core;
+﻿using System;
+using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
-using System;
 using NemLoginSigningCore.Utilities;
 
 namespace NemLoginSigningCore.Logic
 {
     /// <summary>
-    /// Factory class for creating the Attacher logic class deciding if a document should 
-    /// be attached to the 
+    /// Factory class for creating the Attacher logic class deciding if a document should
+    /// be attached to the
     /// </summary>
     public static class AttacherFactory
     {

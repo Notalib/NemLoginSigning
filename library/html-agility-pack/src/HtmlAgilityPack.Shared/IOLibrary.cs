@@ -12,7 +12,7 @@ namespace HtmlAgilityPack
 {
     internal struct IOLibrary
     {
-#region Internal Methods
+        #region Internal Methods
 
         internal static void CopyAlways(string source, string target)
         {
@@ -34,7 +34,7 @@ namespace HtmlAgilityPack
         {
         }
 #endif
-#endregion
+        #endregion
     }
 }
 

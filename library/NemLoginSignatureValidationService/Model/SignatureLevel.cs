@@ -71,7 +71,7 @@ namespace NemLoginSignatureValidationService.Model
 
         [EnumMember(Value = "notAdES")]
         NOT_ADES,
-                
+
         [EnumMember(Value = "notApplicable")]
         NA
     }

@@ -1,7 +1,7 @@
-﻿using NemLoginSigningCore.Core;
-using System;
+﻿using System;
 using System.Linq;
 using System.Xml.Serialization;
+using NemLoginSigningCore.Core;
 
 namespace NemLoginSigningXades.GeneratedSources
 {
@@ -15,28 +15,27 @@ namespace NemLoginSigningXades.GeneratedSources
 
         public SignTextType WithXMLDocument(XMLDocumentType xmlDocumentType)
         {
-            this.Item = xmlDocumentType;
+            Item = xmlDocumentType;
             return this;
         }
 
-        public SignTextType WithHTMLDocument(HTMLDocumentType HTMLDocumentType)
+        public SignTextType WithHTMLDocument(HTMLDocumentType htmlDocumentType)
         {
-            this.Item = HTMLDocumentType;
+            Item = htmlDocumentType;
             return this;
         }
-
 
         public SignTextType WithPDFDocument(PDFDocumentType pdfDocumentType)
         {
-            this.Item = pdfDocumentType;
+            Item = pdfDocumentType;
             return this;
         }
 
         public XMLDocumentType GetXMLDocument()
         {
-            if (this.Item.GetType() == typeof(XMLDocumentType))
+            if (Item.GetType() == typeof(XMLDocumentType))
             {
-                return (XMLDocumentType)this.Item;
+                return (XMLDocumentType)Item;
             }
 
             return null;
@@ -44,9 +43,9 @@ namespace NemLoginSigningXades.GeneratedSources
 
         public PlainTextType GetPlainTextDocument()
         {
-            if (this.Item.GetType() == typeof(PlainTextType))
+            if (Item.GetType() == typeof(PlainTextType))
             {
-                return (PlainTextType)this.Item;
+                return (PlainTextType)Item;
             }
 
             return null;
@@ -54,9 +53,9 @@ namespace NemLoginSigningXades.GeneratedSources
 
         public PDFDocumentType GetPDFDocument()
         {
-            if (this.Item.GetType() == typeof(PDFDocumentType))
+            if (Item.GetType() == typeof(PDFDocumentType))
             {
-                return (PDFDocumentType)this.Item;
+                return (PDFDocumentType)Item;
             }
 
             return null;
@@ -64,9 +63,9 @@ namespace NemLoginSigningXades.GeneratedSources
 
         public HTMLDocumentType GetHTMLDocument()
         {
-            if (this.Item.GetType() == typeof(HTMLDocumentType))
+            if (Item.GetType() == typeof(HTMLDocumentType))
             {
-                return (HTMLDocumentType)this.Item;
+                return (HTMLDocumentType)Item;
             }
 
             return null;
@@ -75,10 +74,14 @@ namespace NemLoginSigningXades.GeneratedSources
         public SignTextType WithProperties(SignProperties signProperties)
         {
             if (signProperties == null)
+            {
                 throw new ArgumentNullException(nameof(signProperties));
+            }
 
             if (!signProperties.Any())
+            {
                 return this;
+            }
 
             PropertyType[] properties = new PropertyType[signProperties.Count];
 
@@ -92,7 +95,7 @@ namespace NemLoginSigningXades.GeneratedSources
                 {
                     propertyType = new PropertyType { Key = item.Key, Item = item.Value.Value };
                 }
-                
+
                 if (item.Value.Type == SignPropertyValue.SignPropertyValueType.BinaryValue)
                 {
                     propertyType = new PropertyType { Key = item.Key, Item = Convert.FromBase64String(item.Value.Value) };
@@ -102,7 +105,7 @@ namespace NemLoginSigningXades.GeneratedSources
                 i++;
             }
 
-            this.Properties = properties;
+            Properties = properties;
 
             return this;
         }

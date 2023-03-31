@@ -9,6 +9,7 @@ namespace NemLoginSigningCore.Logic
     public interface ITransformator
     {
         bool CanTransform(Transformation transformation);
+
         void Transform(TransformationContext transformationContext, ILogger logger);
     }
 }

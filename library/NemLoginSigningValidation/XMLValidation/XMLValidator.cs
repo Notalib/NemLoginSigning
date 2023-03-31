@@ -11,17 +11,17 @@ using static NemLoginSigningCore.Core.SignersDocumentFile;
 namespace NemLoginSigningValidation.XMLValidation
 {
     /// <summary>
-    /// Class for validating XML and XSL files. 
+    /// Class for validating XML and XSL files.
     /// Check for syntax errors, version, DtdProcessing etc.
     /// </summary>
     public class XMLValidator : IValidator
     {
-        private readonly string XSL_VERSION_NAME = "version";
-        private readonly string XSL_VERSION = "3.0";
-        private readonly string W3C_XSL_SCHEME = "http://www.w3.org/1999/XSL/Transform";
+        private const string XSL_VERSION_NAME = "version";
+        private const string XSL_VERSION = "3.0";
+        private const string W3C_XSL_SCHEME = "http://www.w3.org/1999/XSL/Transform";
 
-        private readonly string XSL_IMPORT = "import";
-        private readonly string XSL_INCLUDE = "include";
+        private const string XSL_IMPORT = "import";
+        private const string XSL_INCLUDE = "include";
 
         public void Validate(TransformationContext ctx)
         {
@@ -123,7 +123,7 @@ namespace NemLoginSigningValidation.XMLValidation
             {
                 XmlDocument document = new XmlDocument();
                 document.Load(xmlReader);
-                
+
                 return document;
             }
         }
@@ -135,7 +135,6 @@ namespace NemLoginSigningValidation.XMLValidation
 
             ValidateIsVersion30(document);
             IsImportOrInclude(document);
-
         }
 
         private void IsImportOrInclude(XmlDocument document)
@@ -165,7 +164,9 @@ namespace NemLoginSigningValidation.XMLValidation
         public void ValidateIsVersion30(XmlDocument document)
         {
             if (document == null)
+            {
                 throw new ArgumentNullException(nameof(document));
+            }
 
             bool version = false;
             bool scheme = false;
@@ -175,12 +176,16 @@ namespace NemLoginSigningValidation.XMLValidation
             foreach (var xmlAttribute in attributes)
             {
                 XmlAttribute attribute = (XmlAttribute)xmlAttribute;
-                                
+
                 if (attribute.LocalName == XSL_VERSION_NAME && attribute.Value == XSL_VERSION)
+                {
                     version = true;
+                }
 
                 if (attribute.Value == W3C_XSL_SCHEME)
+                {
                     scheme = true;
+                }
             }
 
             if ((version && scheme) == false)

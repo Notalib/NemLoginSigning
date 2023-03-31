@@ -6,7 +6,6 @@ namespace NemLoginSigningCore.Core
     /// Defines SignPropertyValues to be used in XAdES SignProperties DTBS.
     /// Properties can be either of type Binary or type String.
     /// </summary>
-
     public class SignPropertyValue
     {
         public string Value { get; private set; }
@@ -30,7 +29,6 @@ namespace NemLoginSigningCore.Core
         }
 
         public SignPropertyValueType Type { get; set; }
-
 
         public enum SignPropertyValueType
         {

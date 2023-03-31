@@ -12,11 +12,14 @@ namespace NemLoginSigningCore.Core
     /// </summary>
     public class SignatureParameters
     {
-        private static int REFERENCE_TEXT_MAX_LENGTH = 50;
         private const int VERSION = 1;
         private const string DTBS_DIGEST_ALGORITHM = "SHA-256";
 
-        public SignatureParameters() { }
+        private static readonly int REFERENCE_TEXT_MAX_LENGTH = 50;
+
+        public SignatureParameters()
+        {
+        }
 
         public SignatureParameters(SignatureParameters signatureParameters)
         {
@@ -49,13 +52,13 @@ namespace NemLoginSigningCore.Core
         public int? MinAge { get; set; }
 
         public string SignerSubjectNameID { get; set; }
-        
+
         [JsonConverter(typeof(StringEnumConverter))]
         public Language? PreferredLanguage { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public SsnPersistenceLevel? SsnPersistenceLevel { get; set; }
-        
+
         public bool? AnonymizeSigner { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
@@ -76,7 +79,7 @@ namespace NemLoginSigningCore.Core
                 {
                     throw new InvalidSignatureParametersException("Missing mandatory parameters for SP flow");
                 }
-                
+
                 if (ReferenceText.Length > REFERENCE_TEXT_MAX_LENGTH)
                 {
                     throw new InvalidSignatureParametersException($"Reference text exceeds the maximum allowed length of {REFERENCE_TEXT_MAX_LENGTH.ToString()}");
@@ -101,28 +104,28 @@ namespace NemLoginSigningCore.Core
 
         public class SignatureParametersBuilder
         {
-            private readonly SignatureParameters builderTemplate;
+            private readonly SignatureParameters _builderTemplate;
 
             public SignatureParametersBuilder()
             {
-                builderTemplate = new SignatureParameters();
+                _builderTemplate = new SignatureParameters();
             }
 
             public SignatureParametersBuilder WithFlowType(FlowType flowType)
             {
-                builderTemplate.FlowType = flowType;
+                _builderTemplate.FlowType = flowType;
                 return this;
             }
 
             public SignatureParametersBuilder WithSignersDocumentFormat(DocumentFormat signersDocumentFormat)
             {
-                builderTemplate.DocumentFormat = signersDocumentFormat;
+                _builderTemplate.DocumentFormat = signersDocumentFormat;
                 return this;
             }
 
             public SignatureParametersBuilder WithSignatureFormat(SignatureFormat signatureFormat)
             {
-                builderTemplate.SignatureFormat = signatureFormat;
+                _builderTemplate.SignatureFormat = signatureFormat;
                 return this;
             }
 
@@ -133,79 +136,81 @@ namespace NemLoginSigningCore.Core
                     throw new ArgumentNullException(nameof(Transformation));
                 }
 
-                builderTemplate.DocumentFormat = transformation.SdFormat;
-                builderTemplate.SignatureFormat = transformation.SignatureFormat;
+                _builderTemplate.DocumentFormat = transformation.SdFormat;
+                _builderTemplate.SignatureFormat = transformation.SignatureFormat;
+
                 return this;
             }
 
             public SignatureParametersBuilder WithDtbsDigest(string dtbsDigest)
             {
-                builderTemplate.DtbsDigest = dtbsDigest;
+                _builderTemplate.DtbsDigest = dtbsDigest;
                 return this;
             }
 
             public SignatureParametersBuilder WithDtbsDigestAlgorithm(string dtbsDigestAlgorithm)
             {
-                builderTemplate.DtbsDigestAlgorithm = dtbsDigestAlgorithm;
+                _builderTemplate.DtbsDigestAlgorithm = dtbsDigestAlgorithm;
                 return this;
             }
 
             public SignatureParametersBuilder WithDtbsSignedInfo(string dtbsSignedInfo)
             {
-                builderTemplate.DtbsSignedInfo = dtbsSignedInfo;
+                _builderTemplate.DtbsSignedInfo = dtbsSignedInfo;
                 return this;
             }
 
             public SignatureParametersBuilder WithReferenceText(string referenceText)
             {
-                builderTemplate.ReferenceText = referenceText;
+                _builderTemplate.ReferenceText = referenceText;
                 return this;
             }
 
             public SignatureParametersBuilder WithMinAge(int minAge)
             {
-                builderTemplate.MinAge = minAge;
+                _builderTemplate.MinAge = minAge;
                 return this;
             }
 
             public SignatureParametersBuilder WithSignerSubjectNameID(string signersSubjectNameID)
             {
-                builderTemplate.SignerSubjectNameID = signersSubjectNameID;
+                _builderTemplate.SignerSubjectNameID = signersSubjectNameID;
                 return this;
             }
 
             public SignatureParametersBuilder WithPreferredLanguage(Language preferredLanguage)
             {
-                builderTemplate.PreferredLanguage = preferredLanguage;
+                _builderTemplate.PreferredLanguage = preferredLanguage;
                 return this;
             }
 
             public SignatureParametersBuilder WithEntityID(string entityID)
             {
-                builderTemplate.EntityID = entityID;
+                _builderTemplate.EntityID = entityID;
                 return this;
             }
 
             public SignatureParametersBuilder WithSsnPersistenceLevel(SsnPersistenceLevel ssnPersistenceLevel)
             {
-                builderTemplate.SsnPersistenceLevel = ssnPersistenceLevel;
+                _builderTemplate.SsnPersistenceLevel = ssnPersistenceLevel;
                 return this;
             }
 
             public SignatureParametersBuilder WithAnonymizeSigner(bool anonymizeSigner)
             {
-                builderTemplate.AnonymizeSigner = anonymizeSigner;
+                _builderTemplate.AnonymizeSigner = anonymizeSigner;
                 return this;
             }
 
             public SignatureParametersBuilder WithAcceptedCertificatePolicies(AcceptedCertificatePolicies acceptedCertificatePolicies)
             {
-                builderTemplate.AcceptedCertificatePolicies = acceptedCertificatePolicies;
+                _builderTemplate.AcceptedCertificatePolicies = acceptedCertificatePolicies;
                 return this;
             }
+
             public SignatureParameters Build()
             {
-                return builderTemplate;
+                return _builderTemplate;
             }
         }
     }

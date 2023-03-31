@@ -7,7 +7,7 @@ using NemLoginSigningCore.Utilities;
 namespace NemLoginSigningCore.Logic
 {
     /// <summary>
-    /// Factory class for creating ITransformator implementations based on the SignatureFormat  
+    /// Factory class for creating ITransformator implementations based on the SignatureFormat
     /// and SDFormat.
     /// </summary>
     public static class TransformatorFactory

@@ -5,6 +5,8 @@ namespace NemLoginSigningCore.Core
 {
     public class TransformationProperties : Dictionary<string, string>
     {
-        public TransformationProperties() { }
+        public TransformationProperties()
+        {
+        }
     }
 }

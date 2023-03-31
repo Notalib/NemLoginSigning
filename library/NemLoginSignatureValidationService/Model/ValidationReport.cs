@@ -5,7 +5,7 @@ using System.Text;
 namespace NemLoginSignatureValidationService.Model
 {
     /// <summary>
-    /// Contains the validation result and the xml-based ETSI report returned 
+    /// Contains the validation result and the xml-based ETSI report returned
     /// from the ValidationService
     /// </summary>
     public class ValidationReport

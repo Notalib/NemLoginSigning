@@ -8,7 +8,7 @@ namespace NemLoginSigningCore.Format
     public enum DocumentFormat
     {
         /// <summary>
-        /// Plain UTF-8 text 
+        /// Plain UTF-8 text
         /// </summary>
         TEXT,
 

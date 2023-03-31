@@ -13,7 +13,7 @@ namespace NemLoginSigningValidation.PDFValidation
     /// Consists of three steps:
     /// 1. Validation of PDF parsing
     /// 2. Validation against whitelist elements
-    /// 3. Validation of fonts embedded in the PDF file against whitelist. 
+    /// 3. Validation of fonts embedded in the PDF file against whitelist.
     /// </summary>
     public class PDFValidator : IValidator
     {
@@ -99,7 +99,9 @@ namespace NemLoginSigningValidation.PDFValidation
         public IEnumerable<PdfValidationResult> ValidateFonts(IEnumerable<PdfObject> pdfObjects)
         {
             if (pdfObjects == null)
+            {
                 throw new ArgumentNullException(nameof(pdfObjects));
+            }
 
             PdfFontValidator pdfFontValidator = new PdfFontValidator();
             return pdfFontValidator.ValidateFonts(pdfObjects);

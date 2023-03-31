@@ -16,13 +16,13 @@ namespace NemLoginSigningCore.Utilities
         private byte[] _keystore;
 
         protected string KeystorePath { get; set; }
-        
+
         protected string KeyStoreType { get; set; }
 
         protected string KeyStorePassWord { get; set; }
 
         protected string PrivateKeyPassword { get; set; }
-    
+
         public SignatureKeysLoader WithKeyStorePath(string keystorePath)
         {
             KeystorePath = keystorePath;
@@ -77,7 +77,7 @@ namespace NemLoginSigningCore.Utilities
             }
 
             var certificate = x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Single();
-            
+
             return new SignatureKeys(certificate, certificate.PrivateKey);
         }
 

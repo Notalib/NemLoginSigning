@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NemLoginSigningCore.Core
 {
@@ -9,9 +10,13 @@ namespace NemLoginSigningCore.Core
     /// </summary>
     public class SignProperties : Dictionary<string, SignPropertyValue>
     {
+        public SignProperties()
+        {
+        }
 
-        public SignProperties() { }
-
-        public SignProperties(Dictionary<string, SignPropertyValue> dictionary) : base(dictionary) { }
+        public SignProperties(Dictionary<string, SignPropertyValue> dictionary)
+            : base(dictionary)
+        {
+        }
     }
 }

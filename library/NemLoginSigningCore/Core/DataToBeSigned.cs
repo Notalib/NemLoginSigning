@@ -1,5 +1,5 @@
-﻿using NemLoginSigningCore.Format;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using NemLoginSigningCore.Format;
 
 namespace NemLoginSigningCore.Core
 {
@@ -27,6 +27,5 @@ namespace NemLoginSigningCore.Core
         {
             return (byte[])_data.Clone();
         }
-
     }
 }

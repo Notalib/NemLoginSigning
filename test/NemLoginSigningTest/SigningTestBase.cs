@@ -1,16 +1,16 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+﻿using System;
+using System.Linq;
+using System.Text;
+using Microsoft.Extensions.Logging.Abstractions;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Utilities;
-using System;
-using System.Linq;
-using System.Text;
 
 namespace NemloginSigningTest
 {
     public abstract class SigningTestBase
     {
-        public SigningTestBase()
+        protected SigningTestBase()
         {
             LoggerCreator.LoggerFactory = new NullLoggerFactory();
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -20,12 +20,12 @@ namespace NemloginSigningTest
         {
             get
             {
-                if (!TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin).SignatureKeysConfiguration.Any())
+                if (TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin).SignatureKeysConfiguration is null)
                 {
                     throw new InvalidOperationException("No signaturekeys configuration");
                 }
-                        
-                var entityID = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin).SignatureKeysConfiguration.First().EntityID;
+
+                string entityID = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin).EntityID;
 
                 if (entityID == null)
                 {
@@ -36,17 +36,18 @@ namespace NemloginSigningTest
             }
         }
 
-        private SignatureKeys signatureKeys;
-        public SignatureKeys SignatureKeys 
-        { 
+        private SignatureKeys _signatureKeys;
+
+        public SignatureKeys SignatureKeys
+        {
             get
             {
-                if (signatureKeys == null)
+                if (_signatureKeys == null)
                 {
-                    signatureKeys = GetSignatureKeys();
+                    _signatureKeys = GetSignatureKeys();
                 }
 
-                return signatureKeys;
+                return _signatureKeys;
             }
         }
 
@@ -54,12 +55,12 @@ namespace NemloginSigningTest
         {
             var configuration = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin);
 
-            if (!configuration.SignatureKeysConfiguration.Any())
+            if (configuration.SignatureKeysConfiguration is null)
             {
                 throw new InvalidOperationException("No signaturekeys configuration");
             }
 
-            var signatureKeysConfig = configuration.SignatureKeysConfiguration.First();
+            var signatureKeysConfig = configuration.SignatureKeysConfiguration;
 
             return new SignatureKeysLoader()
                .WithKeyStorePath(signatureKeysConfig.KeystorePath)

@@ -9,7 +9,7 @@ namespace NemLoginSigningXades.GeneratedSources
         public TransformsType WithTransform(TransformType transformType)
         {
             TransformType[] transformTypeArray = new TransformType[] { transformType };
-            this.Transform = transformTypeArray;
+            Transform = transformTypeArray;
             return this;
         }
 

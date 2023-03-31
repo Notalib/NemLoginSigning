@@ -64,7 +64,7 @@ namespace NemLoginSigningValidation.PDFValidation
             PdfObject subTypePdfObject = dict.Get(PdfName.SUBTYPE);
             if (subTypePdfObject.IsName())
             {
-                subType = PdfName.DecodeName(subTypePdfObject .ToString());
+                subType = PdfName.DecodeName(subTypePdfObject.ToString());
             }
 
             if (subType == PdfName.TYPE0.DecodeName())
@@ -76,7 +76,6 @@ namespace NemLoginSigningValidation.PDFValidation
             {
                 bool embedded = dict.Get(PdfName.FONTDESCRIPTOR) != null;
                 return new PdfFontDescriptor(pdfObject, dict, baseFontPdfName, embedded, objectNumber);
-
             }
 
             if (subType == PdfName.TYPE3.DecodeName() || subType == PdfName.CIDFONTTYPE0.DecodeName() || subType == PdfName.CIDFONTTYPE2.DecodeName())

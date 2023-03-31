@@ -15,9 +15,9 @@ namespace NemLoginSigningValidation.HTMLValidation
 
         private HashSet<string> _whiteListElements = new HashSet<string>()
         {
-             "html" , "body", "head", "meta", "style", "title", "p", "div", "span", "ul", "ol", "li",
-                "h1", "h2", "h3", "h4", "h5", "h6", "table", "tbody", "thead", "tfoot", "tr", "td", "th",
-                "i", "b", "u", "center", "a", "br"
+             "html", "body", "head", "meta", "style", "title", "p", "div", "span", "ul", "ol", "li",
+             "h1", "h2", "h3", "h4", "h5", "h6", "table", "tbody", "thead", "tfoot", "tr", "td", "th",
+             "i", "b", "u", "center", "a", "br"
         };
 
         public HTMLWhiteListValidatorPolicies()
@@ -74,7 +74,9 @@ namespace NemLoginSigningValidation.HTMLValidation
             List<string> errors = new List<string>();
 
             if (node == null)
+            {
                 throw new ArgumentNullException(nameof(node));
+            }
 
             // Check against whitelist
             if (!_whiteListElements.Contains(node.Name))

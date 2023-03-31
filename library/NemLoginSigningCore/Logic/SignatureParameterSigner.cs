@@ -17,8 +17,9 @@ namespace NemLoginSigningCore.Logic
 
         public SignatureParameterSigner(ILogger logger)
         {
-            _logger = logger;        
+            _logger = logger;
         }
+
         public string Sign(SignatureParameters signatureParameters, SignatureKeys signatureKeys)
         {
             if (signatureParameters == null)
@@ -31,9 +32,9 @@ namespace NemLoginSigningCore.Logic
                 throw new ArgumentNullException(nameof(signatureKeys));
             }
 
-            // The signing client should be passed the TU certificate 
+            // The signing client should be passed the TU certificate
             _logger.LogInformation("SignSdk - SignatureParameterSigner - GetFirstCertificateInChain");
-            
+
             var certificate = signatureKeys.X509Certificate2;
 
             if (certificate == null)
@@ -41,10 +42,11 @@ namespace NemLoginSigningCore.Logic
                 _logger.LogInformation("SignSdk - SignatureParameterSigner - Could not find Certificate");
                 throw new NullReferenceException("Could not find Voces certificate");
             }
-            
+
             // Headers should contain the Base64URLEncoded Certificate in a list
-            Dictionary<string, object> headers = new Dictionary<string, object>() {
-                { "x5c", new List<string>() { Convert.ToBase64String(certificate.Export(X509ContentType.Cert)) }},
+            Dictionary<string, object> headers = new Dictionary<string, object>()
+            {
+                { "x5c", new List<string>() { Convert.ToBase64String(certificate.Export(X509ContentType.Cert)) } },
                 { "alg", "PS256" }
             };
 

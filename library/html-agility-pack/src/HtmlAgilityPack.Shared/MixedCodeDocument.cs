@@ -91,7 +91,7 @@ namespace HtmlAgilityPack
                             break;
 
                         case MixedCodeDocumentFragmentType.Code:
-                            s += ((MixedCodeDocumentCodeFragment) frag).Code + "\n";
+                            s += ((MixedCodeDocumentCodeFragment)frag).Code + "\n";
                             break;
                     }
                 }
@@ -142,7 +142,7 @@ namespace HtmlAgilityPack
         /// <returns>The newly created code fragment instance.</returns>
         public MixedCodeDocumentCodeFragment CreateCodeFragment()
         {
-            return (MixedCodeDocumentCodeFragment) CreateFragment(MixedCodeDocumentFragmentType.Code);
+            return (MixedCodeDocumentCodeFragment)CreateFragment(MixedCodeDocumentFragmentType.Code);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace HtmlAgilityPack
         /// <returns>The newly created text fragment instance.</returns>
         public MixedCodeDocumentTextFragment CreateTextFragment()
         {
-            return (MixedCodeDocumentTextFragment) CreateFragment(MixedCodeDocumentFragmentType.Text);
+            return (MixedCodeDocumentTextFragment)CreateFragment(MixedCodeDocumentFragmentType.Text);
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace HtmlAgilityPack
         /// <param name="writer">The StreamWriter to which you want to save.</param>
         public void Save(StreamWriter writer)
         {
-            Save((TextWriter) writer);
+            Save((TextWriter)writer);
         }
 
         /// <summary>

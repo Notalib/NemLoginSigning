@@ -1,10 +1,10 @@
-﻿using NemLoginSigningCore.Core;
-using NemLoginSigningCore.Format;
-using NemLoginSigningCore.Logic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using NemLoginSigningCore.Core;
+using NemLoginSigningCore.Format;
+using NemLoginSigningCore.Logic;
 using Xunit;
 using static NemLoginSigningCore.Core.SignatureParameters;
 
@@ -18,7 +18,7 @@ namespace NemloginSigningTest
         [Fact]
         public void SigningOfSigningParameters()
         {
-            // Arrange 
+            // Arrange
             SignatureParameters signatureParameters = new SignatureParametersBuilder()
                 .WithFlowType(FlowType.ServiceProvider)
                 .WithSignersDocumentFormat(DocumentFormat.PDF)
@@ -36,7 +36,7 @@ namespace NemloginSigningTest
             // Assert
             var headers = Jose.JWT.Headers(signedParameters);
             var payload = Jose.JWT.Payload(signedParameters, true);
-            
+
             // Validate correct algorithm
             Assert.Equal("PS256", headers["alg"]);
 
@@ -49,9 +49,8 @@ namespace NemloginSigningTest
                 Assert.Equal(SignatureKeys.X509Certificate2, x509Certificate2);
 
                 // Verify the signature - if signature is not valid Decode will throw exception
-                var exception = Record.Exception(() => { Jose.JWT.Decode(signedParameters, x509Certificate2.PublicKey.Key, Jose.JwsAlgorithm.PS256); });
+                var exception = Record.Exception(() => { Jose.JWT.Decode(signedParameters, x509Certificate2.GetRSAPublicKey(), Jose.JwsAlgorithm.PS256); });
                 Assert.Null(exception);
-                
             }
         }
 
@@ -76,7 +75,6 @@ namespace NemloginSigningTest
                 .Build();
 
             signatureParameters.Validate();
-
         }
     }
 }

@@ -35,7 +35,7 @@ namespace NemLoginSigningPades.Logic
             AsymmetricCipherKeyPair keypair = keypairgen.GenerateKeyPair();
 
             var x509Name = new Org.BouncyCastle.Asn1.X509.X509Name(DN);
-                        
+
             X509V3CertificateGenerator generator = new X509V3CertificateGenerator();
             generator.SetIssuerDN(x509Name);
             generator.SetSerialNumber(new Org.BouncyCastle.Math.BigInteger(1 + DateTime.Now.Millisecond.ToString()));
@@ -61,7 +61,7 @@ namespace NemLoginSigningPades.Logic
             Org.BouncyCastle.X509.X509Certificate certificate = generator.Generate(keypair.Private);
 
             X509Certificate2 tempX509Certificate2 = new X509Certificate2(certificate.GetEncoded());
-                        
+
             return tempX509Certificate2;
         }
     }

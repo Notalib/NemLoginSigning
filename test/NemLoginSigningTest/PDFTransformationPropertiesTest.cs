@@ -1,4 +1,7 @@
-﻿using iTextSharp.text;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
@@ -6,9 +9,6 @@ using NemLoginSigningCore.Logging;
 using NemLoginSigningPades.Logic;
 using NemLoginSigningValidation;
 using NemLoginSigningValidation.PDFValidation;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Xunit;
 using static NemLoginSigningPades.Logic.TransformationPropertiesHandler;
 
@@ -20,7 +20,7 @@ namespace NemloginSigningTest
 
         public PDFTransformationPropertiesTest()
         {
-            this._logger = LoggerCreator.CreateLogger<PDFTransformationPropertiesTest>();
+            _logger = LoggerCreator.CreateLogger<PDFTransformationPropertiesTest>();
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace NemloginSigningTest
             // Assert
             var pageRoration = reader.GetPageRotation(1);
             var pageSize = reader.GetPageSize(1);
-                        
+
             Assert.True(pageRoration == 90);
             Assert.Equal(PageSize.A4.Width, pageSize.Width);
             Assert.Equal(PageSize.A4.Height, pageSize.Height);
@@ -51,7 +51,7 @@ namespace NemloginSigningTest
 
         [Fact]
         public void FontHandlingTest()
-        {   
+        {
             // Arrange
             TransformationProperties properties = new TransformationProperties();
             properties.Add(KEY_FONTS, "default");
@@ -59,7 +59,7 @@ namespace NemloginSigningTest
             string html = "<html><head><style> body { font-family: Helvetica; } </style></head><body><p>test</p></body></html>";
 
             var pdfDocument = GeneratePDFDocument(properties, html);
-                        
+
             var fonts = GetFonts(pdfDocument);
 
             Assert.Single(fonts);
@@ -72,7 +72,7 @@ namespace NemloginSigningTest
             properties = new TransformationProperties();
             properties.Add(KEY_FONTS, "embed");
             properties.Add(KEY_FONT_NAME.Replace("[x]", "[0]"), "Karla");
-            properties.Add(KEY_FONT_PATH.Replace("[x]", "[0]"), Path.Combine(@"Resources","Fonts","Karla-Bold.ttf"));
+            properties.Add(KEY_FONT_PATH.Replace("[x]", "[0]"), Path.Combine(@"Resources", "Fonts", "Karla-Bold.ttf"));
 
             html = "<html><head><style> body { font-family: Karla; } </style></head><body><p>test</p></body></html>";
 
@@ -81,7 +81,6 @@ namespace NemloginSigningTest
             fonts = GetFonts(pdfDocument);
 
             Assert.Contains(fonts, x => x.Embedded == true && x.FontName.ToString().Contains("Karla"));
-
         }
 
         [Fact]
@@ -99,9 +98,9 @@ namespace NemloginSigningTest
             // Assert
             var outputIntents = GetOutputIntents(pdfDocument);
             Assert.Single(outputIntents);
-            
+
             properties = new TransformationProperties();
-            properties.Add(KEY_COLOR_PROFILE, Path.Combine(@"Resources","ColorProfiles","test-sRGB.icc"));
+            properties.Add(KEY_COLOR_PROFILE, Path.Combine(@"Resources", "ColorProfiles", "test-sRGB.icc"));
         }
 
         [Fact]
@@ -126,7 +125,7 @@ namespace NemloginSigningTest
         {
             // Arrange
             TransformationProperties properties = new TransformationProperties();
-            properties.Add(KEY_COLOR_PROFILE, Path.Join(@"./Resources","ColorProfiles","test-sRGB.icc"));
+            properties.Add(KEY_COLOR_PROFILE, Path.Join(@"./Resources", "ColorProfiles", "test-sRGB.icc"));
 
             string html = "<html><body><p>test</p></body></html>";
 
@@ -176,7 +175,9 @@ namespace NemloginSigningTest
             foreach (var item in pdfObjects)
             {
                 if (item == null)
+                {
                     continue;
+                }
 
                 if (item.IsDictionary())
                 {

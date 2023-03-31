@@ -8,8 +8,10 @@ namespace NemLoginSigningCore.Core
     /// </summary>
     public abstract class SignersDocument
     {
-        public SignersDocument() { }
-                
+        public SignersDocument()
+        {
+        }
+
         public DocumentFormat DocumentFormat { get; private set; }
 
         public SignersDocumentFile SignersDocumentFile { get; private set; }

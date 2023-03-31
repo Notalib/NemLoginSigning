@@ -8,6 +8,9 @@ namespace NemLoginSigningPades.Logic
     /// </summary>
     public class PadesDataToBeSigned : DataToBeSigned
     {
-        public PadesDataToBeSigned(byte[] data, string name) : base(SignatureFormat.PAdES, data, name) { }
+        public PadesDataToBeSigned(byte[] data, string name)
+            : base(SignatureFormat.PAdES, data, name)
+        {
+        }
     }
 }

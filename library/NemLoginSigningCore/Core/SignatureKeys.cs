@@ -9,8 +9,8 @@ namespace NemLoginSigningCore.Core
     /// </summary>
     public class SignatureKeys
     {
-        public AsymmetricAlgorithm PrivateKey { get; private set; } 
-        
+        public AsymmetricAlgorithm PrivateKey { get; private set; }
+
         public X509Certificate2 X509Certificate2 { get; private set; }
 
         public SignatureKeys(X509Certificate2 certificate, AsymmetricAlgorithm privateKey)

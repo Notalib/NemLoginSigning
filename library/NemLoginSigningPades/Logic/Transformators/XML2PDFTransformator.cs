@@ -1,15 +1,15 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logic;
-using System;
-using System.Diagnostics;
 
 namespace NemLoginSigningPades.Logic.Transformators
 {
     /// <summary>
-    /// Implementation of the ITransformator interface. 
+    /// Implementation of the ITransformator interface.
     /// Handles XML -> PDF conversion by generating HTML and then from HTML -> PDF.
     /// </summary>
     public class XML2PDFTransformator : PdfFormatTransformationService

@@ -16,16 +16,16 @@ namespace NemloginSigningTest
 {
     public class WebAppTests
     {
-        private readonly TestServer server;
-        private readonly HttpClient client;
-        private readonly Uri apiUrl;
+        private readonly TestServer _server;
+        private readonly HttpClient _client;
+        private readonly Uri _apiUrl;
 
         [Fact]
         public async void TestNemloginSigningWebAppConfiguration()
         {
-            Uri uri = new Uri(apiUrl + "IsAlive");
+            Uri uri = new Uri(_apiUrl + "IsAlive");
 
-            HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage response = await _client.GetAsync(uri).ConfigureAwait(false);
 
             var result = await response.Content.ReadAsStringAsync();
 
@@ -34,20 +34,19 @@ namespace NemloginSigningTest
 
         public WebAppTests()
         {
-            server = new TestServer(new WebHostBuilder()
+            _server = new TestServer(new WebHostBuilder()
               .ConfigureAppConfiguration(config => config.AddJsonFile("appsettings.json"))
               .UseEnvironment(Environments.Development)
               .ConfigureServices(services => services.Configure<NemloginConfiguration>(GetAppSettingsSection(TestConstants.ConfigurationNemlogin)))
-              .UseStartup<Startup>()
-              );
+              .UseStartup<Startup>());
 
-            LoggerCreator.LoggerFactory = server.Services.GetRequiredService<ILoggerFactory>();
+            LoggerCreator.LoggerFactory = _server.Services.GetRequiredService<ILoggerFactory>();
 
             var logger = LoggerCreator.CreateLogger<WebAppTests>();
-            
-            client = server.CreateClient();
 
-            apiUrl = new Uri("https://localhost:44358/Home/");
+            _client = _server.CreateClient();
+
+            _apiUrl = new Uri("https://localhost:44358/Home/");
 
             logger.LogInformation($"SignSdk - TestServer Setup Done - Server running");
         }

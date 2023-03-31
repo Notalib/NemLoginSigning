@@ -37,7 +37,7 @@ namespace NemLoginSigningPades.Logic.Transformators
                 var pdfDocument = html2PDFGenerator.GeneratePDFDocument(html, propertiesHandler);
 
                 ctx.DataToBeSigned = new PadesDataToBeSigned(pdfDocument, Path.ChangeExtension(signersDocument.SignersDocumentFile.Name, "pdf"));
-                
+
                 logger.LogInformation($"Transformed {signersDocument.SignersDocumentFile.Name} from HTML to PDF in {sw.ElapsedMilliseconds} ms");
             }
             catch (Exception e)

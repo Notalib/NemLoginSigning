@@ -3,7 +3,7 @@
 namespace NemLoginSigningCore.Logging
 {
     /// <summary>
-    /// Loggin class that provices methods for getting both generic and 
+    /// Loggin class that provices methods for getting both generic and
     /// specific category named loggers
     /// </summary>
     public static class LoggerCreator

@@ -10,17 +10,17 @@ using NemLoginSigningCore.Utilities;
 namespace NemLoginSigningXades.Logic
 {
     /// <summary>
-    /// Implementation of the ISignatureStamper that updates the DTBS XML SignedDocument 
-    /// with a initial Signature element containing SignedInfo with a reference to and 
+    /// Implementation of the ISignatureStamper that updates the DTBS XML SignedDocument
+    /// with a initial Signature element containing SignedInfo with a reference to and
     /// digest of the DTBS.
     /// </summary>
     public class XmlSignatureStamper : ISignatureStamper
     {
-        private readonly string ALGORITHM_CANONICALIZATION = "http://www.w3.org/2001/10/xml-exc-c14n#";
-        private readonly string ALGORITHM_SIGNATURE = "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256";
-        private readonly string REFERENCE_TYPE_SIGN_TEXT = "http://dk.gov.certifikat/nemlogin#SignText";
-        private readonly string ALGORITHM_DIGEST = "http://www.w3.org/2001/04/xmlenc#sha256";
-        
+        private const string ALGORITHM_CANONICALIZATION = "http://www.w3.org/2001/10/xml-exc-c14n#";
+        private const string ALGORITHM_SIGNATURE = "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256";
+        private const string REFERENCE_TYPE_SIGN_TEXT = "http://dk.gov.certifikat/nemlogin#SignText";
+        private const string ALGORITHM_DIGEST = "http://www.w3.org/2001/04/xmlenc#sha256";
+
         public bool CanSign(SignatureFormat signatureFormat)
         {
             return signatureFormat == SignatureFormat.XAdES;
@@ -61,7 +61,7 @@ namespace NemLoginSigningXades.Logic
 
             // Canonicalize
             var canonicalizedResult = CryptographyLogic.Canonicalize(serializedSignText);
-            
+
             // Digest Sha256
             Byte[] digestValue = CryptographyLogic.ComputeSha256Hash(canonicalizedResult);
 
@@ -70,7 +70,7 @@ namespace NemLoginSigningXades.Logic
 
             signedDocumentType.SignText = XMLSerializer.Deserialize<SignTextType>(canonicalizedResult);
 
-            string signatureId =$"id-{Guid.NewGuid().ToString()}";
+            string signatureId = $"id-{Guid.NewGuid().ToString()}";
 
             SignatureType signatureType = new SignatureType();
             signatureType.WithId(signatureId)

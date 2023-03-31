@@ -9,6 +9,7 @@ namespace NemLoginSigningCore.Logic
     public interface ISignatureStamper
     {
         bool CanSign(SignatureFormat signatureFormat);
+
         void PresignDocument(TransformationContext ctx);
     }
 }

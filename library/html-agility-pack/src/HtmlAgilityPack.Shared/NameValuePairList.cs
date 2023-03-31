@@ -81,7 +81,7 @@ namespace HtmlAgilityPack
             {
                 if (pv.Length == 0)
                     continue;
-                string[] onep = pv.Split(new[] {'='}, 2);
+                string[] onep = pv.Split(new[] { '=' }, 2);
                 if (onep.Length == 0)
                     continue;
                 KeyValuePair<string, string> nvp = new KeyValuePair<string, string>(onep[0].Trim().ToLowerInvariant(),

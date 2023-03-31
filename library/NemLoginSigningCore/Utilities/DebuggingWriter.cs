@@ -22,9 +22,9 @@ namespace NemLoginSigningCore.Utilities
                 xmlDocument.WriteContentTo(writer);
                 writer.Flush();
                 mStream.Flush();
-                
+
                 mStream.Position = 0;
-            
+
                 string formattedXml = sReader.ReadToEnd();
 
                 DoWrite(message, formattedXml);

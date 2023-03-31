@@ -1,36 +1,39 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
+
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Format;
+using NemLoginSigningService.Services;
+
 using static NemLoginSigningCore.Core.SignatureParameters;
 using static NemLoginSigningCore.Core.SignersDocumentFile;
-using NemLoginSigningService.Services;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace NemloginSigningTest
-{ 
+{
     /// <summary>
-    /// Testing multiple files transforming Signers Documents and 
+    /// Testing multiple files transforming Signers Documents and
     /// generating Data-To-Be-Signed with the use of 'SigningPayloadService'.
     /// Tests is run with both Service Provider and Broker flow.
     /// Input for tests are placed in folder "./Resources/SignersDocuments" in the project.
-    /// The Data-To-Be-Signed result files can be written to the "Target" folder in the executing 
+    /// The Data-To-Be-Signed result files can be written to the "Target" folder in the executing
     /// directory. For this to happen set the property "SaveToFolder: true" in appsettings.json
     /// in the settings region "TestSettings".
     /// </summary>
     public class SigningPayloadTests : SigningTestBase
     {
-        private SigningPayloadService signingPayloadService = new SigningPayloadService(new NullLogger<SigningPayloadService>());
-        private const string signersDocuments = "./Resources/SignersDocuments";
-        private const string dtbsTargetFolder = "./Target";
-       
+        private const string SignersDocuments = "./Resources/SignersDocuments";
+        private const string DtbsTargetFolder = "./Target";
+
+        private SigningPayloadService _signingPayloadService = new SigningPayloadService(new NullLogger<SigningPayloadService>());
+
         [Theory]
-        [MemberData(nameof(LoadAllFilesWithTypes), parameters: new object[] { signersDocuments, new[] { "*.pdf", "*.txt", "*.html", "*.xml" } })]
+        [MemberData(nameof(LoadAllFilesWithTypes), parameters: new object[] { SignersDocuments, new[] { "*.pdf", "*.txt", "*.html", "*.xml" } })]
         public void TransformAllToFormatsTheory(string file)
-        {   
+        {
             TransformSignersDocumentToPdfUsingSpFlow(file);
             TransformSignersDocumentToXmlUsingSpFlow(file);
             TransformSignersDocumentToPdfUsingBrokerFlow(file);
@@ -103,30 +106,18 @@ namespace NemloginSigningTest
             TransformationContext ctx = new TransformationContext(signersDocument, SignatureKeys, signatureParameters);
 
             SigningPayload signingPayload = null;
-                  
-            // Act & Assert (assert does not throw exception)
-            signingPayload = signingPayloadService.ProduceSigningPayload(ctx);
 
-            //Save the generated dtbs to a file if setup
+            // Act & Assert (assert does not throw exception)
+            signingPayload = _signingPayloadService.ProduceSigningPayload(ctx);
+
+            // Save the generated dtbs to a file if setup
             DataToBeSigned dtbs = signingPayload.DataToBeSigned;
 
             string dtbsFileName = $"{flowType}_{signersDocument.DocumentFormat}_{signersDocument.SignersDocumentFile.Name}";
 
-            string dtbsFilePath = Path.Combine(dtbsTargetFolder, dtbsFileName);
+            string dtbsFilePath = Path.Combine(DtbsTargetFolder, dtbsFileName);
 
             var config = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin);
-
-            bool saveToFolder = bool.Parse(config.SaveDtbsToFolder);
-                
-            if (saveToFolder)
-            {
-                if (!Directory.Exists(dtbsTargetFolder))
-                {
-                    Directory.CreateDirectory(dtbsTargetFolder);
-                }
-
-                File.WriteAllBytes(dtbsFilePath, dtbs.GetData());
-            }
         }
 
         private SignersDocumentFile GetxsltDocumentFile(string filePath)
@@ -134,7 +125,9 @@ namespace NemloginSigningTest
             string xsltFilename = string.Empty;
 
             if (!File.Exists(filePath))
+            {
                 throw new FileNotFoundException($"XML File not found {nameof(filePath)}");
+            }
 
             if (!File.Exists(Path.ChangeExtension(filePath, "xsl")))
             {
@@ -159,6 +152,7 @@ namespace NemloginSigningTest
                 .WithPath(path)
                 .Build();
         }
+
         public static IEnumerable<object[]> LoadAllFilesWithTypes(string path, string[] extensions)
         {
             List<object[]> files = new List<object[]>();

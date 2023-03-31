@@ -12,10 +12,10 @@ namespace NemLoginSigningValidation.HTMLValidation
     /// </summary>
     public class CssContentValidator
     {
-        private HashSet<string> _allowedStyles = new HashSet<string>() 
+        private HashSet<string> _allowedStyles = new HashSet<string>()
         {
             "COLOR", "BACKGROUND", "BACKGROUND-COLOR", "FLOAT", "OVERFLOW", "LINE-HEIGHT", "POSITION", "TOP", "BOTTOM", "LEFT", "RIGHT",
-            "MARGIN", "MARGIN-RIGHT", "MARGIN-TOP", "MARGIN-LEFT", "MARGIN-BOTTOM", "WIDTH", "HEIGHT", "FLOAT", "CLEAR", "DISPLAY", "WHITE-SPACE" 
+            "MARGIN", "MARGIN-RIGHT", "MARGIN-TOP", "MARGIN-LEFT", "MARGIN-BOTTOM", "WIDTH", "HEIGHT", "FLOAT", "CLEAR", "DISPLAY", "WHITE-SPACE"
         };
 
         private HashSet<string> _allowedFamilies = new HashSet<string>() { "BORDER", "FONT", "TEXT", "LIST", "PADDING" };
@@ -90,7 +90,9 @@ namespace NemLoginSigningValidation.HTMLValidation
             foreach (var token in outer)
             {
                 if (!string.IsNullOrEmpty(errorText))
+                {
                     return errorText;
+                }
 
                 if (!string.IsNullOrEmpty(errorText))
                 {
@@ -136,7 +138,6 @@ namespace NemLoginSigningValidation.HTMLValidation
             string value = token.Substring(name.Length);
 
             value = value.Trim().ToUpperInvariant();
-
 
             bool allowed = _allowedStyles.Contains(name);
 

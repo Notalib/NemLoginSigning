@@ -29,7 +29,7 @@ namespace NemLoginSigningCore.Utilities
                 }
 
                 path = Path.Combine(rootDir, path);
-                
+
                 if (!Directory.Exists(path))
                 {
                     logger.LogError($"Cannot write file. Directory does not exist {path}");

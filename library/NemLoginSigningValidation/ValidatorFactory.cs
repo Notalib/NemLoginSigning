@@ -1,6 +1,6 @@
-﻿using NemLoginSigningCore.Format;
+﻿using System;
+using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logging;
-using System;
 using NemLoginSigningValidation.HTMLValidation;
 using NemLoginSigningValidation.PDFValidation;
 using NemLoginSigningValidation.PlainTextValidation;

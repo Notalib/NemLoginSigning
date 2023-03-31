@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.DTO;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Logic;
-using NemLoginSigningValidation;
-using System;
-using System.Diagnostics;
 using NemLoginSigningCore.Utilities;
+using NemLoginSigningValidation;
 
 namespace NemLoginSigningService.Services
 {
@@ -14,20 +14,20 @@ namespace NemLoginSigningService.Services
     /// Entry class for using the SignSdk.
     /// Service Providers should call 'ProduceSigningPayloadDTO(TransformationContext)' to produce a SigningPayloadDTO
     /// suitable for passing on to the Signing Client as a JSON object.
-    /// Brokers should call the 'ProduceSigningPayload(TransformationContext)' method 
+    /// Brokers should call the 'ProduceSigningPayload(TransformationContext)' method
     /// to produce a signing payload for further processing.
     /// </summary>
     public class SigningPayloadService : ISigningPayloadService
     {
         private readonly ILogger<SigningPayloadService> _logger;
 
-        public SigningPayloadService(ILogger<SigningPayloadService> logger) 
+        public SigningPayloadService(ILogger<SigningPayloadService> logger)
         {
             _logger = logger;
         }
 
         /// <summary>
-        /// Creates SigningPayload based on TransformationContext which must contain the 'Signers Document', 'Signature Parameters' and 
+        /// Creates SigningPayload based on TransformationContext which must contain the 'Signers Document', 'Signature Parameters' and
         /// 'Signature Keys' to use for signing the signature parameters.
         /// Brokers should call this method to produce a signing payload for further processing.
         /// The SigningPayload.SignatureParameters property is suitable for passing on to the
@@ -110,7 +110,7 @@ namespace NemLoginSigningService.Services
                 {
                     byte[] digest = CryptographyLogic.ComputeSha256Hash(ctx.DataToBeSigned.GetData());
                     ctx.SignatureParameters.DtbsDigest = Convert.ToBase64String(digest);
-                                        
+
                     Debug.WriteLine($"Dtbs Digest: {ctx.SignatureParameters.DtbsDigest}");
                 }
                 catch (Exception e)

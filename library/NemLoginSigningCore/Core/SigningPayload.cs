@@ -6,6 +6,7 @@
     public class SigningPayload
     {
         public string SignatureParameters { get; private set; }
+
         public DataToBeSigned DataToBeSigned { get; private set; }
 
         public SigningPayload(string signedParameters, DataToBeSigned dtbs)

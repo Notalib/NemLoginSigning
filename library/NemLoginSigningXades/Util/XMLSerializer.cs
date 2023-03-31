@@ -8,7 +8,7 @@ using NemLoginSigningCore.Utilities;
 namespace NemLoginSigningXades.Util
 {
     /// <summary>
-    /// Logic for Serializing/Deserializing XML. 
+    /// Logic for Serializing/Deserializing XML.
     /// </summary>
     public static class XMLSerializer
     {
@@ -47,7 +47,7 @@ namespace NemLoginSigningXades.Util
             MemoryStream memoryStream = new MemoryStream();
 
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-            
+
             XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
             namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
 
@@ -101,7 +101,7 @@ namespace NemLoginSigningXades.Util
                 var deserializedObject = xmlSerialiser.Deserialize(xmlReader);
 
                 string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
-                DebuggingWriter.WriteXMLDebugFormatted(nameof (T), xmlString);
+                DebuggingWriter.WriteXMLDebugFormatted(nameof(T), xmlString);
 
                 return (T)deserializedObject;
             }

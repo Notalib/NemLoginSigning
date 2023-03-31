@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
+﻿using System;
 using System.ComponentModel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace NemLoginSigningCore.Core
 {
     /// <summary>
-    /// Certificate policy 
+    /// Certificate policy
     /// Values defined verbatim according to the Signing flow specification.
     /// </summary>
     [Flags]

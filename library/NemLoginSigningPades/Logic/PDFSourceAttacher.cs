@@ -1,10 +1,10 @@
-﻿using iTextSharp.text.pdf;
+﻿using System;
+using System.IO;
+using System.Net;
+using iTextSharp.text.pdf;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logic;
-using System;
-using System.IO;
-using System.Net;
 
 namespace NemLoginSigningPades.Logic
 {
@@ -38,7 +38,7 @@ namespace NemLoginSigningPades.Logic
             stamper.AddFileAttachment("NemLog-In XSL Attachment", xslFileSpecification);
 
             stamper.Close();
-            
+
             ctx.DataToBeSigned = new PadesDataToBeSigned(ms.ToArray(), ctx.DataToBeSigned.FileName);
         }
 

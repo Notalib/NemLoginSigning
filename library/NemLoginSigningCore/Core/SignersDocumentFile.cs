@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using NemLoginSigningCore.Logging;
-using NemLoginSigningCore.Utilities;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using Microsoft.Extensions.Logging;
+using NemLoginSigningCore.Logging;
+using NemLoginSigningCore.Utilities;
 
 namespace NemLoginSigningCore.Core
 {
@@ -54,75 +54,75 @@ namespace NemLoginSigningCore.Core
 
         public class SignersDocumentFileBuilder
         {
-            private SignersDocumentFile builderTemplate;
+            private SignersDocumentFile _builderTemplate;
 
             public SignersDocumentFileBuilder()
             {
-                builderTemplate = new SignersDocumentFile();
+                _builderTemplate = new SignersDocumentFile();
             }
 
             public SignersDocumentFileBuilder WithCreationTime(DateTime? creationTime)
             {
-                builderTemplate.CreationTime = creationTime;
+                _builderTemplate.CreationTime = creationTime;
                 return this;
             }
 
             public SignersDocumentFileBuilder WithLastModified(DateTime? lastModified)
             {
-                builderTemplate.LastModified = lastModified;
+                _builderTemplate.LastModified = lastModified;
                 return this;
             }
 
             public SignersDocumentFileBuilder WithName(string name)
             {
-                builderTemplate.Name = name;
+                _builderTemplate.Name = name;
                 return this;
             }
 
             public SignersDocumentFileBuilder WithPath(string path)
             {
-                builderTemplate.Path = path;
+                _builderTemplate.Path = path;
                 return this;
             }
 
             public SignersDocumentFileBuilder WithUri(Uri uri)
             {
-                builderTemplate.Uri = uri;
+                _builderTemplate.Uri = uri;
                 return this;
             }
 
             public SignersDocumentFileBuilder WithData(byte[] data)
             {
-                builderTemplate._data = data;
+                _builderTemplate._data = data;
                 return this;
             }
 
             public SignersDocumentFile Build()
             {
                 TrySetCreationTime();
-                
+
                 TrySetLastModified();
-                
+
                 TrySetName();
 
-                return builderTemplate;
+                return _builderTemplate;
             }
-            
+
             private void TrySetName()
             {
-                if (string.IsNullOrEmpty(builderTemplate.Name))
+                if (string.IsNullOrEmpty(_builderTemplate.Name))
                 {
-                    if (!string.IsNullOrEmpty(builderTemplate.Path))
+                    if (!string.IsNullOrEmpty(_builderTemplate.Path))
                     {
-                        builderTemplate.Name = System.IO.Path.GetFileName(builderTemplate.Path);
+                        _builderTemplate.Name = System.IO.Path.GetFileName(_builderTemplate.Path);
                     }
-                    else if (builderTemplate.Uri != null && builderTemplate.Uri.IsFile)
+                    else if (_builderTemplate.Uri != null && _builderTemplate.Uri.IsFile)
                     {
-                        builderTemplate.Name = System.IO.Path.GetFileName(builderTemplate.Uri.LocalPath);
+                        _builderTemplate.Name = System.IO.Path.GetFileName(_builderTemplate.Uri.LocalPath);
                     }
                     else
                     {
-                        builderTemplate.Name = DEFAULTNAME;
+                        _builderTemplate.Name = DEFAULTNAME;
                     }
                 }
             }
@@ -131,15 +131,15 @@ namespace NemLoginSigningCore.Core
             {
                 var logger = LoggerCreator.CreateLogger<SignersDocumentFile>();
 
-                if (builderTemplate.LastModified == null && !string.IsNullOrEmpty(builderTemplate.Path))
+                if (_builderTemplate.LastModified == null && !string.IsNullOrEmpty(_builderTemplate.Path))
                 {
                     try
                     {
-                        builderTemplate.LastModified = File.GetLastWriteTime(builderTemplate.Path);
+                        _builderTemplate.LastModified = File.GetLastWriteTime(_builderTemplate.Path);
                     }
                     catch (Exception)
                     {
-                        logger.LogWarning($"Cannot read lastmodified time of file: {builderTemplate.Path}");
+                        logger.LogWarning($"Cannot read lastmodified time of file: {_builderTemplate.Path}");
                     }
                 }
             }
@@ -148,16 +148,16 @@ namespace NemLoginSigningCore.Core
             {
                 var logger = LoggerCreator.CreateLogger<SignersDocumentFile>();
 
-                if (builderTemplate.CreationTime == null && !string.IsNullOrEmpty(builderTemplate.Path))
+                if (_builderTemplate.CreationTime == null && !string.IsNullOrEmpty(_builderTemplate.Path))
                 {
                     try
                     {
-                        builderTemplate.CreationTime = File.GetCreationTime(builderTemplate.Path);
+                        _builderTemplate.CreationTime = File.GetCreationTime(_builderTemplate.Path);
                         logger.LogWarning("Cannot read creation time of file: ");
                     }
                     catch (Exception)
                     {
-                        logger.LogWarning($"Cannot read creation time of file: {builderTemplate.Path}");
+                        logger.LogWarning($"Cannot read creation time of file: {_builderTemplate.Path}");
                     }
                 }
             }

@@ -27,7 +27,7 @@ namespace NemLoginSigningValidation.PDFValidation
                     {
                         validationResult.Add(new PdfValidationResult(pdfObject, pdfName, objectNumber));
                     }
-                    
+
                     break;
                 case PdfObject.DICTIONARY:
 
@@ -68,7 +68,7 @@ namespace NemLoginSigningValidation.PDFValidation
 
         private bool NotWhitelisted(PdfName pdfName)
         {
-            //Regex name-match for improved font support - matches /F1, /F2,...,/Fx
+            // Regex name-match for improved font support - matches /F1, /F2,...,/Fx
             string pattern = @"/F\d+";
             return !PDFWhiteLists.Names.Contains(pdfName.ToString()) && !Regex.Match(pdfName.ToString(), pattern).Success;
         }

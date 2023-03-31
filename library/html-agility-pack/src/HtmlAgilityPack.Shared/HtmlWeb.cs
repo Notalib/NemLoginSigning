@@ -945,19 +945,19 @@ namespace HtmlAgilityPack
             }
 
             string contentType = "";
-	        if (!extension.StartsWith("."))
-	        {
-		        extension = "." + extension;
-	        }
+            if (!extension.StartsWith("."))
+            {
+                extension = "." + extension;
+            }
 
-			if (!MimeTypeMap.Mappings.TryGetValue(extension, out contentType))
-	        {
-		        contentType = def;
-	        }
+            if (!MimeTypeMap.Mappings.TryGetValue(extension, out contentType))
+            {
+                contentType = def;
+            }
 
 
 
-			return contentType;
+            return contentType;
         }
 
         /// <summary>
@@ -973,19 +973,19 @@ namespace HtmlAgilityPack
                 return def;
             }
 
-	        if (contentType.StartsWith("."))
-	        {
-		        throw new ArgumentException("Requested mime type is not valid: " + contentType);
-	        }
+            if (contentType.StartsWith("."))
+            {
+                throw new ArgumentException("Requested mime type is not valid: " + contentType);
+            }
 
-			string ext = "";
+            string ext = "";
 
-	        if (!MimeTypeMap.Mappings.TryGetValue(contentType, out ext))
-	        {
-		        ext = def;
-	        }
+            if (!MimeTypeMap.Mappings.TryGetValue(contentType, out ext))
+            {
+                ext = def;
+            }
 
-			return ext;
+            return ext;
         }
 
 
@@ -1005,12 +1005,12 @@ namespace HtmlAgilityPack
 #endif
 
 
-                /// <summary>
-                /// Gets an HTML document from an Internet resource and saves it to the specified file.
-                /// </summary>
-                /// <param name="url">The requested URL, such as "http://Myserver/Mypath/Myfile.asp".</param>
-                /// <param name="path">The location of the file where you want to save the document.</param>
-                public void Get(string url, string path)
+        /// <summary>
+        /// Gets an HTML document from an Internet resource and saves it to the specified file.
+        /// </summary>
+        /// <param name="url">The requested URL, such as "http://Myserver/Mypath/Myfile.asp".</param>
+        /// <param name="path">The location of the file where you want to save the document.</param>
+        public void Get(string url, string path)
         {
             Get(url, path, "GET");
         }
@@ -1139,7 +1139,7 @@ namespace HtmlAgilityPack
                 throw new HtmlWebException("Cache is not enabled. Set UsingCache to true first.");
             }
 
-			string cachePath;
+            string cachePath;
             if (uri.AbsolutePath == "/")
             {
                 cachePath = Path.Combine(_cachePath, ".htm");
@@ -1147,16 +1147,16 @@ namespace HtmlAgilityPack
             else
             {
 
-	            string absolutePathWithoutBadChar = uri.AbsolutePath;
+                string absolutePathWithoutBadChar = uri.AbsolutePath;
 
-	            string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+                string invalid = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
 
-	            foreach (char c in invalid)
-	            {
-		            absolutePathWithoutBadChar = absolutePathWithoutBadChar.Replace(c.ToString(), "");
-	            }
+                foreach (char c in invalid)
+                {
+                    absolutePathWithoutBadChar = absolutePathWithoutBadChar.Replace(c.ToString(), "");
+                }
 
-				if (uri.AbsolutePath[uri.AbsolutePath.Length - 1] == Path.AltDirectorySeparatorChar)
+                if (uri.AbsolutePath[uri.AbsolutePath.Length - 1] == Path.AltDirectorySeparatorChar)
                 {
                     cachePath = Path.Combine(_cachePath, (uri.Host + absolutePathWithoutBadChar.TrimEnd(Path.AltDirectorySeparatorChar)).Replace('/', '\\') + ".htm");
                 }
@@ -1510,7 +1510,7 @@ namespace HtmlAgilityPack
 
         // ReSharper disable UnusedMethodReturnValue.Local
         private static long SaveStream(Stream stream, string path, DateTime touchDate, int streamBufferSize)
-            // ReSharper restore UnusedMethodReturnValue.Local
+        // ReSharper restore UnusedMethodReturnValue.Local
         {
             FilePreparePath(path);
 
@@ -1587,7 +1587,7 @@ namespace HtmlAgilityPack
                     oldFile = true;
                 }
             }
-            
+
             if (_cacheOnly || _usingCacheIfExists)
             {
                 if (File.Exists(cachePath))
@@ -1641,7 +1641,7 @@ namespace HtmlAgilityPack
             catch (WebException we)
             {
                 _requestDuration = Environment.TickCount - tc;
-                resp = (HttpWebResponse) we.Response;
+                resp = (HttpWebResponse)we.Response;
                 if (resp == null)
                 {
                     if (oldFile)
@@ -1677,16 +1677,16 @@ namespace HtmlAgilityPack
             bool html = IsHtmlContent(resp.ContentType);
             bool isUnknown = string.IsNullOrEmpty(resp.ContentType);
 
-			// keep old code because logic on  ReadDocumentEncoding(HtmlNode node), now use resp.CharacterSet here.
-			// for futur maybe harmonise.
-			//Encoding respenc = !string.IsNullOrEmpty(resp.ContentEncoding)
-			// ? Encoding.GetEncoding(resp.ContentEncoding)
-			// : null;
+            // keep old code because logic on  ReadDocumentEncoding(HtmlNode node), now use resp.CharacterSet here.
+            // for futur maybe harmonise.
+            //Encoding respenc = !string.IsNullOrEmpty(resp.ContentEncoding)
+            // ? Encoding.GetEncoding(resp.ContentEncoding)
+            // : null;
 
-			Encoding respenc = !string.IsNullOrEmpty(html ? resp.CharacterSet : resp.ContentEncoding)
-				? Encoding.GetEncoding(html ? resp.CharacterSet : resp.ContentEncoding)
-				: null;
-			if (OverrideEncoding != null)
+            Encoding respenc = !string.IsNullOrEmpty(html ? resp.CharacterSet : resp.ContentEncoding)
+                ? Encoding.GetEncoding(html ? resp.CharacterSet : resp.ContentEncoding)
+                : null;
+            if (OverrideEncoding != null)
                 respenc = OverrideEncoding;
 
             if (CaptureRedirect)
@@ -2331,26 +2331,26 @@ namespace HtmlAgilityPack
         public async Task<HtmlDocument> LoadFromWebAsync(Uri uri, Encoding encoding, NetworkCredential credentials, CancellationToken cancellationToken)
         {
             HtmlDocument doc = new HtmlDocument();
-             
+
             var clientHandler = new HttpClientHandler();
             if (credentials == null)
                 clientHandler.UseDefaultCredentials = true;
             else
                 clientHandler.Credentials = credentials;
 
-			if (CaptureRedirect)
+            if (CaptureRedirect)
             {
-				// https://stackoverflow.com/questions/10453892/how-can-i-get-system-net-http-httpclient-to-not-follow-302-redirects
-				clientHandler.AllowAutoRedirect = false;
-	        }
+                // https://stackoverflow.com/questions/10453892/how-can-i-get-system-net-http-httpclient-to-not-follow-302-redirects
+                clientHandler.AllowAutoRedirect = false;
+            }
 
             var client = new HttpClient(clientHandler);
 
-			//https://stackoverflow.com/questions/44076962/how-do-i-set-a-default-user-agent-on-an-httpclient
-			client.DefaultRequestHeaders.Add("User-Agent", this.UserAgent);
-	     
+            //https://stackoverflow.com/questions/44076962/how-do-i-set-a-default-user-agent-on-an-httpclient
+            client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
 
-			var e = await client.GetAsync(uri, cancellationToken).ConfigureAwait(false);
+
+            var e = await client.GetAsync(uri, cancellationToken).ConfigureAwait(false);
 
             var html = string.Empty;
             if (encoding != null)
@@ -2368,7 +2368,7 @@ namespace HtmlAgilityPack
 
             if (html != null)
                 doc.LoadHtml(html);
-            
+
             return doc;
         }
 #endif

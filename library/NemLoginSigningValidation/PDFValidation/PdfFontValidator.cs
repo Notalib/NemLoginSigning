@@ -36,7 +36,7 @@ namespace NemLoginSigningValidation.PDFValidation
 
             var scanResult = ScanForFonts(pdfObjects);
             var validationResult = scanResult.Where(f => !f.Embedded && !IsStandardFont(f.FontName.DecodeName()));
-            
+
             foreach (var item in validationResult)
             {
                 pdfValidationResults.Add(new PdfValidationResult(item.PdfObject, item.FontName, item.ObjectNumber));
@@ -53,7 +53,9 @@ namespace NemLoginSigningValidation.PDFValidation
         public IEnumerable<PdfFontDescriptor> ScanForFonts(IEnumerable<PdfObject> pdfObjects)
         {
             if (pdfObjects == null)
+            {
                 throw new ArgumentNullException(nameof(pdfObjects));
+            }
 
             List<PdfFontDescriptor> fontDescriptors = new List<PdfFontDescriptor>();
 
@@ -71,7 +73,7 @@ namespace NemLoginSigningValidation.PDFValidation
                         if (type != null && type.IsName())
                         {
                             PdfName pdfName = (PdfName)type;
-                                                        
+
                             if (pdfName.DecodeName() == PdfName.FONT.DecodeName())
                             {
                                 if (pdfDictionary.Get(PdfName.FONTDESCRIPTOR) == null)

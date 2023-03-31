@@ -1,15 +1,15 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
-using NemLoginSigningCore.Core;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
+using NemLoginSigningCore.Core;
 
 namespace NemLoginSigningPades.Logic
 {
-    public class TransformationPropertiesHandler 
+    public class TransformationPropertiesHandler
     {
         public static string KEY_PREFIX = "nemlogin.signing.pdf-generator.";
         public static string KEY_COLOR_PROFILE = KEY_PREFIX + "color-profile";
@@ -21,12 +21,12 @@ namespace NemLoginSigningPades.Logic
         public static string KEY_PAGE_SIZE = KEY_PREFIX + "page-size";
         public static string KEY_PAGE_ORIENTATION = KEY_PREFIX + "page-orientation";
         public static string KEY_PAGE_MARGIN = KEY_PREFIX + "page-margin";
-        
+
         private const string DEFAULT_COLOR_PROFILE = "NemLoginSigningPades.Resources.sRGB.icc";
 
         private readonly TransformationProperties _properties;
 
-        public TransformationPropertiesHandler(TransformationProperties properties) 
+        public TransformationPropertiesHandler(TransformationProperties properties)
         {
             _properties = properties;
         }
@@ -123,7 +123,7 @@ namespace NemLoginSigningPades.Logic
                     if (fontProvider == null)
                     {
                         fontProvider = new XMLWorkerFontProvider { DefaultEmbedding = true };
-                    }                       
+                    }
 
                     fontProvider.Register(fontPath, fontNameWithoutExtension);
                 }

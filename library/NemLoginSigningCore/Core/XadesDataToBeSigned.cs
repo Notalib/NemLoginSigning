@@ -7,6 +7,9 @@ namespace NemLoginSigningCore.Core
     /// </summary>
     public class XadesDataToBeSigned : DataToBeSigned
     {
-        public XadesDataToBeSigned(byte[] data, string name) : base(SignatureFormat.XAdES, data, name) { }
+        public XadesDataToBeSigned(byte[] data, string name)
+            : base(SignatureFormat.XAdES, data, name)
+        {
+        }
     }
 }

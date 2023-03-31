@@ -10,12 +10,14 @@ namespace NemLoginSigningCore.Core
     {
         public SignersDocumentFile XsltFile { get; private set; }
 
-        public XmlSignersDocument(SignersDocumentFile signersDocumentFile, SignersDocumentFile xsltFile, SignProperties signProperties) : base(DocumentFormat.XML, signersDocumentFile, signProperties)
+        public XmlSignersDocument(SignersDocumentFile signersDocumentFile, SignersDocumentFile xsltFile, SignProperties signProperties)
+            : base(DocumentFormat.XML, signersDocumentFile, signProperties)
         {
             XsltFile = xsltFile;
         }
 
-        public XmlSignersDocument(SignersDocumentFile signersDocumentFile, SignersDocumentFile xsltFile) : base(DocumentFormat.XML, signersDocumentFile, null)
+        public XmlSignersDocument(SignersDocumentFile signersDocumentFile, SignersDocumentFile xsltFile)
+            : base(DocumentFormat.XML, signersDocumentFile, null)
         {
             XsltFile = xsltFile;
         }
