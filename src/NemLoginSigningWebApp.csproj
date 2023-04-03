@@ -5,8 +5,6 @@
     <AssemblyName>NemLoginSigningWebApp</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="..\..\SignSDK.Common.props" />
-  
   <ItemGroup>
     <Content Remove="wwwroot\Content\Files\Test HTML Document.html" />
   </ItemGroup>
@@ -20,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\library\NemLoginSignatureValidationService\NemLoginSignatureValidationService.csproj" />
-    <ProjectReference Include="..\..\library\NemLoginSigningService\NemLoginSigningService.csproj" />
+    <ProjectReference Include="..\library\NemLoginSignatureValidationService\NemLoginSignatureValidationService.csproj" />
+    <ProjectReference Include="..\library\NemLoginSigningService\NemLoginSigningService.csproj" />
   </ItemGroup>
 
   <ItemGroup>
