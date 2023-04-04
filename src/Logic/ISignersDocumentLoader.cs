@@ -15,6 +15,6 @@ namespace NemLoginSigningWebApp.Logic
 
         SignersDocument CreateSignersDocumentFromContent(string fileName, byte[] content, SignProperties signProperties);
 
-        SignersDocument CreateSignersDocumentFromSignFileDTO(SignFileDTO dto);
+        SignersDocument CreateSignersDocumentFromSigningDocumentDTO(SigningDocumentDTO dto);
     }
 }

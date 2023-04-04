@@ -70,9 +70,9 @@ namespace NemLoginSigningWebApp.Logic
             return GetSignersDocument(fileName, signersDocumentFile, signProperties);
         }
 
-        public SignersDocument CreateSignersDocumentFromSignFileDTO(SignFileDTO dto)
+        public SignersDocument CreateSignersDocumentFromSigningDocumentDTO(SigningDocumentDTO dto)
         {
-            return CreateSignersDocumentFromContent(dto.FileName, Convert.FromBase64String(dto.ContentsBase64), new SignProperties());
+            return CreateSignersDocumentFromContent(dto.FileName, Convert.FromBase64String(dto.EncodedContent), new SignProperties());
         }
 
         private SignersDocument GetSignersDocument(string filePath, SignersDocumentFile signersDocumentFile, SignProperties signProperties)

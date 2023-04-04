@@ -14,14 +14,11 @@ using NemLoginSigningCore.Utilities;
 using NemLoginSigningWebApp.DTOs;
 using NemLoginSigningWebApp.Logic;
 
-using static NemLoginSigningCore.Core.SignatureParameters;
-using SignatureFormat = NemLoginSigningCore.Format.SignatureFormat;
-
 namespace NemLoginSigningWebApp.Controllers
 {
     [Route("Sign")]
     [ApiController]
-    public class SignAPIController : ControllerBase
+    public class SigningAPIController : ControllerBase
     {
         private readonly IDocumentSigningService _documentSigningService;
         private readonly ISignersDocumentLoader _signersDocumentLoader;
@@ -29,7 +26,7 @@ namespace NemLoginSigningWebApp.Controllers
         private readonly SignatureKeysConfiguration _signatureKeysConfiguration;
         private readonly ISigningValidationService _signingValidationService;
 
-        public SignAPIController(IDocumentSigningService documentSigningService, ISignersDocumentLoader signersDocumentLoader,
+        public SigningAPIController(IDocumentSigningService documentSigningService, ISignersDocumentLoader signersDocumentLoader,
             ISigningValidationService signingValidationService, IOptions<NemloginConfiguration> nemloginConfiguration)
         {
             if (nemloginConfiguration == null)
@@ -46,16 +43,18 @@ namespace NemLoginSigningWebApp.Controllers
 
         [HttpPost]
         [Route("Payload")]
-        public IActionResult GetSigningPayload(SignFileDTO fileToBeSigned, SignatureFormat format = SignatureFormat.XAdES)
+        public IActionResult GetSigningPayload(SigningRequestDTO request)
         {
-            if (fileToBeSigned?.ContentsBase64 is null || !fileToBeSigned.Validate())
+            SigningDocumentDTO document = request?.Document;
+
+            if (request is null || document is null || !document.Validate())
             {
                 return BadRequest();
             }
 
             // 3.1.1: Signer’s Document Size Restriction
             // The SD must have a size of at most 20 MB.
-            if (fileToBeSigned.IsContentTooLarge)
+            if (document.IsContentTooLarge)
             {
                 return StatusCode(StatusCodes.Status413RequestEntityTooLarge);
             }
@@ -68,25 +67,25 @@ namespace NemLoginSigningWebApp.Controllers
                 .WithPrivateKeyPassword(_signatureKeysConfiguration.PrivateKeyPassword)
                 .LoadSignatureKeys();
 
-            SignersDocument document = _signersDocumentLoader.CreateSignersDocumentFromSignFileDTO(fileToBeSigned);
+            SignersDocument signersDocument = _signersDocumentLoader.CreateSignersDocumentFromSigningDocumentDTO(document);
 
-            var paramBuilder = new SignatureParametersBuilder()
+            var paramBuilder = new SignatureParameters.SignatureParametersBuilder()
                 .WithFlowType(FlowType.ServiceProvider)
                 .WithPreferredLanguage(Enum.Parse<Language>(language))
-                .WithReferenceText(fileToBeSigned.FileName)
-                .WithSignersDocumentFormat(document.DocumentFormat)
-                .WithSignatureFormat(format)
+                .WithReferenceText(document.FileName)
+                .WithSignersDocumentFormat(signersDocument.DocumentFormat)
+                .WithSignatureFormat(request.SignatureFormat)
                 .WithEntityID(_nemloginConfiguration.EntityID)
-                .WithMinAge(18);
+                .WithMinAge(18); // Must be of legal age, for signature to be valid.
 
-            if (!String.IsNullOrWhiteSpace(fileToBeSigned.RequiredSigner))
+            if (!String.IsNullOrWhiteSpace(request.RequiredSigner))
             {
-                paramBuilder.WithSignerSubjectNameID(fileToBeSigned.RequiredSigner);
+                paramBuilder.WithSignerSubjectNameID(request.RequiredSigner);
             }
 
             SignatureParameters parameters = paramBuilder.Build();
 
-            SigningPayloadDTO payload = _documentSigningService.GenerateSigningPayload(document, parameters, format, keys);
+            SigningPayloadDTO payload = _documentSigningService.GenerateSigningPayload(signersDocument, parameters, request.SignatureFormat, keys);
 
             return Ok(payload);
         }

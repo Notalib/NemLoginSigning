@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NemLoginSigningWebApp.DTOs
 {
-    public class SignFileDTO
+    public class SigningDocumentDTO
     {
         /// <summary>
         /// Accepted filetypes extentions.
@@ -19,17 +19,12 @@ namespace NemLoginSigningWebApp.DTOs
         /// <summary>
         /// Document content in Base64
         /// </summary>
-        public string ContentsBase64 { get; set; }
-
-        /// <summary>
-        /// Optional: Required subject NameID for the signer.
-        /// </summary>
-        public string RequiredSigner { get; set; }
+        public string EncodedContent { get; set; }
 
         /// <summary>
         /// Gets Document content size without base64 encoding
         /// </summary>
-        public int UnencodedSize => ContentsBase64.Length * 3 / 4;
+        public int UnencodedSize => EncodedContent.Length * 3 / 4;
 
         /// <summary>
         /// Get if ContentsBase64 is too large to submit to NemLogin
@@ -45,7 +40,7 @@ namespace NemLoginSigningWebApp.DTOs
         /// <returns>Document content as a byte[]</returns>
         public byte[] GetContent()
         {
-            return Convert.FromBase64String(ContentsBase64);
+            return Convert.FromBase64String(EncodedContent);
         }
 
         /// <summary>
@@ -54,7 +49,7 @@ namespace NemLoginSigningWebApp.DTOs
         /// <returns></returns>
         public bool Validate()
         {
-            return !String.IsNullOrWhiteSpace(FileName) && ValidFileExtensions.Contains(Path.GetExtension(FileName).ToUpperInvariant()) && !String.IsNullOrWhiteSpace(ContentsBase64);
+            return !String.IsNullOrWhiteSpace(EncodedContent) && !String.IsNullOrWhiteSpace(FileName) && ValidFileExtensions.Contains(Path.GetExtension(FileName).ToUpperInvariant());
         }
     }
 }
