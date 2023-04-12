@@ -10,20 +10,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="TU-Test.p12" />
     <None Remove="Views\Shared\PageLayout.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="TU-Test.p12" />
     <Content Include="Views\Shared\PageLayout.html" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\library\NemLoginSignatureValidationService\NemLoginSignatureValidationService.csproj" />
     <ProjectReference Include="..\library\NemLoginSigningService\NemLoginSigningService.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Resources\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -100,7 +98,7 @@
     <Content Update="wwwroot\Content\Files\TestFile2.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\Resources\TU-Test.p12">
+    <Content Update="TU-Test.p12">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
