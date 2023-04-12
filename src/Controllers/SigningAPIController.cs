@@ -16,7 +16,7 @@ using NemLoginSigningWebApp.Logic;
 
 namespace NemLoginSigningWebApp.Controllers
 {
-    [Route("Sign")]
+    [Route("")]
     [ApiController]
     public class SigningAPIController : ControllerBase
     {
@@ -36,9 +36,9 @@ namespace NemLoginSigningWebApp.Controllers
 
             _documentSigningService = documentSigningService;
             _signersDocumentLoader = signersDocumentLoader;
-            _signatureKeysConfiguration = _nemloginConfiguration.SignatureKeysConfiguration;
-            _signingValidationService = signingValidationService;
             _nemloginConfiguration = nemloginConfiguration.Value;
+            _signatureKeysConfiguration = nemloginConfiguration.Value.SignatureKeysConfiguration;
+            _signingValidationService = signingValidationService;
         }
 
         [HttpPost]
@@ -99,11 +99,11 @@ namespace NemLoginSigningWebApp.Controllers
 
         [HttpPost]
         [Route("Validate")]
-        public async Task<IActionResult> Validate(string signedDocumentFilename, string documentData)
+        public async Task<IActionResult> Validate(SigningDocumentDTO signedDocument)
         {
             SignatureValidationContext ctx = new SignatureValidationContext.SignatureValidationContextBuilder()
-                .WithDocumentName(signedDocumentFilename)
-                .WithDocumentData(Convert.FromBase64String(documentData))
+                .WithDocumentName(signedDocument.FileName)
+                .WithDocumentData(Convert.FromBase64String(signedDocument.EncodedContent))
                 .WithValidationServiceUrl(_nemloginConfiguration.ValidationServiceURL)
                 .Build();
 
