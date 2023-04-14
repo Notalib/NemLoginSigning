@@ -59,8 +59,6 @@ namespace NemLoginSigningWebApp.Controllers
                 return StatusCode(StatusCodes.Status413RequestEntityTooLarge);
             }
 
-            string language = "da";
-
             SignatureKeys keys = new SignatureKeysLoader()
                 .WithKeyStorePath(_signatureKeysConfiguration.KeystorePath)
                 .WithKeyStorePassword(_signatureKeysConfiguration.KeyStorePassword)
@@ -71,7 +69,7 @@ namespace NemLoginSigningWebApp.Controllers
 
             var paramBuilder = new SignatureParameters.SignatureParametersBuilder()
                 .WithFlowType(FlowType.ServiceProvider)
-                .WithPreferredLanguage(Enum.Parse<Language>(language))
+                .WithPreferredLanguage(request.Language)
                 .WithReferenceText(document.FileName)
                 .WithSignersDocumentFormat(signersDocument.DocumentFormat)
                 .WithSignatureFormat(request.SignatureFormat)
