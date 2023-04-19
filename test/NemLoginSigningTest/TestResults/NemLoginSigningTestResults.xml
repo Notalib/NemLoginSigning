@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+  <testsuite name="NemloginSigningTest.SigningPayloadTests" hostname="jenkins-agent-nemlogin3-maven-dotnet-h251p" package="not available" id="0" tests="8" failures="0" errors="0" skipped="0" time="5.035" timestamp="2023-01-19T10:46:03">
+    <properties />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/petersen2017120113.tx&quot;...)" classname="NemloginSigningTest.SigningPayloadTests" time="0.229" status="1" />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/heiberg2002011324.xml&quot;)" classname="NemloginSigningTest.SigningPayloadTests" time="0.964" status="1" />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/heiberg2002011324.pdf&quot;)" classname="NemloginSigningTest.SigningPayloadTests" time="1.110" status="1" />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/petersen2017120113.ht&quot;...)" classname="NemloginSigningTest.SigningPayloadTests" time="0.589" status="1" />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/petersen2017120113.pd&quot;...)" classname="NemloginSigningTest.SigningPayloadTests" time="0.176" status="1" />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/heiberg2002011324.htm&quot;...)" classname="NemloginSigningTest.SigningPayloadTests" time="0.789" status="1" />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/petersen2017120113.xm&quot;...)" classname="NemloginSigningTest.SigningPayloadTests" time="0.770" status="1" />
+    <testcase name="TransformAllToFormatsTheory(file: &quot;./Resources/SignersDocuments/heiberg2002011324.txt&quot;)" classname="NemloginSigningTest.SigningPayloadTests" time="0.408" status="1" />
+    <system-out />
+    <system-err />
+  </testsuite>
+  <testsuite name="NemloginSigningTest.PDFTransformationPropertiesTest" hostname="jenkins-agent-nemlogin3-maven-dotnet-h251p" package="not available" id="1" tests="5" failures="0" errors="0" skipped="0" time="0.455" timestamp="2023-01-19T10:46:02">
+    <properties />
+    <testcase name="PageSizeAndMarginTest" classname="NemloginSigningTest.PDFTransformationPropertiesTest" time="0.037" status="1" />
+    <testcase name="ColorProfileSpecificTest" classname="NemloginSigningTest.PDFTransformationPropertiesTest" time="0.003" status="1" />
+    <testcase name="ColorProfileNoneTest" classname="NemloginSigningTest.PDFTransformationPropertiesTest" time="0.003" status="1" />
+    <testcase name="FontHandlingTest" classname="NemloginSigningTest.PDFTransformationPropertiesTest" time="0.407" status="1" />
+    <testcase name="ColorProfileDefaultTest" classname="NemloginSigningTest.PDFTransformationPropertiesTest" time="0.005" status="1" />
+    <system-out />
+    <system-err />
+  </testsuite>
+  <testsuite name="NemloginSigningTest.SignatureParameterSigningTests" hostname="jenkins-agent-nemlogin3-maven-dotnet-h251p" package="not available" id="2" tests="2" failures="0" errors="0" skipped="0" time="0.109" timestamp="2023-01-19T10:46:02">
+    <properties />
+    <testcase name="SigningOfSigningParameters" classname="NemloginSigningTest.SignatureParameterSigningTests" time="0.107" status="1" />
+    <testcase name="SignatureParametersForBrokerFlowShouldValidateCorrect" classname="NemloginSigningTest.SignatureParameterSigningTests" time="0.001" status="1" />
+    <system-out />
+    <system-err />
+  </testsuite>
+  <testsuite name="NemloginSigningTest.WebAppTests" hostname="jenkins-agent-nemlogin3-maven-dotnet-h251p" package="not available" id="3" tests="1" failures="0" errors="0" skipped="0" time="0.963" timestamp="2023-01-19T10:46:02">
+    <properties />
+    <testcase name="TestNemloginSigningWebAppConfiguration" classname="NemloginSigningTest.WebAppTests" time="0.963" status="1" />
+    <system-out />
+    <system-err />
+  </testsuite>
+</testsuites>

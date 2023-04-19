@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <exec executable="dotnet">
+      <arg value="test" />
+      <arg value="NemLoginSigningTest.csproj" />
+      <arg value="--configuration" />
+      <arg value="Release" />
+      <arg value="/p:AltCover=${env.altCoverage}" />
+      <arg value="--logger" />
+      <arg value="trx;LogFileName=NemLoginSigningTestResults.trx" />
+    </exec>
+  </target>
+</project>

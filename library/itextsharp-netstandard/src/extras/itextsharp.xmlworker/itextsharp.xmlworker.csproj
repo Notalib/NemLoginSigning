@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RootNamespace></RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="iTextSharp\errors\errors.properties" />
+    <None Remove="iTextSharp\errors\errors_en.properties" />
+    <None Remove="iTextSharp\errors\errors_nl.properties" />
+    <None Remove="iTextSharp\tool\xml\css\default.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="iTextSharp\errors\errors.properties" />
+    <EmbeddedResource Include="iTextSharp\errors\errors_en.properties" />
+    <EmbeddedResource Include="iTextSharp\errors\errors_nl.properties" />
+    <EmbeddedResource Include="iTextSharp\tool\xml\css\default.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\itextsharp.csproj" />
+  </ItemGroup>
+
+</Project>

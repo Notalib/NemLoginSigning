@@ -1,0 +1,95 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningXades", "library\NemLoginSigningXades\NemLoginSigningXades.csproj", "{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningValidation", "library\NemLoginSigningValidation\NemLoginSigningValidation.csproj", "{B05782D8-86F7-45FA-A209-E60AB4A6F364}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningService", "library\NemLoginSigningService\NemLoginSigningService.csproj", "{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningPades", "library\NemLoginSigningPades\NemLoginSigningPades.csproj", "{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7D21B3F2-1E1E-40BE-850E-072025400F1D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningCore", "library\NemLoginSigningCore\NemLoginSigningCore.csproj", "{D6E8DB11-3339-4583-BA38-0E9753C9D836}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningTest", "test\NemLoginSigningTest\NemLoginSigningTest.csproj", "{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSignatureValidationService", "library\NemLoginSignatureValidationService\NemLoginSignatureValidationService.csproj", "{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlAgilityPack.NETStandard2_0", "library\html-agility-pack\src\HtmlAgilityPack.NETStandard2_0\HtmlAgilityPack.NETStandard2_0.csproj", "{A773E9C1-1149-48EC-8D3C-3A3867A83D77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F72DFF53-52D6-422B-BB49-7C5CCCAB8AFE}"
+	ProjectSection(SolutionItems) = preProject
+		SignSDK.Common.props = SignSDK.Common.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningWebApp", "src\NemLoginSigningWebApp.csproj", "{554E9887-1C37-484C-912D-E03F3242E723}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554E9887-1C37-484C-912D-E03F3242E723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554E9887-1C37-484C-912D-E03F3242E723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554E9887-1C37-484C-912D-E03F3242E723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554E9887-1C37-484C-912D-E03F3242E723}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{B05782D8-86F7-45FA-A209-E60AB4A6F364} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{D6E8DB11-3339-4583-BA38-0E9753C9D836} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B} = {7D21B3F2-1E1E-40BE-850E-072025400F1D}
+		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{A773E9C1-1149-48EC-8D3C-3A3867A83D77} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8DABADC-A37D-4DE2-A46A-D9D365C103F5}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		library\html-agility-pack\src\HtmlAgilityPack.Shared\HtmlAgilityPack.Shared.projitems*{a773e9c1-1149-48ec-8d3c-3a3867a83d77}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

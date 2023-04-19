@@ -1,0 +1,1 @@
+docker build --secret id=NuGet.Config,src=%APPDATA%\NuGet\NuGet.Docker.Config -t ghcr.io/notalib/nemloginsigning/nemloginsigning:develop .
