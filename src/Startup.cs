@@ -71,6 +71,7 @@ namespace NemLoginSigningWebApp
                 app.UseHsts();
             }
 
+            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
