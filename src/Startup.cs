@@ -56,7 +56,6 @@ namespace NemLoginSigningWebApp
             services.AddTransient<ISigningPayloadService, SigningPayloadService>();
             services.AddTransient<ITransformationPropertiesService, TransformationPropertiesService>();
             services.AddTransient<IDocumentSigningService, DocumentSigningService>();
-            services.AddTransient<ISigningResultService, SigningResultService>();
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
             var nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
