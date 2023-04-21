@@ -51,24 +51,7 @@ namespace NemLoginSigningWebApp
             services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
-            services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
-
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                options.RequestCultureProviders = new List<IRequestCultureProvider>
-                {
-                    new QueryStringRequestCultureProvider()
-                };
-
-                options.SupportedCultures.Add(new CultureInfo("dk-DK"));
-                options.SupportedCultures.Add(new CultureInfo("en-US"));
-                options.SetDefaultCulture("da-DK");
-                options.DefaultRequestCulture = new RequestCulture("da-DK");
-            });
-
-            services.AddMvc()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
+            services.AddMvc();
 
             LoadAssemblies();
         }
@@ -88,7 +71,6 @@ namespace NemLoginSigningWebApp
                 app.UseHsts();
             }
 
-            app.UseRequestLocalization();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
