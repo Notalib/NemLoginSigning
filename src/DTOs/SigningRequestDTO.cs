@@ -12,6 +12,11 @@ namespace NemLoginSigningWebApp.DTOs
         public SigningDocumentDTO Document { get; set; }
 
         /// <summary>
+        /// Header shown in IFrame signing client
+        /// </summary>
+        public string ReferenceText { get; set }
+
+        /// <summary>
         /// Language to present the signing client in.
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
