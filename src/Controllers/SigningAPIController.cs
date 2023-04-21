@@ -109,5 +109,12 @@ namespace NemLoginSigningWebApp.Controllers
 
             return Ok(validationReport);
         }
+
+        [HttpGet]
+        [Route("Ping")]
+        public IActionResult Ping()
+        {
+            return Ok(new { pong = DateTime.UtcNow });
+        }
     }
 }
