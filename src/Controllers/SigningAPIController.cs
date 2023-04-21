@@ -70,7 +70,7 @@ namespace NemLoginSigningWebApp.Controllers
             var paramBuilder = new SignatureParameters.SignatureParametersBuilder()
                 .WithFlowType(FlowType.ServiceProvider)
                 .WithPreferredLanguage(request.Language)
-                .WithReferenceText(document.FileName)
+                .WithReferenceText(request.ReferenceText)
                 .WithSignersDocumentFormat(signersDocument.DocumentFormat)
                 .WithSignatureFormat(request.SignatureFormat)
                 .WithEntityID(_nemloginConfiguration.EntityID)
