@@ -1,8 +1,16 @@
 using System;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
+using Serilog;
+using Serilog.Events;
+using Serilog.Exceptions;
+using Serilog.Formatting.Compact;
+
+using NemLoginSigningWebApp.Utils;
 
 namespace NemLoginSigningWebApp
 {
@@ -12,9 +20,13 @@ namespace NemLoginSigningWebApp
         {
             var host = CreateHostBuilder(args).Build();
 
-            var logger = host.Services.GetRequiredService<ILogger<Program>>();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console(new RenderedCompactJsonFormatter())
+                .CreateBootstrapLogger();
 
-            logger.LogInformation("Host created - Starting up NemLoginSigningWebApp WebHost");
+            Log.Information("Host created - Starting up NemLoginSigningWebApp WebHost");
 
             host.Run();
         }
@@ -24,6 +36,17 @@ namespace NemLoginSigningWebApp
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .UseSerilog((context, services, configuration) =>
+                {
+                    // Read serilog configuration from appsettings.json: https://github.com/serilog/serilog-settings-configuration
+                    configuration.ReadFrom.Configuration(context.Configuration)
+                                 .ReadFrom.Services(services)
+                                 .Enrich.FromLogContext()
+                                 .Enrich.WithCorrelationId()
+                                 .Enrich.WithExceptionDetails()
+                                 .Enrich.WithMachineName()
+                                 .WriteTo.Console(new RenderedCompactJsonFormatter());
                 });
     }
 }
