@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\library\NemLoginSignatureValidationService\NemLoginSignatureValidationService.csproj" />
+    <ProjectReference Include="..\library\NemLoginSigningDTO\NemLoginSigningDTO.csproj" />
     <ProjectReference Include="..\library\NemLoginSigningService\NemLoginSigningService.csproj" />
   </ItemGroup>
 
