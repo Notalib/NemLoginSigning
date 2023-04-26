@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +19,7 @@ using NemLoginSigningWebApp.Logic;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Configuration;
 
+using NemLoginSigningWebApp.Config;
 using NemLoginSigningWebApp.Utils;
 using Serilog;
 
@@ -63,6 +64,17 @@ namespace NemLoginSigningWebApp
             services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
+            var cors = Configuration.GetSection("CORS").Get<CorsConfig>();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    policy =>
+                    {
+                        policy.WithOrigins(cors.AllowedOrigins);
+                    });
+            });
+
             LoadAssemblies();
         }
 
@@ -84,6 +96,8 @@ namespace NemLoginSigningWebApp
             LoggerCreator.LoggerFactory = loggerFactory;
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 
