@@ -1,8 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-using NemLoginSigningCore.Core;
-
-namespace NemLoginSigningWebApp.DTOs
+﻿namespace NemLoginSigningWebApp.DTOs
 {
     public class SigningRequestDTO
     {
@@ -19,8 +15,7 @@ namespace NemLoginSigningWebApp.DTOs
         /// <summary>
         /// Language to present the signing client in.
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public Language Language { get; set; }
+        public string Language { get; set; } = "da";
 
         /// <summary>
         /// Optional: Required subject NameID for the signer.
@@ -30,8 +25,7 @@ namespace NemLoginSigningWebApp.DTOs
         /// <summary>
         /// Output format of signed document
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public NemLoginSigningCore.Format.SignatureFormat SignatureFormat { get; set; } = NemLoginSigningCore.Format.SignatureFormat.XAdES;
+        public string SignatureFormat { get; set; } = "XAdES";
 
         /// <summary>
         /// Signature of the signing document from a trusted backend.
