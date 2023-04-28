@@ -14,7 +14,7 @@ namespace NemLoginSignatureValidationService.Model
 
         public string DocumentName { get; set; }
 
-        public int SignaturesCount { get; private set; }
+        public int SignaturesCount { get; set; }
 
         public int ValidSignaturesCount { get; set; }
 
