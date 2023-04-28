@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningTest", "test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSignatureValidationService", "library\NemLoginSignatureValidationService\NemLoginSignatureValidationService.csproj", "{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HtmlAgilityPack.NETStandard2_0", "library\html-agility-pack\src\HtmlAgilityPack.NETStandard2_0\HtmlAgilityPack.NETStandard2_0.csproj", "{A773E9C1-1149-48EC-8D3C-3A3867A83D77}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F72DFF53-52D6-422B-BB49-7C5CCCAB8AFE}"
 	ProjectSection(SolutionItems) = preProject
 		SignSDK.Common.props = SignSDK.Common.props
@@ -31,6 +29,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningWebApp", "src\NemLoginSigningWebApp.csproj", "{554E9887-1C37-484C-912D-E03F3242E723}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningDTO", "library\NemLoginSigningDTO\NemLoginSigningDTO.csproj", "{36C40CA5-1E77-47C9-96B9-A4222FF31C06}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "itextsharp", "library\itextsharp-netstandard\src\core\itextsharp.csproj", "{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "itextsharp.xmlworker", "library\itextsharp-netstandard\src\extras\itextsharp.xmlworker\itextsharp.xmlworker.csproj", "{675466BA-B7CD-48CB-A151-7728003ED9FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,10 +68,6 @@ Global
 		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A773E9C1-1149-48EC-8D3C-3A3867A83D77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{554E9887-1C37-484C-912D-E03F3242E723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{554E9887-1C37-484C-912D-E03F3242E723}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{554E9887-1C37-484C-912D-E03F3242E723}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -78,6 +76,14 @@ Global
 		{36C40CA5-1E77-47C9-96B9-A4222FF31C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36C40CA5-1E77-47C9-96B9-A4222FF31C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36C40CA5-1E77-47C9-96B9-A4222FF31C06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,12 +96,10 @@ Global
 		{D6E8DB11-3339-4583-BA38-0E9753C9D836} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
 		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B} = {7D21B3F2-1E1E-40BE-850E-072025400F1D}
 		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{A773E9C1-1149-48EC-8D3C-3A3867A83D77} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{675466BA-B7CD-48CB-A151-7728003ED9FE} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8DABADC-A37D-4DE2-A46A-D9D365C103F5}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		library\html-agility-pack\src\HtmlAgilityPack.Shared\HtmlAgilityPack.Shared.projitems*{a773e9c1-1149-48ec-8d3c-3a3867a83d77}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

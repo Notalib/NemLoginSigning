@@ -33,16 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\itextsharp-netstandard\src\core\itextsharp.csproj" />
+    <ProjectReference Include="..\itextsharp-netstandard\src\extras\itextsharp.xmlworker\itextsharp.xmlworker.csproj" />
     <ProjectReference Include="..\NemLoginSigningCore\NemLoginSigningCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="itextsharp">
-      <HintPath>ItextSharp\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.xmlworker">
-      <HintPath>ItextSharp\itextsharp.xmlworker.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

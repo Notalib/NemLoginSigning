@@ -14,7 +14,7 @@
     <PackageReference Include="Nota.Bux.CodeAnalysis" Version="1.1.2" />
 
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.15" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+	<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
@@ -38,15 +38,6 @@
     <ProjectReference Include="..\..\library\NemLoginSigningCore\NemLoginSigningCore.csproj" />
     <ProjectReference Include="..\..\library\NemLoginSigningService\NemLoginSigningService.csproj" />
     <ProjectReference Include="..\..\src\NemLoginSigningWebApp.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="itextsharp">
-      <HintPath>..\..\library\NemLoginSigningPades\ItextSharp\itextsharp.dll</HintPath>
-    </Reference>
-    <Reference Include="itextsharp.xmlworker">
-      <HintPath>..\..\library\NemLoginSigningPades\ItextSharp\itextsharp.xmlworker.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
