@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Serialization;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,15 +12,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Serilog;
+
 using NemLoginSigningService.Services;
 using NemLoginSignatureValidationService.Service;
-using NemLoginSigningWebApp.Logic;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Configuration;
 
 using NemLoginSigningWebApp.Config;
+using NemLoginSigningWebApp.Logic;
 using NemLoginSigningWebApp.Utils;
-using Serilog;
 
 namespace NemLoginSigningWebApp
 {
@@ -66,14 +66,17 @@ namespace NemLoginSigningWebApp
 
             var cors = Configuration.GetSection("CORS").Get<CorsConfig>();
 
-            services.AddCors(options =>
+            if (cors?.AllowedOrigins is not null && cors.AllowedOrigins.Any())
             {
-                options.AddDefaultPolicy(
-                    policy =>
-                    {
-                        policy.WithOrigins(cors.AllowedOrigins);
-                    });
-            });
+                services.AddCors(options =>
+                {
+                    options.AddDefaultPolicy(
+                        policy =>
+                        {
+                            policy.WithOrigins(cors.AllowedOrigins);
+                        });
+                });
+            }
 
             LoadAssemblies();
         }
