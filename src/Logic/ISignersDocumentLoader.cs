@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NemLoginSigning.DTO;
 using NemLoginSigningCore.Core;
-using NemLoginSigningWebApp.DTOs;
 
 namespace NemLoginSigningWebApp.Logic
 {

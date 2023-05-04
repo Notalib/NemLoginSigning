@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NemLoginSigningDTO
+namespace NemLoginSigning.DTO
 {
     public class ValidationCertificateDTO
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace NemLoginSigningWebApp.DTOs
+namespace NemLoginSigning.DTO
 {
     public class SigningDocumentDTO
     {
