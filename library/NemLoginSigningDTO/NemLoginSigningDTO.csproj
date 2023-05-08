@@ -6,6 +6,7 @@
     <PackageProjectUrl>https://github.com/Notalib/NemLoginSigning/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Notalib/NemLoginSigning/</RepositoryUrl>
     <Company>Nota</Company>
+    <Version>0.99.1</Version>
   </PropertyGroup>
 
 </Project>
