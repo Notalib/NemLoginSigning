@@ -1,4 +1,4 @@
-﻿namespace NemLoginSigningWebApp.DTOs
+﻿namespace NemLoginSigning.DTO
 {
     public class SigningRequestDTO
     {

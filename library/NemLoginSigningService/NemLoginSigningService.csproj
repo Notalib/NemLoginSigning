@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NemLoginSigningCore\NemLoginSigningCore.csproj" />
+    <ProjectReference Include="..\NemLoginSigningDTO\NemLoginSigningDTO.csproj" />
     <ProjectReference Include="..\NemLoginSigningPades\NemLoginSigningPades.csproj" />
     <ProjectReference Include="..\NemLoginSigningValidation\NemLoginSigningValidation.csproj" />
     <ProjectReference Include="..\NemLoginSigningXades\NemLoginSigningXades.csproj" />
