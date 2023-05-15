@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NemLoginSigning.DTO;
 using NemLoginSigningCore.Core;
-using NemLoginSigningWebApp.DTOs;
 
 namespace NemLoginSigningWebApp.Logic
 {
@@ -9,8 +8,6 @@ namespace NemLoginSigningWebApp.Logic
     /// </summary>
     public interface ISignersDocumentLoader
     {
-        IEnumerable<SignersDocument> GetFiles();
-
         SignersDocument CreateSignersDocumentFromFile(string filePath);
 
         SignersDocument CreateSignersDocumentFromContent(string fileName, byte[] content, SignProperties signProperties);

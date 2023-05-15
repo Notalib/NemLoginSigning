@@ -1,21 +1,27 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
+using Serilog;
+
 using NemLoginSigningService.Services;
 using NemLoginSignatureValidationService.Service;
-using NemLoginSigningWebApp.Logic;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Configuration;
+
+using NemLoginSigningWebApp.Config;
+using NemLoginSigningWebApp.Logic;
+using NemLoginSigningWebApp.Utils;
 
 namespace NemLoginSigningWebApp
 {
@@ -31,7 +37,15 @@ namespace NemLoginSigningWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllers();
+
+            // Implementation needs a httpcontext accessor, Add method does a try add.
+            services.AddHttpContextAccessor();
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
 
             // Configuration dependencies
             var configurationSection = Configuration.GetSection("NemloginConfiguration");
@@ -43,7 +57,6 @@ namespace NemLoginSigningWebApp
             services.AddTransient<ISigningPayloadService, SigningPayloadService>();
             services.AddTransient<ITransformationPropertiesService, TransformationPropertiesService>();
             services.AddTransient<IDocumentSigningService, DocumentSigningService>();
-            services.AddTransient<ISigningResultService, SigningResultService>();
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
             var nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
@@ -51,24 +64,19 @@ namespace NemLoginSigningWebApp
             services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
-            services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
+            var cors = Configuration.GetSection("CORS").Get<CorsConfig>();
 
-            services.Configure<RequestLocalizationOptions>(options =>
+            if (cors?.AllowedOrigins is not null && cors.AllowedOrigins.Any())
             {
-                options.RequestCultureProviders = new List<IRequestCultureProvider>
+                services.AddCors(options =>
                 {
-                    new QueryStringRequestCultureProvider()
-                };
-
-                options.SupportedCultures.Add(new CultureInfo("dk-DK"));
-                options.SupportedCultures.Add(new CultureInfo("en-US"));
-                options.SetDefaultCulture("da-DK");
-                options.DefaultRequestCulture = new RequestCulture("da-DK");
-            });
-
-            services.AddMvc()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
+                    options.AddDefaultPolicy(
+                        policy =>
+                        {
+                            policy.WithOrigins(cors.AllowedOrigins);
+                        });
+                });
+            }
 
             LoadAssemblies();
         }
@@ -79,31 +87,26 @@ namespace NemLoginSigningWebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
 
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
-            app.UseRequestLocalization();
+            app.UseSerilogRequestLogging();
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
+            loggerFactory.AddSerilog();
 
             LoggerCreator.LoggerFactory = loggerFactory;
 
+            app.UseRouting();
+
+            app.UseCors();
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
 
