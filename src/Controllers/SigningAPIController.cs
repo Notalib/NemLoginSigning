@@ -7,10 +7,10 @@ using Microsoft.Extensions.Options;
 
 using NemLoginSignatureValidationService.Model;
 using NemLoginSignatureValidationService.Service;
-using NemLoginSigning.DTO;
 using NemLoginSigningCore.Configuration;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Utilities;
+using NemLoginSigningDTO.Signing;
 using NemLoginSigningWebApp.Logic;
 
 using SignatureFormat = NemLoginSigningCore.Format.SignatureFormat;

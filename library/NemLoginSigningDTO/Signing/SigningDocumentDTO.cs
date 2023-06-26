@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace NemLoginSigning.DTO
+namespace NemLoginSigningDTO.Signing
 {
     public class SigningDocumentDTO
     {
@@ -49,7 +49,7 @@ namespace NemLoginSigning.DTO
         /// <returns></returns>
         public bool Validate()
         {
-            return !String.IsNullOrWhiteSpace(EncodedContent) && !String.IsNullOrWhiteSpace(FileName) && ValidFileExtensions.Contains(Path.GetExtension(FileName).ToUpperInvariant());
+            return !string.IsNullOrWhiteSpace(EncodedContent) && !string.IsNullOrWhiteSpace(FileName) && ValidFileExtensions.Contains(Path.GetExtension(FileName).ToUpperInvariant());
         }
     }
 }

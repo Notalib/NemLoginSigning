@@ -1,4 +1,4 @@
-﻿namespace NemLoginSigning.DTO
+﻿namespace NemLoginSigningDTO.Signing
 {
     /// <summary>
     /// Constitutes a DTO form of the SigningPayload class

@@ -1,4 +1,4 @@
-﻿namespace NemLoginSigning.DTO
+﻿namespace NemLoginSigningDTO.Signing
 {
     public class SigningRequestDTO
     {
@@ -27,9 +27,5 @@
         /// </summary>
         public string SignatureFormat { get; set; } = "XAdES";
 
-        /// <summary>
-        /// Signature of the signing document from a trusted backend.
-        /// </summary>
-        public string RequestSignature { get; set; }
     }
 }

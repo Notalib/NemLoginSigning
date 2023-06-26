@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
-using NemLoginSigning.DTO;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Logic;
 using NemLoginSigningCore.Utilities;
+using NemLoginSigningDTO.Signing;
 using NemLoginSigningValidation;
 
 namespace NemLoginSigningService.Services
