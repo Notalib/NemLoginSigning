@@ -1,8 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json.Serialization;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +39,10 @@ namespace NemLoginSigningWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
             // Implementation needs a httpcontext accessor, Add method does a try add.
             services.AddHttpContextAccessor();
@@ -61,7 +66,23 @@ namespace NemLoginSigningWebApp
 
             var nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
 
+            // Configure HTTPClients
             services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
+            services.AddHttpClient<IUUIDMatchClient, UUIDMatchClient>(c =>
+            {
+                c.BaseAddress = new Uri(nemloginConfiguration.UUIDMatchServiceURL);
+            }).ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                // Requires authenticating with the NemLog-In registered VOCES/FOCES cert as the TLS client certificate
+                HttpClientHandler handler = new ();
+                var ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
+                    nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
+
+                handler.ClientCertificates.Add(ocesCertificate);
+
+                return handler;
+            });
+
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
             var cors = Configuration.GetSection("CORS").Get<CorsConfig>();
