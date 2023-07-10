@@ -88,6 +88,7 @@ namespace NemLoginSigningWebApp.Controllers
             SignatureParameters parameters = paramBuilder.Build();
 
             SigningPayloadDTO payload = _documentSigningService.GenerateSigningPayload(signersDocument, parameters, format, keys);
+            payload.RequestID = request.RequestID;
 
             return Ok(payload);
         }

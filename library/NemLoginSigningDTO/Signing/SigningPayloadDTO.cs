@@ -7,6 +7,11 @@
     public class SigningPayloadDTO
     {
         /// <summary>
+        /// User specified signing request identifier.
+        /// </summary>
+        public string RequestID { get; set; }
+
+        /// <summary>
         /// SigninParameters (Encoded in signed JWT token
         /// </summary>
         public string SignatureParameters { get; set; }

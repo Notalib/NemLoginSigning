@@ -3,6 +3,11 @@
     public class SigningRequestDTO
     {
         /// <summary>
+        /// User specified signing request identifier.
+        /// </summary>
+        public string RequestID { get; set; }
+
+        /// <summary>
         /// Document to be signed.
         /// </summary>
         public SigningDocumentDTO Document { get; set; }
