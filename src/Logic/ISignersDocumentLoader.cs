@@ -1,5 +1,5 @@
-﻿using NemLoginSigning.DTO;
-using NemLoginSigningCore.Core;
+﻿using NemLoginSigningCore.Core;
+using NemLoginSigningDTO.Signing;
 
 namespace NemLoginSigningWebApp.Logic
 {

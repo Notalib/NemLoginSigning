@@ -1,4 +1,4 @@
-﻿namespace NemLoginSigning.DTO
+﻿namespace NemLoginSigningDTO.Signing
 {
     /// <summary>
     /// Constitutes a DTO form of the SigningPayload class
@@ -6,6 +6,11 @@
     /// </summary>
     public class SigningPayloadDTO
     {
+        /// <summary>
+        /// User specified signing request identifier.
+        /// </summary>
+        public string RequestID { get; set; }
+
         /// <summary>
         /// SigninParameters (Encoded in signed JWT token
         /// </summary>

@@ -3,11 +3,11 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NemLoginSigning.DTO;
 using NemLoginSigningCore.Configuration;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Utilities;
+using NemLoginSigningDTO.Signing;
 using NemLoginSigningService.Services;
 
 using static NemLoginSigningCore.Core.SignatureParameters;

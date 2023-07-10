@@ -7,10 +7,10 @@ using Microsoft.Extensions.Options;
 
 using NemLoginSignatureValidationService.Model;
 using NemLoginSignatureValidationService.Service;
-using NemLoginSigning.DTO;
 using NemLoginSigningCore.Configuration;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Utilities;
+using NemLoginSigningDTO.Signing;
 using NemLoginSigningWebApp.Logic;
 
 using SignatureFormat = NemLoginSigningCore.Format.SignatureFormat;
@@ -88,6 +88,7 @@ namespace NemLoginSigningWebApp.Controllers
             SignatureParameters parameters = paramBuilder.Build();
 
             SigningPayloadDTO payload = _documentSigningService.GenerateSigningPayload(signersDocument, parameters, format, keys);
+            payload.RequestID = request.RequestID;
 
             return Ok(payload);
         }

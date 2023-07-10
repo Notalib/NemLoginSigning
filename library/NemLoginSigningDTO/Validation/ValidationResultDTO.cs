@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NemLoginSigning.DTO
+namespace NemLoginSigningDTO.Validation
 {
     public class ValidationResultDTO
     {

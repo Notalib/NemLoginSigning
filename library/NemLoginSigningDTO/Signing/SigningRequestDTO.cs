@@ -1,7 +1,12 @@
-﻿namespace NemLoginSigning.DTO
+﻿namespace NemLoginSigningDTO.Signing
 {
     public class SigningRequestDTO
     {
+        /// <summary>
+        /// User specified signing request identifier.
+        /// </summary>
+        public string RequestID { get; set; }
+
         /// <summary>
         /// Document to be signed.
         /// </summary>
@@ -27,9 +32,5 @@
         /// </summary>
         public string SignatureFormat { get; set; } = "XAdES";
 
-        /// <summary>
-        /// Signature of the signing document from a trusted backend.
-        /// </summary>
-        public string RequestSignature { get; set; }
     }
 }
