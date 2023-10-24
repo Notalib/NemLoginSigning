@@ -4,9 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NemLoginSigning.DTO;
 using NemLoginSigningCore.Core;
-
+using NemLoginSigningDTO.Signing;
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
 namespace NemLoginSigningWebApp.Logic

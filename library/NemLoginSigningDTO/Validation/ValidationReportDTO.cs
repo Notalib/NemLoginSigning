@@ -1,4 +1,4 @@
-﻿namespace NemLoginSigning.DTO
+﻿namespace NemLoginSigningDTO.Validation
 {
     public class ValidationReportDTO
     {

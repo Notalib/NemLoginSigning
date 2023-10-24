@@ -17,12 +17,17 @@ namespace NemLoginSigningCore.Configuration
         public string ValidationServiceURL { get; set; }
 
         /// <summary>
-        /// A Broker-specific entity ID provisioned using the NemLog-In Administration Component
+        /// URL of the UUID match service.
+        /// </summary>
+        public string UUIDMatchServiceURL { get; set; }
+
+        /// <summary>
+        /// A Broker-specific entity ID provisioned using the NemLog-In Administration Component.
         /// </summary>
         public string EntityID { get; set; }
 
         /// <summary>
-        /// SignatureKeys configuration for the signing
+        /// SignatureKeys configuration for the signing.
         /// </summary>
         public SignatureKeysConfiguration SignatureKeysConfiguration { get; set; }
     }
