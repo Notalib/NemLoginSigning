@@ -34,7 +34,7 @@ FROM base AS runtime
 COPY --from=build /build /app/
 
 USER service
-WORKDIR /app 
+WORKDIR /app
 
 # Set some defaults, override from docker compose file
 ENV ASPNETCORE_ENVIRONMENT="Production"

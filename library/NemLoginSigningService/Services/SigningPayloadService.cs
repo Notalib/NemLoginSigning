@@ -2,10 +2,10 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
-using NemLoginSigningCore.DTO;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Logic;
 using NemLoginSigningCore.Utilities;
+using NemLoginSigningDTO.Signing;
 using NemLoginSigningValidation;
 
 namespace NemLoginSigningService.Services
@@ -93,7 +93,11 @@ namespace NemLoginSigningService.Services
         {
             SigningPayload signingPayload = ProduceSigningPayload(ctx);
 
-            return new SigningPayloadDTO(signingPayload);
+            return new SigningPayloadDTO
+            {
+                SignatureParameters = signingPayload.SignatureParameters,
+                Dtbs = Convert.ToBase64String(signingPayload.DataToBeSigned.GetData()),
+            };
         }
 
         /// <summary>

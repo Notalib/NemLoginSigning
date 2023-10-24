@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NemLoginSigningCore.Configuration;
 using NemLoginSigningCore.Core;
-using NemLoginSigningCore.DTO;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Utilities;
+using NemLoginSigningDTO.Signing;
 using NemLoginSigningService.Services;
-using NemLoginSigningWebApp.DTOs;
+
 using static NemLoginSigningCore.Core.SignatureParameters;
 
 namespace NemLoginSigningWebApp.Logic
@@ -50,9 +50,11 @@ namespace NemLoginSigningWebApp.Logic
 
             SigningPayload signingPayload = _signingPayloadService.ProduceSigningPayload(ctx);
 
-            SigningPayloadDTO signingPayloadDTO = new SigningPayloadDTO(signingPayload);
-
-            return signingPayloadDTO;
+            return new SigningPayloadDTO
+            {
+                SignatureParameters = signingPayload.SignatureParameters,
+                Dtbs = Convert.ToBase64String(signingPayload.DataToBeSigned.GetData()),
+            };
         }
     }
 }

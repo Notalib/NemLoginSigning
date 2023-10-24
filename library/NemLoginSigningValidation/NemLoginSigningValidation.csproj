@@ -44,11 +44,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
     <PackageReference Include="Nota.Bux.CodeAnalysis" Version="1.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\html-agility-pack\src\HtmlAgilityPack.NETStandard2_0\HtmlAgilityPack.NETStandard2_0.csproj" />
     <ProjectReference Include="..\NemLoginSigningCore\NemLoginSigningCore.csproj" />
   </ItemGroup>
 

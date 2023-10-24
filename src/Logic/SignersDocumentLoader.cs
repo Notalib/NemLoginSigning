@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NemLoginSigningCore.Core;
-using NemLoginSigningWebApp.DTOs;
+using NemLoginSigningDTO.Signing;
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
 namespace NemLoginSigningWebApp.Logic
@@ -16,36 +16,10 @@ namespace NemLoginSigningWebApp.Logic
     /// </summary>
     public class SignersDocumentLoader : ISignersDocumentLoader
     {
-        private static readonly string[] FileExtensions = { ".TXT", ".PDF", ".XML", ".HTML", ".HTM" };
-
         public bool UseMonospaceInTxt { get; set; } = false;
 
         public SignersDocumentLoader()
         {
-        }
-
-        public IEnumerable<SignersDocument> GetFiles()
-        {
-            string directory = Directory.Exists(".\\wwwroot\\content\\UploadedFiles") ?
-                        ".\\wwwroot\\content\\UploadedFiles" :
-                        ".\\wwwroot\\content\\Files";
-
-            IEnumerable<string> files = Directory.EnumerateFiles(directory).Where(f => FileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
-
-            if (!files.Any())
-            {
-                directory = ".\\wwwroot\\content\\Files";
-                files = Directory.EnumerateFiles(directory).Where(f => FileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
-            }
-
-            List<SignersDocument> signersDocumentList = new List<SignersDocument>();
-
-            foreach (string item in files)
-            {
-                signersDocumentList.Add(CreateSignersDocumentFromFile(item));
-            }
-
-            return signersDocumentList;
         }
 
         public SignersDocument CreateSignersDocumentFromFile(string filePath)

@@ -9,10 +9,11 @@ using NemLoginSignatureValidationService.Model;
 using NemLoginSignatureValidationService.Service;
 using NemLoginSigningCore.Configuration;
 using NemLoginSigningCore.Core;
-using NemLoginSigningCore.DTO;
 using NemLoginSigningCore.Utilities;
-using NemLoginSigningWebApp.DTOs;
+using NemLoginSigningDTO.Signing;
 using NemLoginSigningWebApp.Logic;
+
+using SignatureFormat = NemLoginSigningCore.Format.SignatureFormat;
 
 namespace NemLoginSigningWebApp.Controllers
 {
@@ -67,12 +68,15 @@ namespace NemLoginSigningWebApp.Controllers
 
             SignersDocument signersDocument = _signersDocumentLoader.CreateSignersDocumentFromSigningDocumentDTO(document);
 
+            Language language = Enum.TryParse(request.Language, out Language lang) ? lang : Language.da;
+            SignatureFormat format = Enum.TryParse(request.SignatureFormat, out SignatureFormat fmt) ? fmt : SignatureFormat.XAdES;
+
             var paramBuilder = new SignatureParameters.SignatureParametersBuilder()
                 .WithFlowType(FlowType.ServiceProvider)
-                .WithPreferredLanguage(request.Language)
+                .WithPreferredLanguage(language)
                 .WithReferenceText(request.ReferenceText)
                 .WithSignersDocumentFormat(signersDocument.DocumentFormat)
-                .WithSignatureFormat(request.SignatureFormat)
+                .WithSignatureFormat(format)
                 .WithEntityID(_nemloginConfiguration.EntityID)
                 .WithMinAge(18); // Must be of legal age, for signature to be valid.
 
@@ -83,7 +87,8 @@ namespace NemLoginSigningWebApp.Controllers
 
             SignatureParameters parameters = paramBuilder.Build();
 
-            SigningPayloadDTO payload = _documentSigningService.GenerateSigningPayload(signersDocument, parameters, request.SignatureFormat, keys);
+            SigningPayloadDTO payload = _documentSigningService.GenerateSigningPayload(signersDocument, parameters, format, keys);
+            payload.RequestID = request.RequestID;
 
             return Ok(payload);
         }
@@ -108,6 +113,13 @@ namespace NemLoginSigningWebApp.Controllers
             ValidationReport validationReport = await _signingValidationService.Validate(ctx);
 
             return Ok(validationReport);
+        }
+
+        [HttpGet]
+        [Route("Ping")]
+        public IActionResult Ping()
+        {
+            return Ok(new { pong = DateTime.UtcNow });
         }
     }
 }

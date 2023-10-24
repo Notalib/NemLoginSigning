@@ -1,6 +1,6 @@
 ﻿using NemLoginSigningCore.Core;
-using NemLoginSigningCore.DTO;
 using NemLoginSigningCore.Format;
+using NemLoginSigningDTO.Signing;
 
 namespace NemLoginSigningWebApp.Logic
 {

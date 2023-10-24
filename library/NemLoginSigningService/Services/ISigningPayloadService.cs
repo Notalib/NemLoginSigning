@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using NemLoginSigningCore.Core;
-using NemLoginSigningCore.DTO;
+using NemLoginSigningDTO.Signing;
 
 namespace NemLoginSigningService.Services
 {

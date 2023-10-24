@@ -1,21 +1,29 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
+using System.Net.Http;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json.Serialization;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
+using Serilog;
+
 using NemLoginSigningService.Services;
 using NemLoginSignatureValidationService.Service;
-using NemLoginSigningWebApp.Logic;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Configuration;
+
+using NemLoginSigningWebApp.Config;
+using NemLoginSigningWebApp.Logic;
+using NemLoginSigningWebApp.Utils;
 
 namespace NemLoginSigningWebApp
 {
@@ -31,7 +39,18 @@ namespace NemLoginSigningWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
+
+            // Implementation needs a httpcontext accessor, Add method does a try add.
+            services.AddHttpContextAccessor();
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
 
             // Configuration dependencies
             var configurationSection = Configuration.GetSection("NemloginConfiguration");
@@ -43,32 +62,42 @@ namespace NemLoginSigningWebApp
             services.AddTransient<ISigningPayloadService, SigningPayloadService>();
             services.AddTransient<ITransformationPropertiesService, TransformationPropertiesService>();
             services.AddTransient<IDocumentSigningService, DocumentSigningService>();
-            services.AddTransient<ISigningResultService, SigningResultService>();
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
             var nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
 
+            // Configure HTTPClients
             services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
-            services.AddTransient<ISigningValidationService, SigningValidationService>();
-
-            services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
-
-            services.Configure<RequestLocalizationOptions>(options =>
+            services.AddHttpClient<IUUIDMatchClient, UUIDMatchClient>(c =>
             {
-                options.RequestCultureProviders = new List<IRequestCultureProvider>
-                {
-                    new QueryStringRequestCultureProvider()
-                };
+                c.BaseAddress = new Uri(nemloginConfiguration.UUIDMatchServiceURL);
+            }).ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                // Requires authenticating with the NemLog-In registered VOCES/FOCES cert as the TLS client certificate
+                HttpClientHandler handler = new ();
+                var ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
+                    nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
 
-                options.SupportedCultures.Add(new CultureInfo("dk-DK"));
-                options.SupportedCultures.Add(new CultureInfo("en-US"));
-                options.SetDefaultCulture("da-DK");
-                options.DefaultRequestCulture = new RequestCulture("da-DK");
+                handler.ClientCertificates.Add(ocesCertificate);
+
+                return handler;
             });
 
-            services.AddMvc()
-                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                .AddDataAnnotationsLocalization();
+            services.AddTransient<ISigningValidationService, SigningValidationService>();
+
+            var cors = Configuration.GetSection("CORS").Get<CorsConfig>();
+
+            if (cors?.AllowedOrigins is not null && cors.AllowedOrigins.Any())
+            {
+                services.AddCors(options =>
+                {
+                    options.AddDefaultPolicy(
+                        policy =>
+                        {
+                            policy.WithOrigins(cors.AllowedOrigins);
+                        });
+                });
+            }
 
             LoadAssemblies();
         }
@@ -79,31 +108,26 @@ namespace NemLoginSigningWebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
 
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
-            app.UseRequestLocalization();
+            app.UseSerilogRequestLogging();
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
+            loggerFactory.AddSerilog();
 
             LoggerCreator.LoggerFactory = loggerFactory;
 
+            app.UseRouting();
+
+            app.UseCors();
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
 
