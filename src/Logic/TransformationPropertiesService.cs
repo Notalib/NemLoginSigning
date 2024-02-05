@@ -15,10 +15,7 @@ namespace NemLoginSigningWebApp.Logic
         {
             string keyPrefix = TransformationPropertiesHandler.KEY_PREFIX;
 
-            if (signersDocument == null)
-            {
-                throw new ArgumentNullException(nameof(signersDocument));
-            }
+            ArgumentNullException.ThrowIfNull(signersDocument);
 
             if (signatureFormat == NemLoginSigningCore.Format.SignatureFormat.PAdES && signersDocument.DocumentFormat != DocumentFormat.PDF)
             {
@@ -33,7 +30,7 @@ namespace NemLoginSigningWebApp.Logic
                         var fontFile = Path.ChangeExtension(path, fontExtension);
                         if (File.Exists(fontFile))
                         {
-                            TransformationProperties properties = new ();
+                            TransformationProperties properties = new();
                             properties.Add(keyPrefix + "fonts", "embed, default");
                             properties.Add(keyPrefix + "font[0].name", Path.GetFileName(fontFile));
                             properties.Add(keyPrefix + "font[0].path", Path.GetFullPath(fontFile));

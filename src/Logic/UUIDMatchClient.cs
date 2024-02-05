@@ -14,7 +14,7 @@ namespace NemLoginSigningWebApp.Logic
 {
     public class UUIDMatchClient : IUUIDMatchClient
     {
-        private static readonly JsonSerializerOptions JsonSerializerOptions = new ()
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             WriteIndented = true,

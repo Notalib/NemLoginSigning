@@ -5,7 +5,7 @@
     /// </summary>
     public static class TestConstants
     {
-        public static string ConfigurationNemlogin = "NemloginConfiguration";
-        public static string ConfigurationSaveTestDataToFolderProperty = "TestSettings";
+        public const string ConfigurationNemlogin = "NemloginConfiguration";
+        public const string ConfigurationSaveTestDataToFolderProperty = "TestSettings";
     }
 }
