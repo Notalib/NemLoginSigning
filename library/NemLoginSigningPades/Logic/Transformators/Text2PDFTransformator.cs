@@ -66,14 +66,14 @@ namespace NemLoginSigningPades.Logic.Transformators
 
                 string html = stringWriter.ToString();
 
-                logger.LogInformation($"Initially transformed {plainTextSignersDocument.SignersDocumentFile.Name} from TXT to HTML in {sw.ElapsedMilliseconds} ms");
+                logger.LogInformation("Initially transformed {Name} from TXT to HTML in {MilliSeconds} ms", plainTextSignersDocument.SignersDocumentFile.Name, sw.ElapsedMilliseconds);
 
                 return html;
             }
             catch (Exception e)
             {
-                string logMessage = $"Error initially transforming {plainTextSignersDocument.SignersDocumentFile.Name} from TXT to HTML";
-                logger.LogError(logMessage);
+                string logMessage = "Error initially transforming {Name} from TXT to HTML";
+                logger.LogError("Error initially transforming {Name} from TXT to HTML", plainTextSignersDocument.SignersDocumentFile.Name);
                 throw new TransformationException(logMessage, ErrorCode.SDK007, e);
             }
         }

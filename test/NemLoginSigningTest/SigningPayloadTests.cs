@@ -31,7 +31,7 @@ namespace NemloginSigningTest
         private SigningPayloadService _signingPayloadService = new SigningPayloadService(new NullLogger<SigningPayloadService>());
 
         [Theory]
-        [MemberData(nameof(LoadAllFilesWithTypes), parameters: new object[] { SignersDocuments, new[] { "*.pdf", "*.txt", "*.html", "*.xml" } })]
+        [MemberData(nameof(LoadAllFilesWithTypes), parameters: [SignersDocuments, new[] { "*.pdf", "*.txt", "*.html", "*.xml" }])]
         public void TransformAllToFormatsTheory(string file)
         {
             TransformSignersDocumentToPdfUsingSpFlow(file);

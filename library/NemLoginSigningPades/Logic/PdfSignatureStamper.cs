@@ -30,7 +30,7 @@ namespace NemLoginSigningPades.Logic
         public const int SIGNATURE_SIZE = 16384;
         public const string SIGNATURE_TYPE = "Sig";
         public const string SIGNATURE_NAME = "NemLog-In Signing SDK";
-        private const int NO_CHANGE_PERMITTED = 1;
+        public const int NO_CHANGE_PERMITTED = 1;
 
         public static readonly PdfName SIGNATURE_DEFAULT_FILTER = PdfName.ADOBE_PPKLITE;
         public static readonly PdfName SIGNATURE_DEFAULT_SUBFILTER = PdfName.ETSI_CADES_DETACHED;
@@ -79,8 +79,8 @@ namespace NemLoginSigningPades.Logic
             }
             catch (Exception e)
             {
-                logger.LogError($"Error extracting DTBS PDF Signature Dictionaries. {e.Message}");
-                throw new TransformationException("Error extracting DTBS PDF Signature Dictionaries", ErrorCode.SDK005);
+                logger.LogError(e, "Error extracting DTBS PDF Signature Dictionaries. {Message}", e.Message);
+                throw new TransformationException("Error extracting DTBS PDF Signature Dictionaries", ErrorCode.SDK005, e);
             }
         }
 

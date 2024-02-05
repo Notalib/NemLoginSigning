@@ -139,7 +139,7 @@ namespace NemLoginSigningCore.Core
                     }
                     catch (Exception)
                     {
-                        logger.LogWarning($"Cannot read lastmodified time of file: {_builderTemplate.Path}");
+                        logger.LogWarning("Cannot read lastmodified time of file: {Path}", _builderTemplate.Path);
                     }
                 }
             }
@@ -157,7 +157,7 @@ namespace NemLoginSigningCore.Core
                     }
                     catch (Exception)
                     {
-                        logger.LogWarning($"Cannot read creation time of file: {_builderTemplate.Path}");
+                        logger.LogWarning("Cannot read creation time of file: {Path}", _builderTemplate.Path);
                     }
                 }
             }

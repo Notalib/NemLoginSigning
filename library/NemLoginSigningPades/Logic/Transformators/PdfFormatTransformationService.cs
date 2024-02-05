@@ -29,7 +29,7 @@ namespace NemLoginSigningPades.Logic.Transformators
 
             SignersDocument signersDocument = ctx.SignersDocument;
 
-            logger.LogInformation($"Start transforming {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF");
+            logger.LogInformation("Start transforming {Name} from {Format} to PDF", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat);
 
             // Step 1: Generate HTML by transforming the XML using the included XSLT
             string html = GenerateHTML(ctx, logger);
@@ -44,13 +44,12 @@ namespace NemLoginSigningPades.Logic.Transformators
 
                 ctx.DataToBeSigned = dtbs;
 
-                logger.LogInformation($"Transformed {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF in {sw.ElapsedMilliseconds} ms");
+                logger.LogInformation("Transformed {Name} from {Format} to PDF in {MilliSeconds} ms", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat, sw.ElapsedMilliseconds);
             }
             catch (Exception e)
             {
-                string logMessage = $"Error transforming from {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF: {e.Message}";
-                logger.LogError(logMessage);
-                throw new TransformationException(logMessage, ErrorCode.SDK007, e);
+                logger.LogError(e, "Error transforming from {Name} from {Format} to PDF: {Message}", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat, e.Message);
+                throw new TransformationException($"Error transforming from {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF: {e.Message}", ErrorCode.SDK007, e);
             }
         }
 

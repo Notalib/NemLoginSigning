@@ -34,15 +34,14 @@ namespace NemLoginSigningPades.Logic.Transformators
 
                 var result = new XML2HTMLTransformLogic().Transform(xml, xslt);
 
-                logger.LogInformation($"Initially transformed {signersDocument.SignersDocumentFile.Name} from XML to HTML in {sw.ElapsedMilliseconds} ms");
+                logger.LogInformation("Initially transformed {Name} from XML to HTML in {MilliSeconds} ms", signersDocument.SignersDocumentFile.Name, sw.ElapsedMilliseconds);
 
                 return result;
             }
             catch (Exception e)
             {
-                string logMessage = $"Error initially transforming {signersDocument.SignersDocumentFile.Name} from XML to HTML: {e.Message}";
-                logger.LogError(logMessage);
-                throw new TransformationException(logMessage, ErrorCode.SDK007, e);
+                logger.LogError(e, "Error initially transforming {Name} from XML to HTML: {Message}", signersDocument.SignersDocumentFile.Name, e.Message);
+                throw new TransformationException(e.Message, ErrorCode.SDK007, e);
             }
         }
     }
