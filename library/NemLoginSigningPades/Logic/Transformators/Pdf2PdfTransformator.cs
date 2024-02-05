@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logic;

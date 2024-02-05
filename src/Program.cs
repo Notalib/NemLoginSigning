@@ -1,19 +1,12 @@
-using System;
+﻿using System;
 
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
 
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
-
-using NemLoginSigningWebApp.Utils;
-using Microsoft.AspNetCore.Builder;
 using Serilog.Exceptions.Core;
-using Serilog.Exceptions.Destructurers;
 
 namespace NemLoginSigningWebApp
 {

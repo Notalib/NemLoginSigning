@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using NemLoginSigningCore.Format;
+﻿using NemLoginSigningCore.Format;
 
 namespace NemLoginSigningCore.Core
 {

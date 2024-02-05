@@ -1,5 +1,4 @@
-﻿using System;
-using NemLoginSigningCore.Exceptions;
+﻿using NemLoginSigningCore.Exceptions;
 
 namespace NemLoginSigningCore.Core
 {

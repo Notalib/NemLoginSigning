@@ -1,11 +1,8 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 using NemLoginSigningDTO.UUIDMatch;
-using NemLoginSigningCore.Configuration;
 using NemLoginSigningWebApp.Logic;
 
 namespace NemLoginSigningWebApp.Controllers

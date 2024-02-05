@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using iTextSharp.text.pdf;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Format;

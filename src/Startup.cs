@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -12,13 +12,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using Serilog;
 
 using NemLoginSigningService.Services;
 using NemLoginSignatureValidationService.Service;
-using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Configuration;
 
 using NemLoginSigningWebApp.Config;
@@ -85,7 +83,7 @@ namespace NemLoginSigningWebApp
             }).ConfigurePrimaryHttpMessageHandler(() =>
             {
                 // Requires authenticating with the NemLog-In registered VOCES/FOCES cert as the TLS client certificate
-                HttpClientHandler handler = new ();
+                HttpClientHandler handler = new();
                 handler.ClientCertificates.Add(ocesCertificate);
 
                 return handler;

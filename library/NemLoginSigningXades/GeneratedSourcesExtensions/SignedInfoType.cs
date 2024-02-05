@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NemLoginSigningXades.GeneratedSources
+﻿namespace NemLoginSigningXades.GeneratedSources
 {
     public partial class SignedInfoType
     {
