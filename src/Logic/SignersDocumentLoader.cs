@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using NemLoginSigningCore.Core;
 using NemLoginSigningDTO.Signing;
+
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
 namespace NemLoginSigningWebApp.Logic

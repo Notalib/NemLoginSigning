@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Utilities;

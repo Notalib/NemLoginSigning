@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;

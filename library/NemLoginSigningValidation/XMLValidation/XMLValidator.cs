@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Logic;
+
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
 namespace NemLoginSigningValidation.XMLValidation

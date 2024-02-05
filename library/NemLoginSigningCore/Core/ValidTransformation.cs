@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Format;
 

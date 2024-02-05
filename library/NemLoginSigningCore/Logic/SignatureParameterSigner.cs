@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
+
 using static NemLoginSigningCore.Utilities.ObjectSerializer;
 
 namespace NemLoginSigningCore.Logic

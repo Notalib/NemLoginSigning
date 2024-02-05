@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;

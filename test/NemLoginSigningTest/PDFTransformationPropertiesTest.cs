@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ using NemLoginSigningPades.Logic;
 using NemLoginSigningValidation;
 using NemLoginSigningValidation.PDFValidation;
 using Xunit;
+
 using static NemLoginSigningPades.Logic.TransformationPropertiesHandler;
 
 namespace NemloginSigningTest

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 using NemLoginSigningCore.Format;
 
 namespace NemLoginSigningCore.Core

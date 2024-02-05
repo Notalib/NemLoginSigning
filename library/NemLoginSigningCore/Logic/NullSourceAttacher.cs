@@ -1,4 +1,5 @@
 ﻿using System;
+
 using NemLoginSigningCore.Core;
 
 namespace NemLoginSigningCore.Logic

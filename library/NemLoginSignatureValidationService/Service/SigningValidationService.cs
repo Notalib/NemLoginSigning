@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 using NemLoginSignatureValidationService.Model;
 using NemLoginSigningCore.Exceptions;
 using Newtonsoft.Json;

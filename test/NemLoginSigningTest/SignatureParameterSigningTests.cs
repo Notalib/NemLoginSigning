@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logic;
 using Xunit;
+
 using static NemLoginSigningCore.Core.SignatureParameters;
 
 namespace NemloginSigningTest

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+
 using NemLoginSigningXades.GeneratedSources;
 using NemLoginSigningCore.Utilities;
 

@@ -2,11 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logic;
+
 using static NemLoginSigningCore.Core.SignatureParameters;
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
