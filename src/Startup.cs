@@ -70,7 +70,12 @@ namespace NemLoginSigningWebApp
             services.AddTransient<IDocumentSigningService, DocumentSigningService>();
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
-            var nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
+            NemloginConfiguration nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
+
+            X509Certificate2 ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
+                nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
+
+            Log.Information("Loaded OCES Certificate {SubjectName}, has {PrivateKeySize} bit key.", ocesCertificate.Subject, ocesCertificate.GetRSAPrivateKey().KeySize);
 
             // Configure HTTPClients
             services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
@@ -81,9 +86,6 @@ namespace NemLoginSigningWebApp
             {
                 // Requires authenticating with the NemLog-In registered VOCES/FOCES cert as the TLS client certificate
                 HttpClientHandler handler = new ();
-                var ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
-                    nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
-
                 handler.ClientCertificates.Add(ocesCertificate);
 
                 return handler;
