@@ -10,21 +10,15 @@ namespace NemLoginSigningPades.Logic
 {
     public class PDFSourceAttacher : ISourceAttacher
     {
-        public void Attach(TransformationContext ctx)
+        public void Attach(TransformationContext context)
         {
-            if (ctx == null)
-            {
-                throw new ArgumentNullException(nameof(ctx));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
-            var xmlSignersDocument = ctx.SignersDocument as XmlSignersDocument;
+            var xmlSignersDocument = context.SignersDocument as XmlSignersDocument;
 
-            if (xmlSignersDocument == null)
-            {
-                throw new ArgumentNullException($"{nameof(xmlSignersDocument)} can not be null");
-            }
+            ArgumentNullException.ThrowIfNull(context?.SignersDocument);
 
-            var pdfDocumentData = ctx.DataToBeSigned.GetData();
+            var pdfDocumentData = context.DataToBeSigned.GetData();
 
             MemoryStream ms = new MemoryStream();
             PdfReader reader = new PdfReader(pdfDocumentData);
@@ -39,15 +33,12 @@ namespace NemLoginSigningPades.Logic
 
             stamper.Close();
 
-            ctx.DataToBeSigned = new PadesDataToBeSigned(ms.ToArray(), ctx.DataToBeSigned.FileName);
+            context.DataToBeSigned = new PadesDataToBeSigned(ms.ToArray(), context.DataToBeSigned.FileName);
         }
 
         public bool CanAttach(Transformation transformation)
         {
-            if (transformation == null)
-            {
-                throw new ArgumentNullException(nameof(transformation));
-            }
+            ArgumentNullException.ThrowIfNull(transformation);
 
             return (transformation.SdFormat == DocumentFormat.XML && transformation.SignatureFormat == SignatureFormat.PAdES);
         }

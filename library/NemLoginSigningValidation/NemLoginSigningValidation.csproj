@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <DocumentationFile>obj\NemLoginSigningValidation.xml</DocumentationFile>
   </PropertyGroup>
 
   <Import Project="..\..\SignSDK.Common.props" />

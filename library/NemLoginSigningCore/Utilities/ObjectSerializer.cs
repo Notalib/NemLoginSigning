@@ -6,7 +6,7 @@ namespace NemLoginSigningCore.Utilities
     /// <summary>
     /// Utility class for generic serializing and deserializing.
     /// </summary>
-    public class ObjectSerializer
+    public static class ObjectSerializer
     {
         public static string SerializeObject(object value)
         {

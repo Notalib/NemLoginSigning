@@ -30,10 +30,7 @@ namespace NemLoginSigningValidation.PDFValidation
 
         public static PdfFontDescriptor FromFontDescriptor(PdfObject pdfObject, PdfDictionary dict, int objectNumber)
         {
-            if (dict == null)
-            {
-                throw new ArgumentNullException(nameof(dict));
-            }
+            ArgumentNullException.ThrowIfNull(dict);
 
             PdfFontDescriptor result = null;
 

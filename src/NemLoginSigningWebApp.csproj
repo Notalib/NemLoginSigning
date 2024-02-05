@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>NemLoginSigningWebApp</AssemblyName>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <DocumentationFile>bin\NemLoginSignatureWebApp.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

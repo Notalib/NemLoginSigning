@@ -66,10 +66,12 @@ namespace NemLoginSigningPades.Logic
 
         public float GetPageMargin()
         {
-            float outResult;
-            float.TryParse(GetProperty(KEY_PAGE_MARGIN, "1"), out outResult);
+            if (float.TryParse(GetProperty(KEY_PAGE_MARGIN, "1"), out float outResult))
+            {
+                return outResult;
+            }
 
-            return outResult;
+            return default(float);
         }
 
         public void ApplyColorProfile(PdfWriter pdfWriter)

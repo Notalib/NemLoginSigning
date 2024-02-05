@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 
 namespace NemLoginSigningCore.Utilities
 {
-    public class SignersDocumentFileLoader
+    public static class SignersDocumentFileLoader
     {
         public static byte[] LoadDataFromFileFromPath(string path)
         {
@@ -13,10 +13,8 @@ namespace NemLoginSigningCore.Utilities
 
         public static byte[] LoadDataFromUri(Uri uri)
         {
-            using (WebClient client = new WebClient())
-            {
-                return client.DownloadData(uri);
-            }
+            using HttpClient client = new();
+            return client.GetByteArrayAsync(uri).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }

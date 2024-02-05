@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
 using Microsoft.Extensions.Logging;
@@ -73,12 +74,12 @@ namespace NemLoginSigningCore.Utilities
 
             if (x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Count() != 1)
             {
-                throw new Exception("Certificate collection contains multiple certificates with a private key");
+                throw new CryptographicException("Certificate collection contains multiple certificates with a private key");
             }
 
             var certificate = x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Single();
 
-            return new SignatureKeys(certificate, certificate.PrivateKey);
+            return new SignatureKeys(certificate, certificate.GetRSAPrivateKey());
         }
 
         private X509Certificate2Collection ImportCertificateCollection(byte[] keystore, string keystorePath)

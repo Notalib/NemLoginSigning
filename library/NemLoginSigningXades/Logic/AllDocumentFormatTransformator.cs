@@ -21,42 +21,36 @@ namespace NemLoginSigningXades.Logic
 
         public bool CanTransform(Transformation transformation)
         {
-            if (transformation == null)
-            {
-                throw new ArgumentNullException(nameof(Transform));
-            }
+            ArgumentNullException.ThrowIfNull(transformation);
 
             return transformation.SignatureFormat == SignatureFormat.XAdES;
         }
 
-        public void Transform(TransformationContext ctx, ILogger logger)
+        public void Transform(TransformationContext transformationContext, ILogger logger)
         {
-            if (ctx == null)
-            {
-                throw new ArgumentNullException(nameof(ctx));
-            }
+            ArgumentNullException.ThrowIfNull(transformationContext);
 
             SignTextType signTextType = new SignTextType { id = CreateSignTextTypeId() };
 
-            switch (ctx.SignersDocument.DocumentFormat)
+            switch (transformationContext.SignersDocument.DocumentFormat)
             {
                 case DocumentFormat.TEXT:
-                    signTextType.WithPlainText(CreatePlainTextType(ctx.SignersDocument));
+                    signTextType.WithPlainText(CreatePlainTextType(transformationContext.SignersDocument));
                     break;
                 case DocumentFormat.HTML:
-                    signTextType.WithHTMLDocument(CreateHTMLDocument(ctx.SignersDocument));
+                    signTextType.WithHTMLDocument(CreateHTMLDocument(transformationContext.SignersDocument));
                     break;
                 case DocumentFormat.XML:
-                    signTextType.WithXMLDocument(CreateXMLDocument(ctx.SignersDocument));
+                    signTextType.WithXMLDocument(CreateXMLDocument(transformationContext.SignersDocument));
                     break;
                 case DocumentFormat.PDF:
-                    signTextType.WithPDFDocument(CreatePDFDocument(ctx.SignersDocument));
+                    signTextType.WithPDFDocument(CreatePDFDocument(transformationContext.SignersDocument));
                     break;
             }
 
-            if (ctx.SignersDocument.SignProperties != null && ctx.SignersDocument.SignProperties.Any())
+            if (transformationContext.SignersDocument.SignProperties != null && transformationContext.SignersDocument.SignProperties.Any())
             {
-                signTextType.WithProperties(ctx.SignersDocument.SignProperties);
+                signTextType.WithProperties(transformationContext.SignersDocument.SignProperties);
             }
 
             SignedDocumentType signedDocumentType = new SignedDocumentType { SignText = signTextType };
@@ -64,7 +58,7 @@ namespace NemLoginSigningXades.Logic
             try
             {
                 var serializedXML = XMLSerializer.Serialize(signedDocumentType);
-                ctx.DataToBeSigned = new XadesDataToBeSigned(serializedXML, ctx.SignersDocument.SignersDocumentFile.Name);
+                transformationContext.DataToBeSigned = new XadesDataToBeSigned(serializedXML, transformationContext.SignersDocument.SignersDocumentFile.Name);
             }
             catch (Exception e)
             {
@@ -74,10 +68,7 @@ namespace NemLoginSigningXades.Logic
 
         private PlainTextType CreatePlainTextType(SignersDocument signersDocument)
         {
-            if (signersDocument == null)
-            {
-                throw new ArgumentNullException(nameof(signersDocument));
-            }
+            ArgumentNullException.ThrowIfNull(signersDocument);
 
             PlainTextType plainTextType = new PlainTextType();
             plainTextType.Document = signersDocument.SignersDocumentFile.GetData();

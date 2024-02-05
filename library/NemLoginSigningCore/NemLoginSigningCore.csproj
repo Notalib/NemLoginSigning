@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net8.0</TargetFramework>
+	  <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <DocumentationFile>obj\NemLoginSigningCore.xml</DocumentationFile>
   </PropertyGroup>
 
   <Import Project="..\..\SignSDK.Common.props" />
@@ -20,6 +21,7 @@
     <PackageReference Include="jose-jwt" Version="4.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Nota.Bux.CodeAnalysis" Version="1.99.99" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1" />

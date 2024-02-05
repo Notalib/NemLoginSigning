@@ -17,11 +17,11 @@ namespace NemLoginSigningPades.Logic.Transformators
                 transformation.SdFormat == DocumentFormat.PDF;
         }
 
-        public void Transform(TransformationContext ctx, ILogger logger)
+        public void Transform(TransformationContext transformationContext, ILogger logger)
         {
-            SignersDocument sd = ctx.SignersDocument;
+            SignersDocument sd = transformationContext.SignersDocument;
             DataToBeSigned dtbs = new PadesDataToBeSigned(sd.SignersDocumentFile.GetData(), sd.SignersDocumentFile.Name);
-            ctx.DataToBeSigned = dtbs;
+            transformationContext.DataToBeSigned = dtbs;
         }
     }
 }

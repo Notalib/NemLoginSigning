@@ -16,7 +16,7 @@ namespace NemLoginSigningCore.Core
         private const int VERSION = 1;
         private const string DTBS_DIGEST_ALGORITHM = "SHA-256";
 
-        private static readonly int REFERENCE_TEXT_MAX_LENGTH = 50;
+        private const int REFERENCE_TEXT_MAX_LENGTH = 50;
 
         public SignatureParameters()
         {
@@ -132,10 +132,7 @@ namespace NemLoginSigningCore.Core
 
             public SignatureParametersBuilder WithValidTransformation(Transformation transformation)
             {
-                if (transformation == null)
-                {
-                    throw new ArgumentNullException(nameof(Transformation));
-                }
+                ArgumentNullException.ThrowIfNull(transformation);
 
                 _builderTemplate.DocumentFormat = transformation.SdFormat;
                 _builderTemplate.SignatureFormat = transformation.SignatureFormat;

@@ -33,7 +33,7 @@ namespace NemLoginSigningCore.Utilities
 
                 if (!Directory.Exists(path))
                 {
-                    logger.LogError($"Cannot write file. Directory does not exist {path}");
+                    logger.LogError("Cannot write file. Directory does not exist {Path}", path);
                 }
 
                 int number = new Random().Next(10000);
@@ -47,7 +47,7 @@ namespace NemLoginSigningCore.Utilities
             }
             catch (Exception e)
             {
-                logger.LogError($"Error writing file {fileNameAndPath}. {e.Message}");
+                logger.LogError(e, "Error writing file {Path}. {Message}", fileNameAndPath, e.Message);
             }
         }
     }

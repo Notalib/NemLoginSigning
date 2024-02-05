@@ -26,7 +26,7 @@ namespace NemloginSigningTest
         {
             Uri uri = new Uri(_apiUrl + "IsAlive");
 
-            HttpResponseMessage response = await _client.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage response = await _client.GetAsync(uri);
 
             var result = await response.Content.ReadAsStringAsync();
 

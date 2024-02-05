@@ -23,26 +23,26 @@ namespace NemLoginSigningPades.Logic.Transformators
 
         protected abstract string GenerateHTML(TransformationContext ctx, ILogger logger);
 
-        public void Transform(TransformationContext ctx, ILogger logger)
+        public void Transform(TransformationContext transformationContext, ILogger logger)
         {
             Stopwatch sw = Stopwatch.StartNew();
 
-            SignersDocument signersDocument = ctx.SignersDocument;
+            SignersDocument signersDocument = transformationContext.SignersDocument;
 
             logger.LogInformation("Start transforming {Name} from {Format} to PDF", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat);
 
             // Step 1: Generate HTML by transforming the XML using the included XSLT
-            string html = GenerateHTML(ctx, logger);
+            string html = GenerateHTML(transformationContext, logger);
 
             // Step 2: Generate PDF from the HTML
             try
             {
-                string fileName = ctx.SignersDocument.SignersDocumentFile.Name;
-                byte[] pdf = GeneratePDF(html, fileName, ctx.TransformationProperties, logger);
+                string fileName = transformationContext.SignersDocument.SignersDocumentFile.Name;
+                byte[] pdf = GeneratePDF(html, fileName, transformationContext.TransformationProperties, logger);
 
                 DataToBeSigned dtbs = new PadesDataToBeSigned(pdf, Path.ChangeExtension(fileName, "pdf"));
 
-                ctx.DataToBeSigned = dtbs;
+                transformationContext.DataToBeSigned = dtbs;
 
                 logger.LogInformation("Transformed {Name} from {Format} to PDF in {MilliSeconds} ms", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat, sw.ElapsedMilliseconds);
             }

@@ -73,10 +73,7 @@ namespace NemLoginSigningXades.GeneratedSources
 
         public SignTextType WithProperties(SignProperties signProperties)
         {
-            if (signProperties == null)
-            {
-                throw new ArgumentNullException(nameof(signProperties));
-            }
+            ArgumentNullException.ThrowIfNull(signProperties);
 
             if (!signProperties.Any())
             {

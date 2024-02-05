@@ -27,10 +27,7 @@ namespace NemLoginSigningWebApp.Logic
             IOptions<NemloginConfiguration> nemloginConfiguration,
             ILogger<DocumentSigningService> logger)
         {
-            if (nemloginConfiguration == null)
-            {
-                throw new ArgumentNullException(nameof(nemloginConfiguration));
-            }
+            ArgumentNullException.ThrowIfNull(nemloginConfiguration);
 
             _signingPayloadService = signingPayloadService ?? throw new ArgumentNullException(nameof(signingPayloadService));
             _transformationPropertiesService = transformationPropertiesService ?? throw new ArgumentNullException(nameof(transformationPropertiesService));

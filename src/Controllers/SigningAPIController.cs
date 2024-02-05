@@ -30,10 +30,7 @@ namespace NemLoginSigningWebApp.Controllers
         public SigningAPIController(IDocumentSigningService documentSigningService, ISignersDocumentLoader signersDocumentLoader,
             ISigningValidationService signingValidationService, IOptions<NemloginConfiguration> nemloginConfiguration)
         {
-            if (nemloginConfiguration == null)
-            {
-                throw new ArgumentNullException(nameof(nemloginConfiguration));
-            }
+            ArgumentNullException.ThrowIfNull(nemloginConfiguration);
 
             _documentSigningService = documentSigningService;
             _signersDocumentLoader = signersDocumentLoader;

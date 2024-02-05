@@ -9,8 +9,8 @@ namespace NemLoginSigningService.Services
     /// </summary>
     public interface ISigningPayloadService
     {
-        SigningPayload ProduceSigningPayload(TransformationContext ctx);
+        SigningPayload ProduceSigningPayload(TransformationContext context);
 
-        SigningPayloadDTO ProduceSigningPayloadDTO(TransformationContext ctx);
+        SigningPayloadDTO ProduceSigningPayloadDTO(TransformationContext context);
     }
 }

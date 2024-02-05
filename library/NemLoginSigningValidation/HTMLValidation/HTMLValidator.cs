@@ -13,11 +13,11 @@ namespace NemLoginSigningValidation
     /// </summary>
     public class HTMLValidator : IValidator
     {
-        public void Validate(TransformationContext ctx)
+        public void Validate(TransformationContext context)
         {
-            var logger = LoggerCreator.CreateLogger<HTMLValidator>();
+            ILogger logger = LoggerCreator.CreateLogger<HTMLValidator>();
 
-            string html = ctx.SignersDocument.DataAsText();
+            string html = context.SignersDocument.DataAsText();
 
             HtmlSignTextValidator validator = new HtmlSignTextValidator();
             bool result = validator.Validate(html);
@@ -25,7 +25,7 @@ namespace NemLoginSigningValidation
             if (result == false)
             {
                 string validationErrors = string.Join($"; {Environment.NewLine}", validator.ErrorMessages.ToArray());
-                logger.LogDebug($"HTML Validation Errors: {validationErrors}");
+                logger.LogDebug("HTML Validation Errors: {ValidationErrors}", validationErrors);
 
                 throw new ValidationException(validationErrors, ErrorCode.SDK010);
             }

@@ -2,7 +2,7 @@
 {
     public partial class SignedInfoType
     {
-        public SignedInfoType withCanonicalizationMethod(CanonicalizationMethodType canonicalizationMethodType)
+        public SignedInfoType WithCanonicalizationMethod(CanonicalizationMethodType canonicalizationMethodType)
         {
             CanonicalizationMethod = canonicalizationMethodType;
             return this;
