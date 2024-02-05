@@ -60,7 +60,7 @@ namespace NemLoginSigningPades.Logic.Transformators
                 writer.Formatting = Formatting.Indented;
 
                 XsltArgumentList argList = new XsltArgumentList();
-                argList.AddParam("useMonoSpaceFont", "", plainTextSignersDocument.UseMonoSpaceFont.ToString().ToLower());
+                argList.AddParam("useMonoSpaceFont", string.Empty, plainTextSignersDocument.UseMonoSpaceFont.ToString().ToLower());
 
                 xslt.Transform(document.CreateNavigator(), argList, writer, null);
 

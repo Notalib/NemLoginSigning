@@ -38,7 +38,7 @@ namespace NemLoginSigningCore.Utilities
 
                 int number = new Random().Next(10000);
 
-                string datetime = DateTime.Now.ToLongDateString() + DateTime.Now.ToLongTimeString().Replace(":", "");
+                string datetime = DateTime.Now.ToLongDateString() + DateTime.Now.ToLongTimeString().Replace(":", string.Empty);
                 string fileName = $"{number}_{datetime}_{name}_{Guid.NewGuid()}.{extension}";
 
                 fileNameAndPath = Path.Combine(path, fileName);
