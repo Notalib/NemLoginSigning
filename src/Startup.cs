@@ -50,6 +50,12 @@ namespace NemLoginSigningWebApp
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
+            // Register Serilog as our Microsoft.Extension.Logging provider.
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSerilog(dispose: true);
+            });
+
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
 
             // Configuration dependencies
@@ -103,7 +109,7 @@ namespace NemLoginSigningWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -114,10 +120,6 @@ namespace NemLoginSigningWebApp
             }
 
             app.UseSerilogRequestLogging();
-
-            loggerFactory.AddSerilog();
-
-            LoggerCreator.LoggerFactory = loggerFactory;
 
             app.UseRouting();
 
