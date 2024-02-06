@@ -9,6 +9,6 @@ namespace NemLoginSigningCore.Logic
     {
         bool CanAttach(Transformation transformation);
 
-        void Attach(TransformationContext ctx);
+        void Attach(TransformationContext context);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 
@@ -16,7 +17,7 @@ namespace NemLoginSigningValidation.PlainTextValidation
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public void Validate(TransformationContext ctx)
+        public void Validate(TransformationContext context)
         {
             _logger.LogInformation("Validating PlainText - Everything is good..");
         }

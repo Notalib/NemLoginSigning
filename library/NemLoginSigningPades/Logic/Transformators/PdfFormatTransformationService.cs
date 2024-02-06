@@ -2,11 +2,13 @@
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Format;
 using NemLoginSigningCore.Logic;
+
 using static NemLoginSigningCore.Core.SignatureParameters;
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
@@ -21,34 +23,33 @@ namespace NemLoginSigningPades.Logic.Transformators
 
         protected abstract string GenerateHTML(TransformationContext ctx, ILogger logger);
 
-        public void Transform(TransformationContext ctx, ILogger logger)
+        public void Transform(TransformationContext transformationContext, ILogger logger)
         {
             Stopwatch sw = Stopwatch.StartNew();
 
-            SignersDocument signersDocument = ctx.SignersDocument;
+            SignersDocument signersDocument = transformationContext.SignersDocument;
 
-            logger.LogInformation($"Start transforming {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF");
+            logger.LogInformation("Start transforming {Name} from {Format} to PDF", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat);
 
             // Step 1: Generate HTML by transforming the XML using the included XSLT
-            string html = GenerateHTML(ctx, logger);
+            string html = GenerateHTML(transformationContext, logger);
 
             // Step 2: Generate PDF from the HTML
             try
             {
-                string fileName = ctx.SignersDocument.SignersDocumentFile.Name;
-                byte[] pdf = GeneratePDF(html, fileName, ctx.TransformationProperties, logger);
+                string fileName = transformationContext.SignersDocument.SignersDocumentFile.Name;
+                byte[] pdf = GeneratePDF(html, fileName, transformationContext.TransformationProperties, logger);
 
                 DataToBeSigned dtbs = new PadesDataToBeSigned(pdf, Path.ChangeExtension(fileName, "pdf"));
 
-                ctx.DataToBeSigned = dtbs;
+                transformationContext.DataToBeSigned = dtbs;
 
-                logger.LogInformation($"Transformed {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF in {sw.ElapsedMilliseconds} ms");
+                logger.LogInformation("Transformed {Name} from {Format} to PDF in {MilliSeconds} ms", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat, sw.ElapsedMilliseconds);
             }
             catch (Exception e)
             {
-                string logMessage = $"Error transforming from {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF: {e.Message}";
-                logger.LogError(logMessage);
-                throw new TransformationException(logMessage, ErrorCode.SDK007, e);
+                logger.LogError(e, "Error transforming from {Name} from {Format} to PDF: {Message}", signersDocument.SignersDocumentFile.Name, signersDocument.DocumentFormat, e.Message);
+                throw new TransformationException($"Error transforming from {signersDocument.SignersDocumentFile.Name} from {signersDocument.DocumentFormat} to PDF: {e.Message}", ErrorCode.SDK007, e);
             }
         }
 

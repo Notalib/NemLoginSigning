@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using iTextSharp.text.pdf;
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
@@ -21,21 +22,19 @@ namespace NemLoginSigningValidation.PDFValidation
 
         public PDFValidator(ILogger logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            ArgumentNullException.ThrowIfNull(logger);
+            _logger = logger;
         }
 
-        public void Validate(TransformationContext ctx)
+        public void Validate(TransformationContext context)
         {
-            if (ctx == null)
-            {
-                throw new ArgumentNullException(nameof(ctx));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
             List<PdfValidationResult> pdfValidationResults = null;
 
-            var pdfSignersDocument = (PdfSignersDocument)ctx.SignersDocument;
+            PdfSignersDocument pdfSignersDocument = context.SignersDocument as PdfSignersDocument;
 
-            var data = pdfSignersDocument.SignersDocumentFile.GetData();
+            byte[] data = pdfSignersDocument.SignersDocumentFile.GetData();
 
             IEnumerable<PdfObject> pdfObjects;
 
@@ -58,8 +57,6 @@ namespace NemLoginSigningValidation.PDFValidation
             pdfValidationResults.AddRange(ValidateFonts(pdfObjects));
 
             // Print validation errors and throw exception
-            string errorStr = string.Empty;
-
             if (pdfValidationResults != null && pdfValidationResults.Any())
             {
                 var resultString = pdfValidationResults.OrderByDescending(p => p.PdfName).Select(t => new
@@ -67,20 +64,17 @@ namespace NemLoginSigningValidation.PDFValidation
                     value = $"{t.PdfName.ToString()} [{t.ObjectNumber}]"
                 });
 
-                errorStr = $"PDF Validation errors: {String.Join(",", resultString.Select(a => a.value))}";
+                string errors = String.Join(", ", resultString.Select(a => a.value));
 
-                _logger.LogInformation(errorStr);
+                _logger.LogInformation("PDF Validation errors: {Errors}", errors);
 
-                throw new ValidationException(errorStr, ErrorCode.SDK010);
+                throw new ValidationException($"PDF Validation errors: {errors}", ErrorCode.SDK010);
             }
         }
 
         public IEnumerable<PdfValidationResult> ValidateAgainstWhiteList(IEnumerable<PdfObject> pdfObjects)
         {
-            if (pdfObjects == null)
-            {
-                throw new ArgumentNullException(nameof(pdfObjects));
-            }
+            ArgumentNullException.ThrowIfNull(pdfObjects);
 
             List<PdfValidationResult> pdfValidationResults = new List<PdfValidationResult>();
 
@@ -98,10 +92,7 @@ namespace NemLoginSigningValidation.PDFValidation
 
         public IEnumerable<PdfValidationResult> ValidateFonts(IEnumerable<PdfObject> pdfObjects)
         {
-            if (pdfObjects == null)
-            {
-                throw new ArgumentNullException(nameof(pdfObjects));
-            }
+            ArgumentNullException.ThrowIfNull(pdfObjects);
 
             PdfFontValidator pdfFontValidator = new PdfFontValidator();
             return pdfFontValidator.ValidateFonts(pdfObjects);

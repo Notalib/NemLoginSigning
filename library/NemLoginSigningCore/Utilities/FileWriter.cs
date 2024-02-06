@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Logging;
 
@@ -32,12 +33,12 @@ namespace NemLoginSigningCore.Utilities
 
                 if (!Directory.Exists(path))
                 {
-                    logger.LogError($"Cannot write file. Directory does not exist {path}");
+                    logger.LogError("Cannot write file. Directory does not exist {Path}", path);
                 }
 
                 int number = new Random().Next(10000);
 
-                string datetime = DateTime.Now.ToLongDateString() + DateTime.Now.ToLongTimeString().Replace(":", "");
+                string datetime = DateTime.Now.ToLongDateString() + DateTime.Now.ToLongTimeString().Replace(":", string.Empty);
                 string fileName = $"{number}_{datetime}_{name}_{Guid.NewGuid()}.{extension}";
 
                 fileNameAndPath = Path.Combine(path, fileName);
@@ -46,7 +47,7 @@ namespace NemLoginSigningCore.Utilities
             }
             catch (Exception e)
             {
-                logger.LogError($"Error writing file {fileNameAndPath}. {e.Message}");
+                logger.LogError(e, "Error writing file {Path}. {Message}", fileNameAndPath, e.Message);
             }
         }
     }

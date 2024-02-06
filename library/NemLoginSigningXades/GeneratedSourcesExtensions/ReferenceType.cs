@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NemLoginSigningXades.GeneratedSources
 {
@@ -8,10 +6,7 @@ namespace NemLoginSigningXades.GeneratedSources
     {
         public ReferenceType WithTransforms(TransformsType transformsType)
         {
-            if (transformsType == null)
-            {
-                throw new ArgumentNullException(nameof(transformsType));
-            }
+            ArgumentNullException.ThrowIfNull(transformsType);
 
             Transforms = transformsType.Transform;
             return this;

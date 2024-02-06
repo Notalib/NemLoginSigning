@@ -10,6 +10,6 @@ namespace NemLoginSigningCore.Logic
     {
         bool CanSign(SignatureFormat signatureFormat);
 
-        void PresignDocument(TransformationContext ctx);
+        void PresignDocument(TransformationContext context);
     }
 }

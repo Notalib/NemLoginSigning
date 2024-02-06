@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Net;
 using System.Text;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Utilities;
@@ -139,7 +139,7 @@ namespace NemLoginSigningCore.Core
                     }
                     catch (Exception)
                     {
-                        logger.LogWarning($"Cannot read lastmodified time of file: {_builderTemplate.Path}");
+                        logger.LogWarning("Cannot read lastmodified time of file: {Path}", _builderTemplate.Path);
                     }
                 }
             }
@@ -157,7 +157,7 @@ namespace NemLoginSigningCore.Core
                     }
                     catch (Exception)
                     {
-                        logger.LogWarning($"Cannot read creation time of file: {_builderTemplate.Path}");
+                        logger.LogWarning("Cannot read creation time of file: {Path}", _builderTemplate.Path);
                     }
                 }
             }

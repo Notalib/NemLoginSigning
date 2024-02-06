@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+
 using NemLoginSignatureValidationService.Model;
 using NemLoginSigningCore.Exceptions;
 using Newtonsoft.Json;
@@ -44,13 +45,13 @@ namespace NemLoginSignatureValidationService.Service
 
                     multipartFormDataContent.Add(byteArrayContent, "file", ctx.DocumentName);
 
-                    var result = await httpClient.PostAsync("api/validate", multipartFormDataContent);
+                    HttpResponseMessage result = await httpClient.PostAsync("api/validate", multipartFormDataContent);
 
                     if (result.IsSuccessStatusCode)
                     {
-                        var content = result.Content;
+                        HttpContent content = result.Content;
 
-                        var json = await result.Content.ReadAsStringAsync();
+                        string json = await result.Content.ReadAsStringAsync();
 
                         validationReport = JsonConvert.DeserializeObject<ValidationReport>(json, new JsonSerializerSettings
                         {

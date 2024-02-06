@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
@@ -11,16 +12,16 @@ namespace NemLoginSigningPades.Logic
 {
     public class TransformationPropertiesHandler
     {
-        public static string KEY_PREFIX = "nemlogin.signing.pdf-generator.";
-        public static string KEY_COLOR_PROFILE = KEY_PREFIX + "color-profile";
-        public static string KEY_FONTS = KEY_PREFIX + "fonts";
-        public static string KEY_FONT_NAME = KEY_PREFIX + "font[x].name";
-        public static string KEY_FONT_PATH = KEY_PREFIX + "font[x].path";
-        public static string KEY_BODY_FONT = KEY_PREFIX + "body-font";
-        public static string KEY_MONOSPACE_FONT = KEY_PREFIX + "monospace-font";
-        public static string KEY_PAGE_SIZE = KEY_PREFIX + "page-size";
-        public static string KEY_PAGE_ORIENTATION = KEY_PREFIX + "page-orientation";
-        public static string KEY_PAGE_MARGIN = KEY_PREFIX + "page-margin";
+        public const string KEY_PREFIX = "nemlogin.signing.pdf-generator.";
+        public const string KEY_COLOR_PROFILE = KEY_PREFIX + "color-profile";
+        public const string KEY_FONTS = KEY_PREFIX + "fonts";
+        public const string KEY_FONT_NAME = KEY_PREFIX + "font[x].name";
+        public const string KEY_FONT_PATH = KEY_PREFIX + "font[x].path";
+        public const string KEY_BODY_FONT = KEY_PREFIX + "body-font";
+        public const string KEY_MONOSPACE_FONT = KEY_PREFIX + "monospace-font";
+        public const string KEY_PAGE_SIZE = KEY_PREFIX + "page-size";
+        public const string KEY_PAGE_ORIENTATION = KEY_PREFIX + "page-orientation";
+        public const string KEY_PAGE_MARGIN = KEY_PREFIX + "page-margin";
 
         private const string DEFAULT_COLOR_PROFILE = "NemLoginSigningPades.Resources.sRGB.icc";
 
@@ -65,10 +66,12 @@ namespace NemLoginSigningPades.Logic
 
         public float GetPageMargin()
         {
-            float outResult;
-            float.TryParse(GetProperty(KEY_PAGE_MARGIN, "1"), out outResult);
+            if (float.TryParse(GetProperty(KEY_PAGE_MARGIN, "1"), out float outResult))
+            {
+                return outResult;
+            }
 
-            return outResult;
+            return default(float);
         }
 
         public void ApplyColorProfile(PdfWriter pdfWriter)

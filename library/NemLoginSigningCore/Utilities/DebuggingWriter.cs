@@ -38,7 +38,7 @@ namespace NemLoginSigningCore.Utilities
 
         private static void DoWrite(string title, string output)
         {
-            Debug.WriteLine("");
+            Debug.WriteLine(string.Empty);
             Debug.WriteLine($"---------{title}---------");
             Debug.WriteLine(title);
             Debug.WriteLine(output);

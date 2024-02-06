@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+
 using HtmlAgilityPack;
 
 namespace NemLoginSigningValidation.HTMLValidation
@@ -45,12 +45,12 @@ namespace NemLoginSigningValidation.HTMLValidation
         {
             string errorText = string.Empty;
 
-            if (content.Contains("@"))
+            if (content.Contains('@'))
             {
                 return "@XXX' CSS instructions are not allowed";
             }
 
-            if (content.Contains("{"))
+            if (content.Contains('{'))
             {
                 content = content.Substring(content.IndexOf("{", StringComparison.OrdinalIgnoreCase));
             }
@@ -61,13 +61,13 @@ namespace NemLoginSigningValidation.HTMLValidation
             {
                 var token = tokens[i];
 
-                if (token.Contains("}"))
+                if (token.Contains('}'))
                 {
                     string end = token.Substring(token.IndexOf("}", StringComparison.OrdinalIgnoreCase));
 
                     token = token.Substring(0, token.IndexOf("}", StringComparison.OrdinalIgnoreCase));
 
-                    if (end.Contains("/") || end.Contains("&#47;"))
+                    if (end.Contains('/') || end.Contains("&#47;"))
                     {
                         errorText = ParseStyle(end, attribute);
                     }
@@ -151,12 +151,12 @@ namespace NemLoginSigningValidation.HTMLValidation
                 return $"{name.ToLowerInvariant()} is not an allowed style property";
             }
 
-            if (value.ToUpperInvariant().Contains("URL"))
+            if (value.Contains("URL", StringComparison.InvariantCultureIgnoreCase))
             {
                 return $"Url's are not allowed in styles - {name.ToLowerInvariant()} is defined using an url";
             }
 
-            if (_disAllowedFunctions.Any(s => attribute.Value.ToUpperInvariant().Contains(s.ToUpperInvariant())))
+            if (_disAllowedFunctions.Any(s => attribute.Value.Contains(s, StringComparison.InvariantCultureIgnoreCase)))
             {
                 return $"Function type are not allowed in styles functions - '{attribute.Value}'";
             }

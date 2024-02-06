@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Xsl;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
@@ -59,20 +60,20 @@ namespace NemLoginSigningPades.Logic.Transformators
                 writer.Formatting = Formatting.Indented;
 
                 XsltArgumentList argList = new XsltArgumentList();
-                argList.AddParam("useMonoSpaceFont", "", plainTextSignersDocument.UseMonoSpaceFont.ToString().ToLower());
+                argList.AddParam("useMonoSpaceFont", string.Empty, plainTextSignersDocument.UseMonoSpaceFont.ToString().ToLower());
 
                 xslt.Transform(document.CreateNavigator(), argList, writer, null);
 
                 string html = stringWriter.ToString();
 
-                logger.LogInformation($"Initially transformed {plainTextSignersDocument.SignersDocumentFile.Name} from TXT to HTML in {sw.ElapsedMilliseconds} ms");
+                logger.LogInformation("Initially transformed {Name} from TXT to HTML in {MilliSeconds} ms", plainTextSignersDocument.SignersDocumentFile.Name, sw.ElapsedMilliseconds);
 
                 return html;
             }
             catch (Exception e)
             {
-                string logMessage = $"Error initially transforming {plainTextSignersDocument.SignersDocumentFile.Name} from TXT to HTML";
-                logger.LogError(logMessage);
+                string logMessage = "Error initially transforming {Name} from TXT to HTML";
+                logger.LogError("Error initially transforming {Name} from TXT to HTML", plainTextSignersDocument.SignersDocumentFile.Name);
                 throw new TransformationException(logMessage, ErrorCode.SDK007, e);
             }
         }

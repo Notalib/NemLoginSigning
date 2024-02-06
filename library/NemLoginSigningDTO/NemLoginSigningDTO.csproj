@@ -7,6 +7,11 @@
     <RepositoryUrl>https://github.com/Notalib/NemLoginSigning/</RepositoryUrl>
     <Company>Nota</Company>
     <Version>1.0</Version>
+    <DocumentationFile>obj\NemLoginSigningDTO.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="nota.bux.codeanalysis" Version="1.99.99" />
+  </ItemGroup>
 
 </Project>

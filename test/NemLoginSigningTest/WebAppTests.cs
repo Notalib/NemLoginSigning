@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +26,7 @@ namespace NemloginSigningTest
         {
             Uri uri = new Uri(_apiUrl + "IsAlive");
 
-            HttpResponseMessage response = await _client.GetAsync(uri).ConfigureAwait(false);
+            HttpResponseMessage response = await _client.GetAsync(uri);
 
             var result = await response.Content.ReadAsStringAsync();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using iTextSharp.text.pdf;
 
 namespace NemLoginSigningValidation.PDFValidation
@@ -52,10 +53,7 @@ namespace NemLoginSigningValidation.PDFValidation
         /// <returns></returns>
         public IEnumerable<PdfFontDescriptor> ScanForFonts(IEnumerable<PdfObject> pdfObjects)
         {
-            if (pdfObjects == null)
-            {
-                throw new ArgumentNullException(nameof(pdfObjects));
-            }
+            ArgumentNullException.ThrowIfNull(pdfObjects);
 
             List<PdfFontDescriptor> fontDescriptors = new List<PdfFontDescriptor>();
 

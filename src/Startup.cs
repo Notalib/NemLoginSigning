@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -12,13 +12,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using Serilog;
 
 using NemLoginSigningService.Services;
 using NemLoginSignatureValidationService.Service;
-using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Configuration;
 
 using NemLoginSigningWebApp.Config;
@@ -50,6 +48,12 @@ namespace NemLoginSigningWebApp
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
+            // Register Serilog as our Microsoft.Extension.Logging provider.
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSerilog(dispose: true);
+            });
+
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
 
             // Configuration dependencies
@@ -64,7 +68,12 @@ namespace NemLoginSigningWebApp
             services.AddTransient<IDocumentSigningService, DocumentSigningService>();
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
-            var nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
+            NemloginConfiguration nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
+
+            X509Certificate2 ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
+                nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
+
+            Log.Information("Loaded OCES Certificate {SubjectName}, has {PrivateKeySize} bit key.", ocesCertificate.Subject, ocesCertificate.GetRSAPrivateKey().KeySize);
 
             // Configure HTTPClients
             services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
@@ -74,10 +83,7 @@ namespace NemLoginSigningWebApp
             }).ConfigurePrimaryHttpMessageHandler(() =>
             {
                 // Requires authenticating with the NemLog-In registered VOCES/FOCES cert as the TLS client certificate
-                HttpClientHandler handler = new ();
-                var ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
-                    nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
-
+                HttpClientHandler handler = new();
                 handler.ClientCertificates.Add(ocesCertificate);
 
                 return handler;
@@ -103,7 +109,7 @@ namespace NemLoginSigningWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -114,10 +120,6 @@ namespace NemLoginSigningWebApp
             }
 
             app.UseSerilogRequestLogging();
-
-            loggerFactory.AddSerilog();
-
-            LoggerCreator.LoggerFactory = loggerFactory;
 
             app.UseRouting();
 

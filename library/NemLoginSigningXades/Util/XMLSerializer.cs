@@ -2,6 +2,7 @@
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+
 using NemLoginSigningXades.GeneratedSources;
 using NemLoginSigningCore.Utilities;
 
@@ -20,7 +21,7 @@ namespace NemLoginSigningXades.Util
 
             // Ads namespaces needed for signing client to validate
             XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
+            namespaces.Add(string.Empty, "http://dk.gov.certifikat/nemlogin/v0.0.1#");
             namespaces.Add("ds", "http://www.w3.org/2000/09/xmldsig#");
 
             xmlWriterSettings.Encoding = new UTF8Encoding();
@@ -49,7 +50,7 @@ namespace NemLoginSigningXades.Util
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
 
             XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
+            namespaces.Add(string.Empty, "http://dk.gov.certifikat/nemlogin/v0.0.1#");
 
             xmlWriterSettings.Encoding = new UTF8Encoding();
 
@@ -72,7 +73,7 @@ namespace NemLoginSigningXades.Util
             XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
 
             XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
+            namespaces.Add(string.Empty, "http://dk.gov.certifikat/nemlogin/v0.0.1#");
 
             xmlWriterSettings.Encoding = new UTF8Encoding();
 

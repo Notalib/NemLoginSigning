@@ -1,4 +1,5 @@
 ﻿using System;
+
 using NemLoginSigningCore.Core;
 
 namespace NemLoginSigningCore.Logic
@@ -17,10 +18,7 @@ namespace NemLoginSigningCore.Logic
 
         public bool CanAttach(Transformation transformation)
         {
-            if (transformation == null)
-            {
-                throw new ArgumentNullException(nameof(transformation));
-            }
+            ArgumentNullException.ThrowIfNull(transformation);
 
             return !(transformation.SdFormat == Format.DocumentFormat.XML && transformation.SignatureFormat == Format.SignatureFormat.PAdES);
         }

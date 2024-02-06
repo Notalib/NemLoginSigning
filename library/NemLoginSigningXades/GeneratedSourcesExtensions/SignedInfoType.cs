@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NemLoginSigningXades.GeneratedSources
+﻿namespace NemLoginSigningXades.GeneratedSources
 {
     public partial class SignedInfoType
     {
-        public SignedInfoType withCanonicalizationMethod(CanonicalizationMethodType canonicalizationMethodType)
+        public SignedInfoType WithCanonicalizationMethod(CanonicalizationMethodType canonicalizationMethodType)
         {
             CanonicalizationMethod = canonicalizationMethodType;
             return this;

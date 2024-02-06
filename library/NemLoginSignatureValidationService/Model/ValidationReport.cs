@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NemLoginSignatureValidationService.Model
+﻿namespace NemLoginSignatureValidationService.Model
 {
     /// <summary>
     /// Contains the validation result and the xml-based ETSI report returned

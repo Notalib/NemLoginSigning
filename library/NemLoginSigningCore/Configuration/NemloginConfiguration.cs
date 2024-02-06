@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NemLoginSigningCore.Configuration
+﻿namespace NemLoginSigningCore.Configuration
 {
     public class NemloginConfiguration
     {

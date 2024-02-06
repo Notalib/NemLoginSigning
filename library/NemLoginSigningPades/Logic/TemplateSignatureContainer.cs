@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.security;
 using NemLoginSigningCore.Core;
@@ -14,11 +15,8 @@ namespace NemLoginSigningPades.Logic
     /// </summary>
     public class TemplateSignatureContainer : IExternalSignatureContainer
     {
-        private const string KEY_RESET_SIGNATURE_CONTENT = "nemlogin.signing.pades.reset-signature-content";
         private const string SIGNING_ALGORITHM = DigestAlgorithms.SHA256;
         private const string ENCRYPTION_ALGORITHM = "RSA";
-
-        private static readonly byte[] EMPTY_BYTE_ARRAY = new byte[0];
 
         private readonly PrivateKeySignature _privateKeySignature;
         private readonly ICollection<Org.BouncyCastle.X509.X509Certificate> _certificateChain;

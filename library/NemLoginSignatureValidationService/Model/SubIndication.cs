@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NemLoginSignatureValidationService.Model
+﻿namespace NemLoginSignatureValidationService.Model
 {
     /// <summary>
     ///  An sub-indication of the validation result.

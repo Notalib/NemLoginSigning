@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+
 using NemLoginSigningXades.GeneratedSources;
 using NemLoginSigningXades.Util;
 using NemLoginSigningCore.Core;
@@ -26,28 +27,25 @@ namespace NemLoginSigningXades.Logic
             return signatureFormat == SignatureFormat.XAdES;
         }
 
-        public void PresignDocument(TransformationContext ctx)
+        public void PresignDocument(TransformationContext context)
         {
-            if (ctx == null)
-            {
-                throw new ArgumentNullException(nameof(ctx));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
             // Add initial XML Signature
-            SignedDocumentType signedDocumentType = XMLSerializer.Deserialize<SignedDocumentType>(ctx.DataToBeSigned.GetData());
+            SignedDocumentType signedDocumentType = XMLSerializer.Deserialize<SignedDocumentType>(context.DataToBeSigned.GetData());
 
             signedDocumentType.Signature = CreateSignature(signedDocumentType);
 
             XMLSerializer.Serialize(signedDocumentType);
 
             // Update Dtbs XML Document
-            ctx.DataToBeSigned = new XadesDataToBeSigned(XMLSerializer.Serialize(signedDocumentType), ctx.DataToBeSigned.FileName);
+            context.DataToBeSigned = new XadesDataToBeSigned(XMLSerializer.Serialize(signedDocumentType), context.DataToBeSigned.FileName);
 
             // Update the signature parameters with the SignedInfo element
             string signatureEncoded = Convert.ToBase64String(XMLSerializer.Serialize(signedDocumentType.Signature));
 
             Debug.WriteLine($"SignedInfo Signature Encoded: {signatureEncoded}");
-            ctx.UpdateDtbsSignedInfo(signatureEncoded);
+            context.UpdateDtbsSignedInfo(signatureEncoded);
         }
 
         private SignatureType CreateSignature(SignedDocumentType signedDocumentType)
@@ -75,7 +73,7 @@ namespace NemLoginSigningXades.Logic
             SignatureType signatureType = new SignatureType();
             signatureType.WithId(signatureId)
                 .WithSignedInfo(new SignedInfoType()
-                .withCanonicalizationMethod(new CanonicalizationMethodType { Algorithm = ALGORITHM_CANONICALIZATION })
+                .WithCanonicalizationMethod(new CanonicalizationMethodType { Algorithm = ALGORITHM_CANONICALIZATION })
                 .WithSignatureMethod(new SignatureMethodType { Algorithm = ALGORITHM_SIGNATURE })
                 .WithReference(CreateSignTextReference(signatureId, signedDocumentType.SignText.id, digestValue)));
 

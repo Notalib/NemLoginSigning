@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Xml.Serialization;
+
 using NemLoginSigningCore.Core;
 
 namespace NemLoginSigningXades.GeneratedSources
@@ -73,10 +73,7 @@ namespace NemLoginSigningXades.GeneratedSources
 
         public SignTextType WithProperties(SignProperties signProperties)
         {
-            if (signProperties == null)
-            {
-                throw new ArgumentNullException(nameof(signProperties));
-            }
+            ArgumentNullException.ThrowIfNull(signProperties);
 
             if (!signProperties.Any())
             {

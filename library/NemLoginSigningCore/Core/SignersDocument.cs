@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 using NemLoginSigningCore.Format;
 
 namespace NemLoginSigningCore.Core
@@ -8,7 +9,7 @@ namespace NemLoginSigningCore.Core
     /// </summary>
     public abstract class SignersDocument
     {
-        public SignersDocument()
+        protected SignersDocument()
         {
         }
 
@@ -18,7 +19,7 @@ namespace NemLoginSigningCore.Core
 
         public SignProperties SignProperties { get; private set; }
 
-        public SignersDocument(DocumentFormat signersDocumentFormat, SignersDocumentFile signersDocumentFile, SignProperties signProperties)
+        protected SignersDocument(DocumentFormat signersDocumentFormat, SignersDocumentFile signersDocumentFile, SignProperties signProperties)
         {
             DocumentFormat = signersDocumentFormat;
             SignersDocumentFile = signersDocumentFile;

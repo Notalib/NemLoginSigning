@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.security;
@@ -29,7 +30,7 @@ namespace NemLoginSigningPades.Logic
         public const int SIGNATURE_SIZE = 16384;
         public const string SIGNATURE_TYPE = "Sig";
         public const string SIGNATURE_NAME = "NemLog-In Signing SDK";
-        private const int NO_CHANGE_PERMITTED = 1;
+        public const int NO_CHANGE_PERMITTED = 1;
 
         public static readonly PdfName SIGNATURE_DEFAULT_FILTER = PdfName.ADOBE_PPKLITE;
         public static readonly PdfName SIGNATURE_DEFAULT_SUBFILTER = PdfName.ETSI_CADES_DETACHED;
@@ -39,20 +40,20 @@ namespace NemLoginSigningPades.Logic
             return signatureFormat == SignatureFormat.PAdES;
         }
 
-        public void PresignDocument(TransformationContext ctx)
+        public void PresignDocument(TransformationContext context)
         {
-            var data = ctx.DataToBeSigned.GetData();
+            byte[] data = context.DataToBeSigned.GetData();
 
             CheckForExistingSignatures(data);
 
-            var preSignResult = PreSignDocumentAndReturnDigest(ctx, ctx.DataToBeSigned.GetData());
+            PresignResult preSignResult = PreSignDocumentAndReturnDigest(context, context.DataToBeSigned.GetData());
 
             // Update the DTBS PDF document
-            ctx.DataToBeSigned = new PadesDataToBeSigned(preSignResult.SignedResult, ctx.DataToBeSigned.FileName);
+            context.DataToBeSigned = new PadesDataToBeSigned(preSignResult.SignedResult, context.DataToBeSigned.FileName);
 
             // Update the signature parameters with the CMS SignerInfo element
             string signerInfo = Convert.ToBase64String(preSignResult.Signature);
-            ctx.UpdateDtbsSignedInfo(signerInfo);
+            context.UpdateDtbsSignedInfo(signerInfo);
         }
 
         /// <summary>
@@ -62,11 +63,11 @@ namespace NemLoginSigningPades.Logic
         /// <param name="pdfDocument"></param>
         private void CheckForExistingSignatures(byte[] pdfDocument)
         {
-            var logger = LoggerCreator.CreateLogger<PdfSignatureStamper>();
+            ILogger logger = LoggerCreator.CreateLogger<PdfSignatureStamper>();
 
             try
             {
-                PdfReader reader = new PdfReader(pdfDocument);
+                PdfReader reader = new(pdfDocument);
                 AcroFields acroFields = reader.AcroFields;
 
                 IEnumerable<String> signatureNames = acroFields.GetSignatureNames().Cast<string>().ToList();
@@ -78,8 +79,8 @@ namespace NemLoginSigningPades.Logic
             }
             catch (Exception e)
             {
-                logger.LogError($"Error extracting DTBS PDF Signature Dictionaries. {e.Message}");
-                throw new TransformationException("Error extracting DTBS PDF Signature Dictionaries", ErrorCode.SDK005);
+                logger.LogError(e, "Error extracting DTBS PDF Signature Dictionaries. {Message}", e.Message);
+                throw new TransformationException("Error extracting DTBS PDF Signature Dictionaries", ErrorCode.SDK005, e);
             }
         }
 
@@ -107,16 +108,16 @@ namespace NemLoginSigningPades.Logic
 
         private TemplateSignatureContainer CreateTemplateSignatureContainer(TransformationContext ctx, SignatureKeys signatureKeys)
         {
-            var certificateCollection = new Collection<Org.BouncyCastle.X509.X509Certificate> { DotNetUtilities.FromX509Certificate(signatureKeys.X509Certificate2) };
+            Collection<Org.BouncyCastle.X509.X509Certificate> certificateCollection = [DotNetUtilities.FromX509Certificate(signatureKeys.X509Certificate2)];
 
-            var privateKey = DotNetUtilities.GetKeyPair(signatureKeys.PrivateKey).Private;
+            Org.BouncyCastle.Crypto.AsymmetricKeyParameter privateKey = DotNetUtilities.GetKeyPair(signatureKeys.PrivateKey).Private;
 
             return new TemplateSignatureContainer(ctx, privateKey, certificateCollection);
         }
 
         private PdfSignatureAppearance CreateSignatureAppearance(PdfStamper pdfStamper)
         {
-            var signatureAppearance = pdfStamper.SignatureAppearance;
+            PdfSignatureAppearance signatureAppearance = pdfStamper.SignatureAppearance;
             signatureAppearance.SignDate = DateTime.Now;
             signatureAppearance.SetVisibleSignature(new Rectangle(0, 0, 0, 0), 1, SIGNATURE_NAME);
             signatureAppearance.CryptoDictionary = CreatePdfDictionary();

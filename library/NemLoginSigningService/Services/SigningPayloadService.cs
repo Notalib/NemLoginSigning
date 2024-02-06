@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
@@ -37,10 +38,7 @@ namespace NemLoginSigningService.Services
         /// <returns>SigningPayload</returns>
         public SigningPayload ProduceSigningPayload(TransformationContext ctx)
         {
-            if (ctx == null)
-            {
-                throw new ArgumentNullException(nameof(ctx));
-            }
+            ArgumentNullException.ThrowIfNull(ctx);
 
             _logger.LogInformation("SignSdk - SigningPayloadService - ProduceSigningPayload");
 

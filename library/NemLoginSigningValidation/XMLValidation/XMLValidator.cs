@@ -1,11 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+
 using Microsoft.Extensions.Logging;
 using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Exceptions;
 using NemLoginSigningCore.Logging;
 using NemLoginSigningCore.Logic;
+
 using static NemLoginSigningCore.Core.SignersDocumentFile;
 
 namespace NemLoginSigningValidation.XMLValidation
@@ -23,27 +25,24 @@ namespace NemLoginSigningValidation.XMLValidation
         private const string XSL_IMPORT = "import";
         private const string XSL_INCLUDE = "include";
 
-        public void Validate(TransformationContext ctx)
+        public void Validate(TransformationContext context)
         {
             var logger = LoggerCreator.CreateLogger<XMLValidator>();
 
-            if (ctx == null)
-            {
-                throw new ArgumentException(nameof(ctx));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
             logger.LogInformation("XMLValidator Validating XML/XSL");
 
-            CheckWellFormedXML(ctx);
-            CheckWellFormedXSL(ctx);
-            CheckXSL(ctx);
-            CheckHTML(ctx);
+            CheckWellFormedXML(context);
+            CheckWellFormedXSL(context);
+            CheckXSL(context);
+            CheckHTML(context);
         }
 
-        private void CheckHTML(TransformationContext ctx)
+        private void CheckHTML(TransformationContext context)
         {
-            var xml = ((XmlSignersDocument)ctx.SignersDocument).SignersDocumentFile.GetDataAsString();
-            var xslt = ((XmlSignersDocument)ctx.SignersDocument).XsltAsText();
+            var xml = ((XmlSignersDocument)context.SignersDocument).SignersDocumentFile.GetDataAsString();
+            var xslt = ((XmlSignersDocument)context.SignersDocument).XsltAsText();
 
             try
             {
@@ -52,12 +51,12 @@ namespace NemLoginSigningValidation.XMLValidation
                 byte[] ar = System.Text.Encoding.UTF8.GetBytes(xHtml);
 
                 SignersDocumentFile htmlResult = new SignersDocumentFileBuilder()
-                                                    .WithName(Path.ChangeExtension(ctx.SignersDocument.SignersDocumentFile.Name, "html"))
+                                                    .WithName(Path.ChangeExtension(context.SignersDocument.SignersDocumentFile.Name, "html"))
                                                     .WithData(ar)
                                                     .Build();
 
                 IValidator htmlValidator = new HTMLValidator();
-                htmlValidator.Validate(new TransformationContext(new HtmlSignersDocument(htmlResult), null, ctx.SignatureParameters, null));
+                htmlValidator.Validate(new TransformationContext(new HtmlSignersDocument(htmlResult), null, context.SignatureParameters, null));
             }
             catch (Exception)
             {
@@ -65,13 +64,13 @@ namespace NemLoginSigningValidation.XMLValidation
             }
         }
 
-        private void CheckWellFormedXML(TransformationContext ctx)
+        private void CheckWellFormedXML(TransformationContext context)
         {
             try
             {
                 XmlReaderSettings xmlReaderSettings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit };
 
-                using (MemoryStream memoryStream = new MemoryStream(ctx.SignersDocument.SignersDocumentFile.GetData()))
+                using (MemoryStream memoryStream = new MemoryStream(context.SignersDocument.SignersDocumentFile.GetData()))
                 using (XmlReader xmlReader = XmlReader.Create(memoryStream, xmlReaderSettings))
                 {
                     XmlDocument doc = new XmlDocument();
@@ -88,16 +87,13 @@ namespace NemLoginSigningValidation.XMLValidation
             }
         }
 
-        private void CheckWellFormedXSL(TransformationContext ctx)
+        private void CheckWellFormedXSL(TransformationContext context)
         {
             try
             {
-                var xmlSignersDocument = ctx.SignersDocument as XmlSignersDocument;
+                XmlSignersDocument xmlSignersDocument = context.SignersDocument as XmlSignersDocument;
 
-                if (xmlSignersDocument == null)
-                {
-                    throw new NullReferenceException($"nameof(xmlSignersDocument) is null");
-                }
+                ArgumentNullException.ThrowIfNull(context.SignersDocument);
 
                 using (MemoryStream memoryStream = new MemoryStream(xmlSignersDocument.XsltFile.GetData()))
                 using (XmlReader xmlReader = XmlReader.Create(memoryStream, new XmlReaderSettings()))
@@ -163,10 +159,7 @@ namespace NemLoginSigningValidation.XMLValidation
 
         public void ValidateIsVersion30(XmlDocument document)
         {
-            if (document == null)
-            {
-                throw new ArgumentNullException(nameof(document));
-            }
+            ArgumentNullException.ThrowIfNull(document);
 
             bool version = false;
             bool scheme = false;

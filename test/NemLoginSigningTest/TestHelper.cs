@@ -1,8 +1,7 @@
 ﻿using System.IO;
-using System.Text;
+
 using Microsoft.Extensions.Configuration;
 using NemLoginSigningCore.Configuration;
-using NemLoginSigningCore.Utilities;
 
 namespace NemloginSigningTest
 {

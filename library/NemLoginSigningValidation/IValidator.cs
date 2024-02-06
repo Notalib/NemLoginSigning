@@ -7,6 +7,6 @@ namespace NemLoginSigningValidation
     /// </summary>
     public interface IValidator
     {
-        void Validate(TransformationContext ctx);
+        void Validate(TransformationContext context);
     }
 }

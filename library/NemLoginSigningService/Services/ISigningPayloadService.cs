@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using NemLoginSigningCore.Core;
+﻿using NemLoginSigningCore.Core;
 using NemLoginSigningDTO.Signing;
 
 namespace NemLoginSigningService.Services
@@ -11,8 +9,8 @@ namespace NemLoginSigningService.Services
     /// </summary>
     public interface ISigningPayloadService
     {
-        SigningPayload ProduceSigningPayload(TransformationContext ctx);
+        SigningPayload ProduceSigningPayload(TransformationContext context);
 
-        SigningPayloadDTO ProduceSigningPayloadDTO(TransformationContext ctx);
+        SigningPayloadDTO ProduceSigningPayloadDTO(TransformationContext context);
     }
 }

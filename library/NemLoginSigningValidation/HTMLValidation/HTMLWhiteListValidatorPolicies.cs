@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using HtmlAgilityPack;
 
 namespace NemLoginSigningValidation.HTMLValidation
@@ -22,61 +23,45 @@ namespace NemLoginSigningValidation.HTMLValidation
 
         public HTMLWhiteListValidatorPolicies()
         {
-            _whiteListAttributesOnTypes = new List<HTMLWhiteListValidatorPolicy>();
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "xmlns" },
-                                                                            onElements: new[] { "html" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "charset", "http-equiv", "name", "content" },
-                                                                            onElements: new[] { "meta" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "text", "bgcolor", "class", "style" },
-                                                                            onElements: new[] { "body" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "type" },
-                                                                            onElements: new[] { "style" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(allowTextIn: new[] { "style" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "align", "bgcolor", "style", "class" },
-                                                                            onElements: new[] { "p", "div", "span" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "style", "class" },
-                                                                            onElements: new[] { "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "start", "type", "style", "class" },
-                                                                            onElements: new[] { "ol" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "border", "cellspacing", "cellpadding", "width", "align", "style" },
-                                                                            onElements: new[] { "table" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "class", "style" },
-                                                                            onElements: new[] { "tr" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
-                                                                            onElements: new[] { "th" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
-                                                                            onElements: new[] { "td" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
-                                                                onElements: new[] { "td" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "name" },
-                                                                onElements: new[] { "a" }));
-
-            _whiteListAttributesOnTypes.Add(new HTMLWhiteListValidatorPolicy(attributes: new[] { "href" },
-                                                                onElements: new[] { "a" }, documentLinksOnly: true));
+            _whiteListAttributesOnTypes = new List<HTMLWhiteListValidatorPolicy>
+            {
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "xmlns" },
+                                                                            onElements: new[] { "html" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "charset", "http-equiv", "name", "content" },
+                                                                            onElements: new[] { "meta" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "text", "bgcolor", "class", "style" },
+                                                                            onElements: new[] { "body" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "type" },
+                                                                            onElements: new[] { "style" }),
+                new HTMLWhiteListValidatorPolicy(allowTextIn: new[] { "style" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "align", "bgcolor", "style", "class" },
+                                                                            onElements: new[] { "p", "div", "span" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "style", "class" },
+                                                                            onElements: new[] { "ul", "li", "h1", "h2", "h3", "h4", "h5", "h6" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "start", "type", "style", "class" },
+                                                                            onElements: new[] { "ol" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "border", "cellspacing", "cellpadding", "width", "align", "style" },
+                                                                            onElements: new[] { "table" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "class", "style" },
+                                                                            onElements: new[] { "tr" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
+                                                                            onElements: new[] { "th" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
+                                                                            onElements: new[] { "td" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "bgcolor", "rowspan", "colspan", "align", "valign", "width", "class", "style" },
+                                                                onElements: new[] { "td" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "name" },
+                                                                onElements: new[] { "a" }),
+                new HTMLWhiteListValidatorPolicy(attributes: new[] { "href" },
+                                                                onElements: new[] { "a" }, documentLinksOnly: true)
+            };
         }
 
         public IEnumerable<string> Validate(HtmlNode node)
         {
             List<string> errors = new List<string>();
 
-            if (node == null)
-            {
-                throw new ArgumentNullException(nameof(node));
-            }
+            ArgumentNullException.ThrowIfNull(node);
 
             // Check against whitelist
             if (!_whiteListElements.Contains(node.Name))
@@ -122,21 +107,21 @@ namespace NemLoginSigningValidation.HTMLValidation
 
         private bool AttributeExistOnlyOnceValidation(HtmlAttributeCollection attributes, string name)
         {
-            var attributesGrouped = attributes.GroupBy(w => w.Name).Where(c => c.Count() > 1);
-            return attributesGrouped.Where(w => w.Key.ToUpperInvariant() == name.ToUpperInvariant()).Any();
+            IEnumerable<IGrouping<string, HtmlAttribute>> attributesGrouped = attributes.GroupBy(w => w.Name).Where(c => c.Count() > 1);
+            return attributesGrouped.Where(w => w.Key.Equals(name, StringComparison.InvariantCultureIgnoreCase)).Any();
         }
 
         private bool AttributeAllowedOnElement(string tagName, string attributeName, string value)
         {
-            var withElementsAndAttributes = _whiteListAttributesOnTypes.Where(w => w.OnElements != null && w.OnElements.Any() && w.AllowedAttributes != null && w.AllowedAttributes.Any()).ToList();
-            var matchingWhiteList = withElementsAndAttributes.Where(w => w.OnElements.Contains(tagName) && w.AllowedAttributes.Contains(attributeName));
+            List<HTMLWhiteListValidatorPolicy> withElementsAndAttributes = _whiteListAttributesOnTypes.Where(w => w.OnElements != null && w.OnElements.Any() && w.AllowedAttributes != null && w.AllowedAttributes.Any()).ToList();
+            IEnumerable<HTMLWhiteListValidatorPolicy> matchingWhiteList = withElementsAndAttributes.Where(w => w.OnElements.Contains(tagName) && w.AllowedAttributes.Contains(attributeName));
 
             if (!matchingWhiteList.Any())
             {
                 return false;
             }
 
-            var anyMatch = matchingWhiteList.FirstOrDefault();
+            HTMLWhiteListValidatorPolicy anyMatch = matchingWhiteList.FirstOrDefault();
 
             if (anyMatch != null)
             {
@@ -154,7 +139,7 @@ namespace NemLoginSigningValidation.HTMLValidation
 
         private bool IsElementWhiteListed(string tagName)
         {
-            return _whiteListElements.Any(c => c.ToUpperInvariant().Contains(tagName.ToUpperInvariant()));
+            return _whiteListElements.Any(c => c.Contains(tagName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         private IEnumerable<HTMLWhiteListValidatorPolicy> ElementsToCheck(HtmlNode node)
