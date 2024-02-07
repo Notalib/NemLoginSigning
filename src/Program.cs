@@ -7,6 +7,10 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
 using Serilog.Exceptions.Core;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+
+using NemLoginSigningCore.Logging;
 
 namespace NemLoginSigningWebApp
 {
@@ -44,6 +48,8 @@ namespace NemLoginSigningWebApp
 
                 // Build Web application, configure it, and finally run it.
                 WebApplication app = builder.Build();
+                LoggerCreator.LoggerFactory = app.Services.GetRequiredService<ILoggerFactory>();
+
                 startup.Configure(app, app.Environment);
                 app.Run();
             }
