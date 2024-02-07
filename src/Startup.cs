@@ -48,12 +48,6 @@ namespace NemLoginSigningWebApp
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            // Register Serilog as our Microsoft.Extension.Logging provider.
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddSerilog(dispose: true);
-            });
-
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
 
             // Configuration dependencies
