@@ -34,45 +34,45 @@ namespace NemLoginSigningService.Services
         /// The SigningPayload.SignatureParameters property is suitable for passing on to the
         /// 'begin-sign-flow' Signing API endpoint.
         /// </summary>
-        /// <param name="ctx"></param>
+        /// <param name="context"></param>
         /// <returns>SigningPayload</returns>
-        public SigningPayload ProduceSigningPayload(TransformationContext ctx)
+        public SigningPayload ProduceSigningPayload(TransformationContext context)
         {
-            ArgumentNullException.ThrowIfNull(ctx);
+            ArgumentNullException.ThrowIfNull(context);
 
             _logger.LogInformation("SignSdk - SigningPayloadService - ProduceSigningPayload");
 
             // Validate SD
             _logger.LogInformation("SignSdk - SigningPayloadService - Validate SD");
-            ValidatorFactory.Create(ctx.SignersDocument.DocumentFormat).Validate(ctx);
+            ValidatorFactory.Create(context.SignersDocument.DocumentFormat).Validate(context);
 
             // Transform SD to DTBS
             _logger.LogInformation("SignSdk - SigningPayloadService - Transform");
-            TransformatorFactory.Create(ctx.GetTransformation()).Transform(ctx, _logger);
+            TransformatorFactory.Create(context.GetTransformation()).Transform(context, _logger);
 
             // Attach source documents to DTBS
             _logger.LogInformation("SignSdk - SigningPayloadService - Attach");
-            AttacherFactory.Create(ctx.GetTransformation()).Attach(ctx);
+            AttacherFactory.Create(context.GetTransformation()).Attach(context);
 
             // Pre-sign DTBS
             _logger.LogInformation("SignSdk - SigningPayloadService - PreSign");
-            SignatureStamperFactory.Create(ctx.DataToBeSigned.Format).PresignDocument(ctx);
+            SignatureStamperFactory.Create(context.DataToBeSigned.Format).PresignDocument(context);
 
             // Compute Digest for DTBS - only used for SP flow
             _logger.LogInformation("SignSdk - SigningPayloadService - Update DTBS");
-            UpdateDtbsDigest(ctx);
+            UpdateDtbsDigest(context);
 
             // Validate the signature parameters
             _logger.LogInformation("SignSdk - SigningPayloadService - Validate Signature Parameters");
-            ctx.SignatureParameters.Validate();
+            context.SignatureParameters.Validate();
 
             // Sign the signature parameters
             _logger.LogInformation("SignSdk - SigningPayloadService - Sign");
-            string signedSignatureParameters = SignatureParameterSignerFactory.Create().Sign(ctx.SignatureParameters, ctx.SignatureKeys);
+            string signedSignatureParameters = SignatureParameterSignerFactory.Create().Sign(context.SignatureParameters, context.SignatureKeys);
 
             // Return as SigningPayload
             _logger.LogInformation("SignSdk - SigningPayloadService - Create New Signing Payload");
-            SigningPayload signingPayload = new SigningPayload(signedSignatureParameters, ctx.DataToBeSigned);
+            SigningPayload signingPayload = new SigningPayload(signedSignatureParameters, context.DataToBeSigned);
 
             _logger.LogInformation("SignSdk - SigningPayloadService - ProduceSigningPayload Done");
 
@@ -85,11 +85,11 @@ namespace NemLoginSigningService.Services
         /// Service Providers should call this method to produce a signing payload suitable for passing on
         /// to the Signing Client as a JSON object.
         /// </summary>
-        /// <param name="ctx"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        public SigningPayloadDTO ProduceSigningPayloadDTO(TransformationContext ctx)
+        public SigningPayloadDTO ProduceSigningPayloadDTO(TransformationContext context)
         {
-            SigningPayload signingPayload = ProduceSigningPayload(ctx);
+            SigningPayload signingPayload = ProduceSigningPayload(context);
 
             return new SigningPayloadDTO
             {

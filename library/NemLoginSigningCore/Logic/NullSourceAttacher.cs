@@ -10,8 +10,8 @@ namespace NemLoginSigningCore.Logic
         /// Only PDF files need to have source files attached so this is a NullSourceAttacher
         /// created for other scenarios.
         /// </summary>
-        /// <param name="ctx"></param>
-        public void Attach(TransformationContext ctx)
+        /// <param name="context"></param>
+        public void Attach(TransformationContext context)
         {
             // Do not attach anything for this transformation
         }

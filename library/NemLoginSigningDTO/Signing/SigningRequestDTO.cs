@@ -31,6 +31,5 @@
         /// Output format of signed document
         /// </summary>
         public string SignatureFormat { get; set; } = "XAdES";
-
     }
 }

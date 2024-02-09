@@ -26,7 +26,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Nota.Bux.CodeAnalysis" Version="1.99.99" />
+    <PackageReference Include="Nota.Bux.CodeAnalysis" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
     <PackageReference Include="Serilog" Version="3.1.1" />
