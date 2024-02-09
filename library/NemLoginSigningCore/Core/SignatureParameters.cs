@@ -24,8 +24,8 @@ namespace NemLoginSigningCore.Core
 
         public SignatureParameters(SignatureParameters signatureParameters)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<SignatureParameters, SignatureParameters>());
-            var mapper = new Mapper(config);
+            MapperConfiguration config = new MapperConfiguration(cfg => cfg.CreateMap<SignatureParameters, SignatureParameters>());
+            Mapper mapper = new Mapper(config);
             mapper.Map(signatureParameters, this);
         }
 

@@ -57,7 +57,7 @@ namespace NemLoginSigningXades.Logic
 
             try
             {
-                var serializedXML = XMLSerializer.Serialize(signedDocumentType);
+                byte[] serializedXML = XMLSerializer.Serialize(signedDocumentType);
                 transformationContext.DataToBeSigned = new XadesDataToBeSigned(serializedXML, transformationContext.SignersDocument.SignersDocumentFile.Name);
             }
             catch (Exception e)

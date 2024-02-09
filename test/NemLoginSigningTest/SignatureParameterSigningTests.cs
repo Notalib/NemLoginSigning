@@ -36,22 +36,22 @@ namespace NemloginSigningTest
             string signedParameters = SignatureParameterSignerFactory.Create().Sign(signatureParameters, SignatureKeys);
 
             // Assert
-            var headers = Jose.JWT.Headers(signedParameters);
-            var payload = Jose.JWT.Payload(signedParameters, true);
+            IDictionary<string, object> headers = Jose.JWT.Headers(signedParameters);
+            string payload = Jose.JWT.Payload(signedParameters, true);
 
             // Validate correct algorithm
             Assert.Equal("PS256", headers["alg"]);
 
             // Validate correct certificate in the header
             Assert.NotNull(headers["x5c"]);
-            var certificate = Convert.FromBase64String(((Newtonsoft.Json.Linq.JArray)headers["x5c"]).ToObject<List<string>>().First());
+            byte[] certificate = Convert.FromBase64String(((Newtonsoft.Json.Linq.JArray)headers["x5c"]).ToObject<List<string>>().First());
 
             using (X509Certificate2 x509Certificate2 = new X509Certificate2(certificate))
             {
                 Assert.Equal(SignatureKeys.X509Certificate2, x509Certificate2);
 
                 // Verify the signature - if signature is not valid Decode will throw exception
-                var exception = Record.Exception(() => { Jose.JWT.Decode(signedParameters, x509Certificate2.GetRSAPublicKey(), Jose.JwsAlgorithm.PS256); });
+                Exception exception = Record.Exception(() => { Jose.JWT.Decode(signedParameters, x509Certificate2.GetRSAPublicKey(), Jose.JwsAlgorithm.PS256); });
                 Assert.Null(exception);
             }
         }

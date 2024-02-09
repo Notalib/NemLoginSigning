@@ -51,7 +51,7 @@ namespace NemLoginSigningWebApp
             services.AddScoped<ICorrelationIdAccessor, CorrelationIdAccessor>();
 
             // Configuration dependencies
-            var configurationSection = Configuration.GetSection("NemloginConfiguration");
+            IConfigurationSection configurationSection = Configuration.GetSection("NemloginConfiguration");
             services.Configure<NemloginConfiguration>(configurationSection);
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -85,7 +85,7 @@ namespace NemLoginSigningWebApp
 
             services.AddTransient<ISigningValidationService, SigningValidationService>();
 
-            var cors = Configuration.GetSection("CORS").Get<CorsConfig>();
+            CorsConfig cors = Configuration.GetSection("CORS").Get<CorsConfig>();
 
             if (cors?.AllowedOrigins is not null && cors.AllowedOrigins.Any())
             {

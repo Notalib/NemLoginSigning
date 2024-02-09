@@ -35,10 +35,10 @@ namespace NemLoginSigningValidation.PDFValidation
         {
             List<PdfValidationResult> pdfValidationResults = new List<PdfValidationResult>();
 
-            var scanResult = ScanForFonts(pdfObjects);
-            var validationResult = scanResult.Where(f => !f.Embedded && !IsStandardFont(f.FontName.DecodeName()));
+            IEnumerable<PdfFontDescriptor> scanResult = ScanForFonts(pdfObjects);
+            IEnumerable<PdfFontDescriptor> validationResult = scanResult.Where(f => !f.Embedded && !IsStandardFont(f.FontName.DecodeName()));
 
-            foreach (var item in validationResult)
+            foreach (PdfFontDescriptor item in validationResult)
             {
                 pdfValidationResults.Add(new PdfValidationResult(item.PdfObject, item.FontName, item.ObjectNumber));
             }
@@ -59,14 +59,14 @@ namespace NemLoginSigningValidation.PDFValidation
 
             int i = 0;
 
-            foreach (var pdfObject in pdfObjects)
+            foreach (PdfObject pdfObject in pdfObjects)
             {
                 if (pdfObject != null)
                 {
                     if (pdfObject.IsDictionary())
                     {
                         PdfDictionary pdfDictionary = (PdfDictionary)pdfObject;
-                        var type = pdfDictionary.Get(PdfName.TYPE);
+                        PdfObject type = pdfDictionary.Get(PdfName.TYPE);
 
                         if (type != null && type.IsName())
                         {

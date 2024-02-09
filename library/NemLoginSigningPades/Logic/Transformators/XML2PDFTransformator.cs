@@ -32,7 +32,7 @@ namespace NemLoginSigningPades.Logic.Transformators
                 string xml = signersDocument.DataAsText();
                 string xslt = signersDocument.XsltAsText();
 
-                var result = new XML2HTMLTransformLogic().Transform(xml, xslt);
+                string result = new XML2HTMLTransformLogic().Transform(xml, xslt);
 
                 logger.LogInformation("Initially transformed {Name} from XML to HTML in {MilliSeconds} ms", signersDocument.SignersDocumentFile.Name, sw.ElapsedMilliseconds);
 

@@ -68,7 +68,7 @@ public class SigningAPIController : ControllerBase
         Language language = Enum.TryParse(request.Language, out Language lang) ? lang : Language.da;
         SignatureFormat format = Enum.TryParse(request.SignatureFormat, out SignatureFormat fmt) ? fmt : SignatureFormat.XAdES;
 
-        var paramBuilder = new SignatureParameters.SignatureParametersBuilder()
+        SignatureParameters.SignatureParametersBuilder paramBuilder = new SignatureParameters.SignatureParametersBuilder()
             .WithFlowType(FlowType.ServiceProvider)
             .WithPreferredLanguage(language)
             .WithReferenceText(request.ReferenceText)

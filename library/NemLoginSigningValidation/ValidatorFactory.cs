@@ -15,7 +15,7 @@ namespace NemLoginSigningValidation
     {
         public static IValidator Create(DocumentFormat format)
         {
-            var logger = LoggerCreator.CreateLogger(nameof(ValidatorFactory));
+            Microsoft.Extensions.Logging.ILogger logger = LoggerCreator.CreateLogger(nameof(ValidatorFactory));
 
             switch (format)
             {

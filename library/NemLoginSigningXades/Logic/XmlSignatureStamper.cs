@@ -50,20 +50,20 @@ namespace NemLoginSigningXades.Logic
 
         private SignatureType CreateSignature(SignedDocumentType signedDocumentType)
         {
-            var serializedSignText = XMLSerializer.Serialize(signedDocumentType.SignText);
+            byte[] serializedSignText = XMLSerializer.Serialize(signedDocumentType.SignText);
 
             Byte[] digestValueBeforeCanonicalize = CryptographyLogic.ComputeSha256Hash(serializedSignText);
 
-            var beforeCanonicalise = Convert.ToBase64String(digestValueBeforeCanonicalize);
+            string beforeCanonicalise = Convert.ToBase64String(digestValueBeforeCanonicalize);
             Debug.WriteLine($"Digest Before Canonicalized: {beforeCanonicalise}");
 
             // Canonicalize
-            var canonicalizedResult = CryptographyLogic.Canonicalize(serializedSignText);
+            byte[] canonicalizedResult = CryptographyLogic.Canonicalize(serializedSignText);
 
             // Digest Sha256
             Byte[] digestValue = CryptographyLogic.ComputeSha256Hash(canonicalizedResult);
 
-            var afterCanonicalise = Convert.ToBase64String(digestValue);
+            string afterCanonicalise = Convert.ToBase64String(digestValue);
             Debug.WriteLine($"Digest After Canonicalized: {afterCanonicalise}");
 
             signedDocumentType.SignText = XMLSerializer.Deserialize<SignTextType>(canonicalizedResult);

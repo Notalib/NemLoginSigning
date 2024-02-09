@@ -71,12 +71,12 @@ namespace NemLoginSigningValidation.HTMLValidation
             }
 
             // Validate all attributes
-            foreach (var attribute in node.Attributes)
+            foreach (HtmlAttribute attribute in node.Attributes)
             {
                 if (attribute.Name == "style")
                 {
                     CssContentValidator cssContentValidator = new CssContentValidator();
-                    var result = cssContentValidator.Validate(attribute);
+                    string result = cssContentValidator.Validate(attribute);
 
                     if (!string.IsNullOrEmpty(result))
                     {

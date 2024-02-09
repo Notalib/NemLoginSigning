@@ -53,14 +53,14 @@ namespace NemloginSigningTest
 
         private SignatureKeys GetSignatureKeys()
         {
-            var configuration = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin);
+            NemLoginSigningCore.Configuration.NemloginConfiguration configuration = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin);
 
             if (configuration.SignatureKeysConfiguration is null)
             {
                 throw new InvalidOperationException("No signaturekeys configuration");
             }
 
-            var signatureKeysConfig = configuration.SignatureKeysConfiguration;
+            NemLoginSigningCore.Configuration.SignatureKeysConfiguration signatureKeysConfig = configuration.SignatureKeysConfiguration;
 
             return new SignatureKeysLoader()
                .WithKeyStorePath(signatureKeysConfig.KeystorePath)

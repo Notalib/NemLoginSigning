@@ -25,9 +25,9 @@ namespace NemLoginSigningWebApp.Logic
                     string directoryName = Path.GetDirectoryName(path);
 
                     // Look for font with same name
-                    foreach (var fontExtension in _fontExtensions)
+                    foreach (string fontExtension in _fontExtensions)
                     {
-                        var fontFile = Path.ChangeExtension(path, fontExtension);
+                        string fontFile = Path.ChangeExtension(path, fontExtension);
                         if (File.Exists(fontFile))
                         {
                             TransformationProperties properties = new();

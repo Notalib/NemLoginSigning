@@ -46,7 +46,7 @@ namespace NemLoginSigningCore.Logic
             };
 
             // Serialize json and deserialize to <string, object> for parsing to Jose.JWT
-            var payload = DeSerializeObject<Dictionary<string, object>>(SerializeObject(signatureParameters));
+            Dictionary<string, object> payload = DeSerializeObject<Dictionary<string, object>>(SerializeObject(signatureParameters));
 
             // Sign with privatekey PS256 using Jose.JWT
             _logger.LogInformation("SignSdk - SignatureParameterSigner - JWT Encode using Jose.JWT");

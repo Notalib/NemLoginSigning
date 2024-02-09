@@ -35,7 +35,7 @@ namespace NemLoginSigningPades.Logic
 
             AsymmetricCipherKeyPair keypair = keypairgen.GenerateKeyPair();
 
-            var x509Name = new Org.BouncyCastle.Asn1.X509.X509Name(DN);
+            X509Name x509Name = new Org.BouncyCastle.Asn1.X509.X509Name(DN);
 
             X509V3CertificateGenerator generator = new X509V3CertificateGenerator();
             generator.SetIssuerDN(x509Name);
@@ -50,7 +50,7 @@ namespace NemLoginSigningPades.Logic
             generator.AddExtension(new DerObjectIdentifier("2.5.29.15"), true, new X509KeyUsage(X509KeyUsage.DigitalSignature | X509KeyUsage.NonRepudiation |
                                                                                              X509KeyUsage.KeyEncipherment | X509KeyUsage.DataEncipherment));
 
-            var x509Certificate = GenerateX509Certificate(generator, keypair);
+            X509Certificate2 x509Certificate = GenerateX509Certificate(generator, keypair);
 
             RSA rsaPriv = DotNetUtilities.ToRSA(keypair.Private as RsaPrivateCrtKeyParameters);
 

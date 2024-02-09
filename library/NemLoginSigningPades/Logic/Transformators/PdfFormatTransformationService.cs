@@ -57,7 +57,7 @@ namespace NemLoginSigningPades.Logic.Transformators
         {
             Transformation transformation = ValidTransformation.GetTransformation(DocumentFormat.HTML, SignatureFormat.PAdES);
 
-            var transformator = TransformatorFactory.Create(transformation);
+            ITransformator transformator = TransformatorFactory.Create(transformation);
 
             SignersDocumentFile signersDocumentFile = new SignersDocumentFileBuilder()
                 .WithData(Encoding.UTF8.GetBytes(html))

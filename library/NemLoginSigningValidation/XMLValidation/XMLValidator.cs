@@ -27,7 +27,7 @@ namespace NemLoginSigningValidation.XMLValidation
 
         public void Validate(TransformationContext context)
         {
-            var logger = LoggerCreator.CreateLogger<XMLValidator>();
+            ILogger logger = LoggerCreator.CreateLogger<XMLValidator>();
 
             ArgumentNullException.ThrowIfNull(context);
 
@@ -41,12 +41,12 @@ namespace NemLoginSigningValidation.XMLValidation
 
         private void CheckHTML(TransformationContext context)
         {
-            var xml = ((XmlSignersDocument)context.SignersDocument).SignersDocumentFile.GetDataAsString();
-            var xslt = ((XmlSignersDocument)context.SignersDocument).XsltAsText();
+            string xml = ((XmlSignersDocument)context.SignersDocument).SignersDocumentFile.GetDataAsString();
+            string xslt = ((XmlSignersDocument)context.SignersDocument).XsltAsText();
 
             try
             {
-                var xHtml = new XML2HTMLTransformLogic().Transform(xml, xslt);
+                string xHtml = new XML2HTMLTransformLogic().Transform(xml, xslt);
 
                 byte[] ar = System.Text.Encoding.UTF8.GetBytes(xHtml);
 
@@ -126,8 +126,8 @@ namespace NemLoginSigningValidation.XMLValidation
 
         private void CheckXSL(TransformationContext ctx)
         {
-            var xmlSignersDocument = ctx.SignersDocument as XmlSignersDocument;
-            var document = GetDocument(xmlSignersDocument.XsltFile.GetData());
+            XmlSignersDocument xmlSignersDocument = ctx.SignersDocument as XmlSignersDocument;
+            XmlDocument document = GetDocument(xmlSignersDocument.XsltFile.GetData());
 
             ValidateIsVersion30(document);
             IsImportOrInclude(document);
@@ -135,18 +135,18 @@ namespace NemLoginSigningValidation.XMLValidation
 
         private void IsImportOrInclude(XmlDocument document)
         {
-            foreach (var child in document.ChildNodes)
+            foreach (object child in document.ChildNodes)
             {
-                var node = (XmlNode)child;
+                XmlNode node = (XmlNode)child;
                 IsImportOrInclude(node);
             }
         }
 
         private void IsImportOrInclude(XmlNode xmlNode)
         {
-            foreach (var child in xmlNode.ChildNodes)
+            foreach (object child in xmlNode.ChildNodes)
             {
-                var node = (XmlNode)child;
+                XmlNode node = (XmlNode)child;
 
                 if (node.NamespaceURI == W3C_XSL_SCHEME && (node.LocalName == XSL_IMPORT || node.LocalName == XSL_INCLUDE))
                 {
@@ -164,9 +164,9 @@ namespace NemLoginSigningValidation.XMLValidation
             bool version = false;
             bool scheme = false;
 
-            var attributes = document.DocumentElement.Attributes;
+            XmlAttributeCollection attributes = document.DocumentElement.Attributes;
 
-            foreach (var xmlAttribute in attributes)
+            foreach (object xmlAttribute in attributes)
             {
                 XmlAttribute attribute = (XmlAttribute)xmlAttribute;
 

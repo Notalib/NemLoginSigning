@@ -84,7 +84,7 @@ namespace NemLoginSigningXades.GeneratedSources
 
             int i = 0;
 
-            foreach (var item in signProperties)
+            foreach (System.Collections.Generic.KeyValuePair<string, SignPropertyValue> item in signProperties)
             {
                 PropertyType propertyType = null;
 

@@ -28,7 +28,7 @@ namespace NemloginSigningTest
 
             HttpResponseMessage response = await _client.GetAsync(uri);
 
-            var result = await response.Content.ReadAsStringAsync();
+            string result = await response.Content.ReadAsStringAsync();
 
             Assert.Equal("NemloginSigningWebApp is up and running.", result);
         }
@@ -43,7 +43,7 @@ namespace NemloginSigningTest
 
             LoggerCreator.LoggerFactory = _server.Services.GetRequiredService<ILoggerFactory>();
 
-            var logger = LoggerCreator.CreateLogger<WebAppTests>();
+            ILogger logger = LoggerCreator.CreateLogger<WebAppTests>();
 
             _client = _server.CreateClient();
 
@@ -54,7 +54,7 @@ namespace NemloginSigningTest
 
         public IConfigurationSection GetAppSettingsSection(string section)
         {
-            var result = new ConfigurationBuilder()
+            IConfigurationRoot result = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json").Build();
 

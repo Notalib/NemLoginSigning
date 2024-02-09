@@ -56,7 +56,7 @@ namespace NemLoginSigningCore.Utilities
 
         public SignatureKeys LoadSignatureKeys()
         {
-            var logger = LoggerCreator.CreateLogger<SignatureKeysLoader>();
+            ILogger logger = LoggerCreator.CreateLogger<SignatureKeysLoader>();
 
             logger.LogInformation("LoadSignatureKeys");
 
@@ -77,7 +77,7 @@ namespace NemLoginSigningCore.Utilities
                 throw new CryptographicException("Certificate collection contains multiple certificates with a private key");
             }
 
-            var certificate = x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Single();
+            X509Certificate2 certificate = x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Single();
 
             return new SignatureKeys(certificate, certificate.GetRSAPrivateKey());
         }

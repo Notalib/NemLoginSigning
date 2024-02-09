@@ -15,11 +15,11 @@ namespace NemLoginSigningCore.Logic
     {
         public static ITransformator Create(Transformation transformation)
         {
-            var transformators = ReflectorLogic.GetClassesWithInterfaceType(typeof(ITransformator)).Where(c => !c.IsAbstract).ToList();
+            System.Collections.Generic.List<Type> transformators = ReflectorLogic.GetClassesWithInterfaceType(typeof(ITransformator)).Where(c => !c.IsAbstract).ToList();
 
-            foreach (var item in transformators)
+            foreach (Type item in transformators)
             {
-                var transformator = Activator.CreateInstance(item) as ITransformator;
+                ITransformator transformator = Activator.CreateInstance(item) as ITransformator;
                 if (transformator.CanTransform(transformation))
                 {
                     return transformator;

@@ -35,7 +35,7 @@ namespace NemLoginSigningPades.Logic.Transformators
 
             try
             {
-                var pdfDocument = html2PDFGenerator.GeneratePDFDocument(html, propertiesHandler);
+                byte[] pdfDocument = html2PDFGenerator.GeneratePDFDocument(html, propertiesHandler);
 
                 transformationContext.DataToBeSigned = new PadesDataToBeSigned(pdfDocument, Path.ChangeExtension(signersDocument.SignersDocumentFile.Name, "pdf"));
 

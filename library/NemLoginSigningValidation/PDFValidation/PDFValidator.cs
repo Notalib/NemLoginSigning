@@ -80,7 +80,7 @@ namespace NemLoginSigningValidation.PDFValidation
 
             int i = 0;
 
-            foreach (var pdfObject in pdfObjects)
+            foreach (PdfObject pdfObject in pdfObjects)
             {
                 PdfWhiteListValidator pdfWhiteListValidator = new PdfWhiteListValidator();
                 pdfValidationResults.AddRange(pdfWhiteListValidator.WhitelistValidation(pdfObject, i));

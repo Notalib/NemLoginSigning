@@ -12,12 +12,12 @@ namespace NemloginSigningTest
     {
         public static NemloginConfiguration GetConfiguration(string section)
         {
-            var configBuilder = new ConfigurationBuilder()
+            IConfigurationRoot configBuilder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var config = configBuilder.GetSection(section);
+            IConfigurationSection config = configBuilder.GetSection(section);
 
             NemloginConfiguration configuration = new NemloginConfiguration();
             ConfigurationBinder.Bind(config, configuration);

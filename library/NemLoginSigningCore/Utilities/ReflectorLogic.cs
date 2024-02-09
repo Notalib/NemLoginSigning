@@ -14,17 +14,17 @@ namespace NemLoginSigningCore.Utilities
             List<Type> result = new List<Type>();
 
             // Get assemblies
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("NemLogin", StringComparison.Ordinal)).ToList();
+            List<System.Reflection.Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.StartsWith("NemLogin", StringComparison.Ordinal)).ToList();
 
             // Get all classes that are assignable to the 'type' parameter (the interface)
             result = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && type.IsAssignableFrom(t))).ToList();
 
             // Get all abstract classes that implements the 'type' parameter
-            var assignableAbstracts = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsAbstract && !t.IsInterface && type.IsAssignableFrom(t)));
+            IEnumerable<Type> assignableAbstracts = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsAbstract && !t.IsInterface && type.IsAssignableFrom(t)));
 
-            foreach (var item in assignableAbstracts)
+            foreach (Type item in assignableAbstracts)
             {
-                var outResult = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsSubclassOf(item)));
+                IEnumerable<Type> outResult = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsSubclassOf(item)));
                 result.AddRange(outResult);
             }
 
