@@ -4,7 +4,6 @@ using PdfSharp.Pdf.Advanced;
 using PdfArray = PdfSharp.Pdf.PdfArray;
 using PdfDictionary = PdfSharp.Pdf.PdfDictionary;
 using PdfName = PdfSharp.Pdf.PdfName;
-using Font = PdfSharp.Pdf.Advanced.PdfFont;
 
 namespace Nemlogin.QualifiedSigning.SDK.Pades.PdfValidation;
 

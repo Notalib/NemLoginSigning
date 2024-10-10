@@ -19,12 +19,12 @@ public class Html2PdfTransformer : ITransformer
                transformation.SdFormat == DocumentFormat.HTML;
     }
 
-    public void Transform(TransformationContext ctx)
+    public void Transform(TransformationContext transformationContext)
     {
         Stopwatch sw = Stopwatch.StartNew();
-        SignersDocument signersDocument = ctx.SignersDocument;
+        SignersDocument signersDocument = transformationContext.SignersDocument;
         Html2PdfGeneratorV2 html2PdfGenerator = new();
-        TransformationPropertiesHandler propertiesHandler = new TransformationPropertiesHandler(ctx.TransformationProperties);
+        TransformationPropertiesHandler propertiesHandler = new TransformationPropertiesHandler(transformationContext.TransformationProperties);
 
         string html = signersDocument.SignersDocumentFile.GetDataAsString();
 
@@ -33,7 +33,7 @@ public class Html2PdfTransformer : ITransformer
             byte[] pdfDocument = html2PdfGenerator.GeneratePdfDocument(html, propertiesHandler).GetAwaiter().GetResult();
             // var pdfDocument = html2PdfGenerator.GeneratePdfDocument(html, propertiesHandler);
 
-            ctx.DataToBeSigned = new PadesDataToBeSigned(pdfDocument, Path.ChangeExtension(signersDocument.SignersDocumentFile.Name, "pdf"));
+            transformationContext.DataToBeSigned = new PadesDataToBeSigned(pdfDocument, Path.ChangeExtension(signersDocument.SignersDocumentFile.Name, "pdf"));
         }
         catch (Exception e)
         {

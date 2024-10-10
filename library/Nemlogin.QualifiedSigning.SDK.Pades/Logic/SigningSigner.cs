@@ -25,9 +25,9 @@ public class SigningSigner : ISigner
         Key = key;
     }
 
-    public byte[] GetSignedCms(Stream rangedStream, int pdfVersion)
+    public byte[] GetSignedCms(Stream stream, int pdfVersion)
     {
-        rangedStream.Position = 0;
+        stream.Position = 0;
 
         CmsSignedDataGenerator signedDataGenerator = new CmsSignedDataGenerator();
 
@@ -39,7 +39,7 @@ public class SigningSigner : ISigner
         signedDataGenerator.AddSigner(Key, cert, GetProperDigestAlgorithm(pdfVersion));
         signedDataGenerator.AddCertificates(store);
 
-        CmsProcessableInputStream msg = new CmsProcessableInputStream(rangedStream);
+        CmsProcessableInputStream msg = new CmsProcessableInputStream(stream);
 
         CmsSignedData signedData = signedDataGenerator.Generate(msg, false);
 

@@ -1,12 +1,6 @@
-﻿using System.Security.Cryptography.Pkcs;
-using System.Security.Cryptography.X509Certificates;
-
-using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+﻿using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 
 using Org.BouncyCastle.Crypto;
-
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 
 namespace Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 
@@ -17,15 +11,15 @@ namespace Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 /// </summary>
 public class TemplateSignatureContainer
 {
-    private TransformationContext _ctx;
+    private const string SIGNING_ALGORITHM = DigestAlgorithms.SHA256;
+    // private const string KEY_RESET_SIGNATURE_CONTENT = "nemlogin.signing.pades.reset-signature-content";
+    // private const string ENCRYPTION_ALGORITHM = "RSA";
+
     private readonly PrivateKeySignature _privateKeySignature;
     private readonly ICollection<Org.BouncyCastle.X509.X509Certificate> _certificateChain;
+
+    private TransformationContext _ctx;
     private byte[] _digest;
-
-
-    private const string KEY_RESET_SIGNATURE_CONTENT = "nemlogin.signing.pades.reset-signature-content";
-    private const string SIGNING_ALGORITHM = DigestAlgorithms.SHA256;
-    private const string ENCRYPTION_ALGORITHM = "RSA";
 
     public TemplateSignatureContainer(TransformationContext ctx, ICipherParameters pk, ICollection<Org.BouncyCastle.X509.X509Certificate> certificateChain)
     {

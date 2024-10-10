@@ -16,10 +16,10 @@ public class Pdf2PdfTransformer : ITransformer
                transformation.SdFormat == DocumentFormat.PDF;
     }
 
-    public void Transform(TransformationContext ctx)
+    public void Transform(TransformationContext transformationContext)
     {
-        SignersDocument sd = ctx.SignersDocument;
+        SignersDocument sd = transformationContext.SignersDocument;
         DataToBeSigned dtbs = new PadesDataToBeSigned(sd.SignersDocumentFile.GetData(), sd.SignersDocumentFile.Name);
-        ctx.DataToBeSigned = dtbs;
+        transformationContext.DataToBeSigned = dtbs;
     }
 }

@@ -18,24 +18,24 @@ public abstract class PdfFormatTransformationService : ITransformer
 
     protected abstract string GenerateHtml(TransformationContext ctx);
 
-    public void Transform(TransformationContext ctx)
+    public void Transform(TransformationContext transformationContext)
     {
         Stopwatch sw = Stopwatch.StartNew();
 
-        SignersDocument signersDocument = ctx.SignersDocument;
+        SignersDocument signersDocument = transformationContext.SignersDocument;
 
         // Step 1: Generate HTML by transforming the XML using the included XSLT
-        string html = GenerateHtml(ctx);
+        string html = GenerateHtml(transformationContext);
 
         // Step 2: Generate PDF from the HTML
         try
         {
-            string fileName = ctx.SignersDocument.SignersDocumentFile.Name;
-            byte[] pdf = GeneratePDF(html, fileName, ctx.TransformationProperties);
+            string fileName = transformationContext.SignersDocument.SignersDocumentFile.Name;
+            byte[] pdf = GeneratePDF(html, fileName, transformationContext.TransformationProperties);
 
             DataToBeSigned dtbs = new PadesDataToBeSigned(pdf, Path.ChangeExtension(fileName, "pdf"));
 
-            ctx.DataToBeSigned = dtbs;
+            transformationContext.DataToBeSigned = dtbs;
         }
         catch (Exception e)
         {

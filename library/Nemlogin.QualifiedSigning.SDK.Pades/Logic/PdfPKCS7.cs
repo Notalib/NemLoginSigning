@@ -6,15 +6,14 @@ using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Tsp;
 using Org.BouncyCastle.X509;
 
 namespace Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 
 public sealed class PdfPkcs7
 {
+    private SignaturePolicyIdentifier signaturePolicyIdentifier = null;
 
-    private SignaturePolicyIdentifier signaturePolicyIdentifier;
     private int version = 1;
     private int signerversion = 1;
     private string digestAlgorithmOid;
@@ -181,6 +180,7 @@ public sealed class PdfPkcs7
             v2.Add(new DerSet(new DerSequence(v3)));
             v1.Add(new DerSequence(v2));
         }
+
         if (sigType == CryptoStandard.CADES)
         {
             Asn1EncodableVector v7 = new(Array.Empty<Asn1Encodable>());
@@ -196,8 +196,12 @@ public sealed class PdfPkcs7
             v7.Add(new DerSet(new DerSequence(new DerSequence(new DerSequence(v8)))));
             v1.Add(new DerSequence(v7));
         }
+
         if (signaturePolicyIdentifier != null)
+        {
             v1.Add(new Org.BouncyCastle.Asn1.Cms.Attribute(PkcsObjectIdentifiers.IdAAEtsSigPolicyID, new DerSet(signaturePolicyIdentifier)));
+        }
+
         return new DerSet(v1);
     }
 

@@ -31,7 +31,7 @@ public class Html2PdfGeneratorV2
                 PrintBackground = true
             };
 
-            return page.PdfDataAsync(pdfOptions).Result;
+            return await page.PdfDataAsync(pdfOptions);
         }
         catch (Exception e)
         {

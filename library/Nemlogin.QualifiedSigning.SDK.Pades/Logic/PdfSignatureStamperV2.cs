@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Enums;
 using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
@@ -7,15 +8,15 @@ using Nemlogin.QualifiedSigning.SDK.Core.Logic;
 using Org.BouncyCastle.Security;
 using PdfSharp;
 using PdfSharp.Pdf.IO;
+using PdfSharp.Drawing;
+using PdfSharp.Fonts;
+using PdfSharp.Pdf.Signatures;
+using PdfSharp.Snippets.Font;
+
 using PdfAnnotation = PdfSharp.Pdf.Annotations.PdfAnnotation;
 using PdfDocument = PdfSharp.Pdf.PdfDocument;
 using PdfPage = PdfSharp.Pdf.PdfPage;
 using PdfReader = PdfSharp.Pdf.IO.PdfReader;
-using PdfSharp.Drawing;
-using PdfSharp.Fonts;
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.Signatures;
-using PdfSharp.Snippets.Font;
 
 namespace Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 
@@ -32,7 +33,7 @@ public class PdfSignatureStamperV2 : ISignatureStamper
     public const int SIGNATURE_SIZE = 16384;
     public const string SIGNATURE_TYPE = "/Sig";
     public const string SIGNATURE_NAME = "NemLog-In Signing SDK";
-    private const int NO_CHANGE_PERMITTED = 1;
+    // private const int NO_CHANGE_PERMITTED = 1;
 
 
     // public static readonly PdfName SIGNATURE_DEFAULT_FILTER = PdfName.ADOBE_PPKLITE;
@@ -95,7 +96,7 @@ public class PdfSignatureStamperV2 : ISignatureStamper
 
                 if (signatureNames.Any())
                 {
-                    throw new TransformationException($"DTBS PDF already contains {signatureNames.Count()} Signature Dictionaries", ErrorCode.SDK005);
+                    throw new TransformationException($"DTBS PDF already contains {signatureNames.Count} Signature Dictionaries", ErrorCode.SDK005);
                 }
             }
             catch (Exception e)
