@@ -1,0 +1,7 @@
+/F\d+
+/Im\d+
+/CS\d+
+/GS\d+
+/Image\d+
+/MC\d+
+/FM\d+

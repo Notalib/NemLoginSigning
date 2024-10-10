@@ -1,0 +1,80 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <LangVersion>11</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
+      <PackageReference Include="coverlet.msbuild" Version="6.0.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.67" />
+      <PackageReference Include="PuppeteerSharp" Version="15.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Nemlogin.QualifiedSigning.SDK.Core\Nemlogin.QualifiedSigning.SDK.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\sRGB.icc" />
+      <EmbeddedResource Include="Resources\sRGB.icc">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="xslt\text-to-html.xsl" />
+      <EmbeddedResource Include="xslt\text-to-html.xsl">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="PdfValidation\WhiteListRessources\whitelistexclusions.txt" />
+      <EmbeddedResource Include="PdfValidation\WhiteListResources\whitelistexclusions.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="PdfValidation\WhiteListRessources\whitelist.txt" />
+      <EmbeddedResource Include="PdfValidation\WhiteListResources\whitelist.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="PdfValidation\WhiteListRessources\whitelist-regex.txt" />
+      <EmbeddedResource Include="PdfValidation\WhiteListResources\whitelist-regex.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="PdfValidation\WhiteListRessources\whitelistkeys.txt" />
+      <EmbeddedResource Include="PdfValidation\WhiteListResources\whitelistkeys.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <Compile Remove="Logic\Html2PdfGenerator.cs" />
+      <None Include="Logic\Html2PdfGenerator.cs" />
+      <Compile Remove="PdfValidation\PdfFontDescriptor.cs" />
+      <None Include="PdfValidation\PdfFontDescriptor.cs" />
+      <Compile Remove="PdfValidation\PdfFontValidator.cs" />
+      <None Include="PdfValidation\PdfFontValidator.cs" />
+      <Compile Remove="PdfValidation\PdfValidationResult.cs" />
+      <None Include="PdfValidation\PdfValidationResult.cs" />
+      <Compile Remove="PdfValidation\PdfWhiteListValidator.cs" />
+      <None Include="PdfValidation\PdfWhiteListValidator.cs" />
+      <Compile Remove="Logic\PdfSignatureStamper.cs" />
+      <None Include="Logic\PdfSignatureStamper.cs" />
+      <Compile Remove="PdfValidation\PdfValidator.cs" />
+      <None Include="PdfValidation\PdfValidator.cs" />
+      <Compile Remove="Logic\SignatureStream.cs" />
+      <None Include="Logic\SignatureStream.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Chrome\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="PdfSharp">
+        <HintPath>PdfSharp\PdfSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="PdfSharp.Snippets">
+        <HintPath>PdfSharp\PdfSharp.Snippets.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>
