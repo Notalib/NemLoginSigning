@@ -19,6 +19,10 @@ using NemLoginSigningWebApp.Config;
 using NemLoginSigningWebApp.Logic;
 using NemLoginSigningWebApp.Utils;
 using Nemlogin.QualifiedSigning.SDK.Core.Services;
+using Nemlogin.QualifiedSigning.SDK.Core.Validations.PlainTextValidation;
+using Nemlogin.QualifiedSigning.SDK.Core.Validations.XMLValidation;
+using Nemlogin.QualifiedSigning.SDK.Core.Validations;
+using Nemlogin.QualifiedSigning.SDK.Pades.PdfValidation;
 
 namespace NemLoginSigningWebApp;
 
@@ -53,6 +57,12 @@ public class Startup
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
+        services.AddTransient<IValidator, XMLValidator>();
+        services.AddTransient<IValidator, PlainTextValidator>();
+        services.AddTransient<IValidator, HTMLValidator>();
+        services.AddTransient<IValidator, PdfValidatorV2>();
+        services.AddTransient<IValidationFactory, ValidatorFactory>(x => new ValidatorFactory(x.GetServices(typeof(IValidator)).Cast<IValidator>()));
+
         services.AddTransient<ISignersDocumentLoader, SignersDocumentLoader>();
         services.AddTransient<ISigningPayloadService, SigningPayloadService>();
         services.AddTransient<ITransformationPropertiesService, TransformationPropertiesService>();
@@ -61,7 +71,7 @@ public class Startup
 
         NemloginConfig nemloginConfiguration = configurationSection.Get<NemloginConfig>();
 
-        X509Certificate2 ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
+        X509Certificate2 ocesCertificate = new(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
             nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
 
         Log.Information("Loaded OCES Certificate {SubjectName}, has {PrivateKeySize} bit key.", ocesCertificate.Subject, ocesCertificate.GetRSAPrivateKey().KeySize);
@@ -127,7 +137,7 @@ public class Startup
     private void LoadAssemblies()
     {
         // Load assembly to be able to do reflection later on
-        Assembly.Load("NemLoginSigningXades"); // , Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-        Assembly.Load("NemLoginSigningPades"); // , Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+        Assembly.Load("Nemlogin.QualifiedSigning.SDK.Xades"); // Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+        Assembly.Load("Nemlogin.QualifiedSigning.SDK.Pades"); // Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
     }
 }
