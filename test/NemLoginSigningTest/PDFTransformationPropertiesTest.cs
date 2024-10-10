@@ -38,13 +38,13 @@ namespace NemloginSigningTest
             string html = "<html><head><style>body { font-family: Helvetica; }</style></head><body>test</body></html>";
 
             // Act
-            var pdfDocument = GeneratePDFDocument(properties, html);
+            byte[] pdfDocument = GeneratePDFDocument(properties, html);
 
             PdfReader reader = new PdfReader(pdfDocument);
 
             // Assert
-            var pageRoration = reader.GetPageRotation(1);
-            var pageSize = reader.GetPageSize(1);
+            int pageRoration = reader.GetPageRotation(1);
+            Rectangle pageSize = reader.GetPageSize(1);
 
             Assert.True(pageRoration == 90);
             Assert.Equal(PageSize.A4.Width, pageSize.Width);
@@ -60,9 +60,9 @@ namespace NemloginSigningTest
 
             string html = "<html><head><style> body { font-family: Helvetica; } </style></head><body><p>test</p></body></html>";
 
-            var pdfDocument = GeneratePDFDocument(properties, html);
+            byte[] pdfDocument = GeneratePDFDocument(properties, html);
 
-            var fonts = GetFonts(pdfDocument);
+            IEnumerable<PdfFontDescriptor> fonts = GetFonts(pdfDocument);
 
             Assert.Single(fonts);
 
@@ -95,10 +95,10 @@ namespace NemloginSigningTest
             string html = "<html><body><p>test</p></body></html>";
 
             // Act
-            var pdfDocument = GeneratePDFDocument(properties, html);
+            byte[] pdfDocument = GeneratePDFDocument(properties, html);
 
             // Assert
-            var outputIntents = GetOutputIntents(pdfDocument);
+            IEnumerable<PdfObject> outputIntents = GetOutputIntents(pdfDocument);
             Assert.Single(outputIntents);
 
             properties = new TransformationProperties();
@@ -115,10 +115,10 @@ namespace NemloginSigningTest
             string html = "<html><body><p>test</p></body></html>";
 
             // Act
-            var pdfDocument = GeneratePDFDocument(properties, html);
+            byte[] pdfDocument = GeneratePDFDocument(properties, html);
 
             // Assert
-            var outputIntents = GetOutputIntents(pdfDocument);
+            IEnumerable<PdfObject> outputIntents = GetOutputIntents(pdfDocument);
             Assert.Empty(outputIntents);
         }
 
@@ -132,17 +132,17 @@ namespace NemloginSigningTest
             string html = "<html><body><p>test</p></body></html>";
 
             // Act
-            var pdfDocument = GeneratePDFDocument(properties, html);
+            byte[] pdfDocument = GeneratePDFDocument(properties, html);
 
             // Assert
-            var outputIntents = GetOutputIntents(pdfDocument);
+            IEnumerable<PdfObject> outputIntents = GetOutputIntents(pdfDocument);
             Assert.Single(outputIntents);
         }
 
         private byte[] GeneratePDFDocument(TransformationProperties properties, string html)
         {
             Html2PDFGenerator html2PdfGenerator = new Html2PDFGenerator();
-            var document = html2PdfGenerator.GeneratePDFDocument(html, new TransformationPropertiesHandler(properties));
+            byte[] document = html2PdfGenerator.GeneratePDFDocument(html, new TransformationPropertiesHandler(properties));
 
             return document;
         }
@@ -174,7 +174,7 @@ namespace NemloginSigningTest
                 pdfObjects = pdfValidator.GetPdfObjects(reader);
             }
 
-            foreach (var item in pdfObjects)
+            foreach (PdfObject item in pdfObjects)
             {
                 if (item == null)
                 {
@@ -184,7 +184,7 @@ namespace NemloginSigningTest
                 if (item.IsDictionary())
                 {
                     PdfDictionary pdfDictionary = (PdfDictionary)item;
-                    var type = pdfDictionary.Get(PdfName.TYPE);
+                    PdfObject type = pdfDictionary.Get(PdfName.TYPE);
 
                     if (type != null && type.IsName())
                     {

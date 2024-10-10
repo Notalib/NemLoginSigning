@@ -1,17 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NemLoginSigningCore.Configuration;
+using NemLoginSigningCore.Logging;
 using NemLoginSigningWebApp;
 using Xunit;
-using Microsoft.Extensions.Logging;
-using NemLoginSigningCore.Logging;
-using NemLoginSigningCore.Configuration;
 
 namespace NemloginSigningTest
 {
@@ -22,13 +23,13 @@ namespace NemloginSigningTest
         private readonly Uri _apiUrl;
 
         [Fact]
-        public async void TestNemloginSigningWebAppConfiguration()
+        public async Task TestNemloginSigningWebAppConfiguration()
         {
             Uri uri = new Uri(_apiUrl + "IsAlive");
 
             HttpResponseMessage response = await _client.GetAsync(uri);
 
-            var result = await response.Content.ReadAsStringAsync();
+            string result = await response.Content.ReadAsStringAsync();
 
             Assert.Equal("NemloginSigningWebApp is up and running.", result);
         }
@@ -43,7 +44,7 @@ namespace NemloginSigningTest
 
             LoggerCreator.LoggerFactory = _server.Services.GetRequiredService<ILoggerFactory>();
 
-            var logger = LoggerCreator.CreateLogger<WebAppTests>();
+            ILogger logger = LoggerCreator.CreateLogger<WebAppTests>();
 
             _client = _server.CreateClient();
 
@@ -54,7 +55,7 @@ namespace NemloginSigningTest
 
         public IConfigurationSection GetAppSettingsSection(string section)
         {
-            var result = new ConfigurationBuilder()
+            IConfigurationRoot result = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile("appsettings.json").Build();
 

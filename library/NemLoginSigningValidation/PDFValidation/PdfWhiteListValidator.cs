@@ -34,7 +34,7 @@ namespace NemLoginSigningValidation.PDFValidation
 
                     PdfDictionary pdfDictionary = (PdfDictionary)pdfObject;
 
-                    foreach (var item in pdfDictionary)
+                    foreach (KeyValuePair<PdfName, PdfObject> item in pdfDictionary)
                     {
                         string key = item.Key.ToString();
 
@@ -56,7 +56,7 @@ namespace NemLoginSigningValidation.PDFValidation
                 case PdfObject.ARRAY:
                     PdfArray pdfArray = (PdfArray)pdfObject;
 
-                    foreach (var item in pdfArray.ArrayList)
+                    foreach (PdfObject item in pdfArray.ArrayList)
                     {
                         validationResult.AddRange(WhitelistValidation(item, objectNumber));
                     }

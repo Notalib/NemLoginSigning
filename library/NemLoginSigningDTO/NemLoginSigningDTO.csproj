@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,10 +8,12 @@
     <Company>Nota</Company>
     <Version>1.0</Version>
     <DocumentationFile>obj\NemLoginSigningDTO.xml</DocumentationFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="nota.bux.codeanalysis" Version="1.99.99" />
+    <PackageReference Include="nota.bux.codeanalysis" Version="2.0.0" />
+    <PackageReference Include="Nota.CodeAnalysis" Version="2.1.3" />
   </ItemGroup>
 
 </Project>

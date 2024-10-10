@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -20,6 +20,10 @@
     <EmbeddedResource Include="iTextSharp\tool\xml\css\default.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nota.Bux.CodeAnalysis" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -49,7 +49,7 @@ namespace NemLoginSigningValidation.PDFValidation
 
         public static PdfFontDescriptor FromFont(PdfObject pdfObject, PdfDictionary dict, int objectNumber)
         {
-            var baseFontPdfObject = dict.Get(PdfName.BASEFONT);
+            PdfObject baseFontPdfObject = dict.Get(PdfName.BASEFONT);
             PdfName baseFontPdfName = null;
 
             if (baseFontPdfObject != null && baseFontPdfObject.IsName())

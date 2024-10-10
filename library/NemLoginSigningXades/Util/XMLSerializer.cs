@@ -99,7 +99,7 @@ namespace NemLoginSigningXades.Util
             {
                 XmlSerializer xmlSerialiser = new XmlSerializer(typeof(T));
 
-                var deserializedObject = xmlSerialiser.Deserialize(xmlReader);
+                object deserializedObject = xmlSerialiser.Deserialize(xmlReader);
 
                 string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
                 DebuggingWriter.WriteXMLDebugFormatted(nameof(T), xmlString);

@@ -49,7 +49,7 @@ namespace NemLoginSigningPades.Logic
 
         public Rectangle GetPageSizeAndOrientation()
         {
-            var pageLayout = PageSize.GetRectangle(GetProperty(KEY_PAGE_SIZE, "a4"));
+            Rectangle pageLayout = PageSize.GetRectangle(GetProperty(KEY_PAGE_SIZE, "a4"));
 
             if (GetProperty(KEY_PAGE_ORIENTATION, "portrait") == "landscape")
             {
@@ -103,7 +103,7 @@ namespace NemLoginSigningPades.Logic
         {
             XMLWorkerFontProvider fontProvider = null;
 
-            var property = GetProperty(KEY_FONTS, "default").Split(',');
+            string[] property = GetProperty(KEY_FONTS, "default").Split(',');
 
             if (property.Contains("default"))
             {

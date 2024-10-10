@@ -15,13 +15,13 @@ namespace NemLoginSigningCore.Utilities
     {
         public static void WriteFileToPath(string path, string name, string extension, byte[] fileData)
         {
-            var logger = LoggerCreator.CreateLogger(nameof(FileWriter));
+            ILogger logger = LoggerCreator.CreateLogger(nameof(FileWriter));
 
             string fileNameAndPath = string.Empty;
 
             try
             {
-                var rootDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                string rootDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
                 if (path == null)
                 {

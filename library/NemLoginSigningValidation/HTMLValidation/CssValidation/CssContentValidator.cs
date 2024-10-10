@@ -29,7 +29,7 @@ namespace NemLoginSigningValidation.HTMLValidation
         /// <returns>String with errordescription. If empty, no errors detected</returns>
         public string Validate(HtmlAttribute attribute)
         {
-            var deEntitized = HtmlEntity.DeEntitize(attribute.Value);
+            string deEntitized = HtmlEntity.DeEntitize(attribute.Value);
 
             string result = string.Empty;
 
@@ -59,7 +59,7 @@ namespace NemLoginSigningValidation.HTMLValidation
 
             for (int i = 0; i < tokens.Length; i++)
             {
-                var token = tokens[i];
+                string token = tokens[i];
 
                 if (token.Contains('}'))
                 {
@@ -87,7 +87,7 @@ namespace NemLoginSigningValidation.HTMLValidation
             string errorText = string.Empty;
             string[] outer = end.Split(";".ToCharArray());
 
-            foreach (var token in outer)
+            foreach (string token in outer)
             {
                 if (!string.IsNullOrEmpty(errorText))
                 {

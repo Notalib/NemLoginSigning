@@ -30,7 +30,7 @@ namespace NemLoginSigningValidation.HTMLValidation
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(html);
 
-            var errors = ValidateHtmlDocument(document);
+            IEnumerable<string> errors = ValidateHtmlDocument(document);
 
             if (errors.Any())
             {
@@ -47,7 +47,7 @@ namespace NemLoginSigningValidation.HTMLValidation
 
             if (document.ParseErrors.Any())
             {
-                var parseErrorsReason = document.ParseErrors.Select(s => s.Reason);
+                IEnumerable<string> parseErrorsReason = document.ParseErrors.Select(s => s.Reason);
 
                 errors = parseErrorsReason.ToList();
                 return errors;
@@ -64,7 +64,7 @@ namespace NemLoginSigningValidation.HTMLValidation
 
             if (node.NodeType == HtmlNodeType.Element)
             {
-                var result = _htmlWhiteListValidatorPolicies.Validate(node);
+                IEnumerable<string> result = _htmlWhiteListValidatorPolicies.Validate(node);
 
                 if (result.Any())
                 {

@@ -117,7 +117,7 @@ namespace NemloginSigningTest
 
             string dtbsFilePath = Path.Combine(DtbsTargetFolder, dtbsFileName);
 
-            var config = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin);
+            NemLoginSigningCore.Configuration.NemloginConfiguration config = TestHelper.GetConfiguration(TestConstants.ConfigurationNemlogin);
         }
 
         private SignersDocumentFile GetxsltDocumentFile(string filePath)
@@ -145,7 +145,7 @@ namespace NemloginSigningTest
                 xsltFilename = Path.ChangeExtension(filePath, "xsl");
             }
 
-            var path = Path.GetFullPath(xsltFilename);
+            string path = Path.GetFullPath(xsltFilename);
 
             return new SignersDocumentFileBuilder()
                 .WithName(xsltFilename)
@@ -157,10 +157,10 @@ namespace NemloginSigningTest
         {
             List<object[]> files = new List<object[]>();
 
-            foreach (var extension in extensions)
+            foreach (string extension in extensions)
             {
-                var fe = Directory.GetFiles(path, "*.*");
-                var f = Directory.GetFiles(path, extension);
+                string[] fe = Directory.GetFiles(path, "*.*");
+                string[] f = Directory.GetFiles(path, extension);
                 Directory.GetFiles(path, extension).ToList().ForEach(f => files.Add(new object[] { f }));
             }
 

@@ -15,11 +15,11 @@ namespace NemLoginSigningCore.Logic
         /// <returns></returns>
         public static ISignatureStamper Create(SignatureFormat dataToBeSignedFormat)
         {
-            var signatureStampers = ReflectorLogic.GetClassesWithInterfaceType(typeof(ISignatureStamper));
+            System.Collections.Generic.IEnumerable<Type> signatureStampers = ReflectorLogic.GetClassesWithInterfaceType(typeof(ISignatureStamper));
 
-            foreach (var item in signatureStampers)
+            foreach (Type item in signatureStampers)
             {
-                var signatureStamper = Activator.CreateInstance(item) as ISignatureStamper;
+                ISignatureStamper signatureStamper = Activator.CreateInstance(item) as ISignatureStamper;
                 if (signatureStamper.CanSign(dataToBeSignedFormat))
                 {
                     return signatureStamper;

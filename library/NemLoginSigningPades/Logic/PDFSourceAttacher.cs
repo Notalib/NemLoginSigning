@@ -14,19 +14,19 @@ namespace NemLoginSigningPades.Logic
         {
             ArgumentNullException.ThrowIfNull(context);
 
-            var xmlSignersDocument = context.SignersDocument as XmlSignersDocument;
+            XmlSignersDocument xmlSignersDocument = context.SignersDocument as XmlSignersDocument;
 
             ArgumentNullException.ThrowIfNull(context?.SignersDocument);
 
-            var pdfDocumentData = context.DataToBeSigned.GetData();
+            byte[] pdfDocumentData = context.DataToBeSigned.GetData();
 
             MemoryStream ms = new MemoryStream();
             PdfReader reader = new PdfReader(pdfDocumentData);
 
             PdfStamper stamper = new PdfStamper(reader, ms);
 
-            var xmlFileSpecification = PdfFileSpecification.FileEmbedded(stamper.Writer, null, xmlSignersDocument.SignersDocumentFile.Name, xmlSignersDocument.SignersDocumentFile.GetData());
-            var xslFileSpecification = PdfFileSpecification.FileEmbedded(stamper.Writer, null, xmlSignersDocument.XsltFile.Name, xmlSignersDocument.XsltFile.GetData());
+            PdfFileSpecification xmlFileSpecification = PdfFileSpecification.FileEmbedded(stamper.Writer, null, xmlSignersDocument.SignersDocumentFile.Name, xmlSignersDocument.SignersDocumentFile.GetData());
+            PdfFileSpecification xslFileSpecification = PdfFileSpecification.FileEmbedded(stamper.Writer, null, xmlSignersDocument.XsltFile.Name, xmlSignersDocument.XsltFile.GetData());
 
             stamper.AddFileAttachment("NemLog-In XML Attachment", xmlFileSpecification);
             stamper.AddFileAttachment("NemLog-In XSL Attachment", xslFileSpecification);

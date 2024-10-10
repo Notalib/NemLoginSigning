@@ -14,11 +14,11 @@ namespace NemLoginSigningCore.Logic
     {
         public static ISourceAttacher Create(Transformation transformation)
         {
-            var candidates = ReflectorLogic.GetClassesWithInterfaceType(typeof(ISourceAttacher));
+            System.Collections.Generic.IEnumerable<Type> candidates = ReflectorLogic.GetClassesWithInterfaceType(typeof(ISourceAttacher));
 
-            foreach (var item in candidates)
+            foreach (Type item in candidates)
             {
-                var candidate = Activator.CreateInstance(item) as ISourceAttacher;
+                ISourceAttacher candidate = Activator.CreateInstance(item) as ISourceAttacher;
                 if (candidate.CanAttach(transformation))
                 {
                     return candidate;

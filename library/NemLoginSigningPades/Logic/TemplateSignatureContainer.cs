@@ -24,7 +24,7 @@ namespace NemLoginSigningPades.Logic
 
         public byte[] Digest => _digest;
 
-        public TemplateSignatureContainer(TransformationContext ctx, ICipherParameters pk, ICollection<Org.BouncyCastle.X509.X509Certificate> certificateChain)
+        public TemplateSignatureContainer(TransformationContext context, ICipherParameters pk, ICollection<Org.BouncyCastle.X509.X509Certificate> certificateChain)
         {
             _privateKeySignature = new PrivateKeySignature(pk, SIGNING_ALGORITHM);
             _certificateChain = certificateChain;

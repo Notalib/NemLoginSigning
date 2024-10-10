@@ -129,7 +129,7 @@ namespace NemLoginSigningCore.Core
 
             private void TrySetLastModified()
             {
-                var logger = LoggerCreator.CreateLogger<SignersDocumentFile>();
+                ILogger logger = LoggerCreator.CreateLogger<SignersDocumentFile>();
 
                 if (_builderTemplate.LastModified == null && !string.IsNullOrEmpty(_builderTemplate.Path))
                 {
@@ -146,7 +146,7 @@ namespace NemLoginSigningCore.Core
 
             private void TrySetCreationTime()
             {
-                var logger = LoggerCreator.CreateLogger<SignersDocumentFile>();
+                ILogger logger = LoggerCreator.CreateLogger<SignersDocumentFile>();
 
                 if (_builderTemplate.CreationTime == null && !string.IsNullOrEmpty(_builderTemplate.Path))
                 {

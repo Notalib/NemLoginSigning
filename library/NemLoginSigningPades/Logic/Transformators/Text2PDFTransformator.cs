@@ -33,7 +33,7 @@ namespace NemLoginSigningPades.Logic.Transformators
 
                 document.AppendChild(root);
 
-                var textFile = plainTextSignersDocument.DataAsText();
+                string textFile = plainTextSignersDocument.DataAsText();
 
                 using (StringReader reader = new StringReader(textFile))
                 {
@@ -47,7 +47,7 @@ namespace NemLoginSigningPades.Logic.Transformators
                     }
                 }
 
-                var streamReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("NemLoginSigningPades.xslt.text-to-html.xsl"));
+                StreamReader streamReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("NemLoginSigningPades.xslt.text-to-html.xsl"));
 
                 XmlReader xsltReader = XmlReader.Create(streamReader);
 

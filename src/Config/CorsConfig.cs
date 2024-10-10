@@ -1,7 +1,6 @@
-﻿namespace NemLoginSigningWebApp.Config
+﻿namespace NemLoginSigningWebApp.Config;
+
+public class CorsConfig
 {
-    public class CorsConfig
-    {
-        public string[] AllowedOrigins { get; set; } = new string[0];
-    }
+    public string[] AllowedOrigins { get; set; } = new string[0];
 }

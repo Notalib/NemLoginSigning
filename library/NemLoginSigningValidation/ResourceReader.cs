@@ -13,7 +13,7 @@ namespace NemLoginSigningValidation
         {
             List<string> ressourceList = new List<string>();
 
-            using (var streamReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(ressource)))
+            using (StreamReader streamReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(ressource)))
             {
                 string line;
                 while ((line = streamReader.ReadLine()) != null)
