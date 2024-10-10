@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace NemLoginSigningWebApp.Utils
+namespace NemLoginSigningWebApp.Utils;
+
+public interface ICorrelationIdAccessor
 {
-    public interface ICorrelationIdAccessor
-    {
-        Guid Id { get; }
-    }
+    Guid Id { get; }
 }

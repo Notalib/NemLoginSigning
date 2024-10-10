@@ -1,10 +1,9 @@
 ﻿using NemLoginSigningCore.Core;
 using NemLoginSigningCore.Format;
 
-namespace NemLoginSigningWebApp.Logic
+namespace NemLoginSigningWebApp.Logic;
+
+public interface ITransformationPropertiesService
 {
-    public interface ITransformationPropertiesService
-    {
-        TransformationProperties GetTransformationProperties(SignersDocument signersDocument, SignatureFormat signatureFormat);
-    }
+    TransformationProperties GetTransformationProperties(SignersDocument signersDocument, SignatureFormat signatureFormat);
 }

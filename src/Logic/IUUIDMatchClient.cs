@@ -2,10 +2,9 @@
 
 using NemLoginSigningDTO.UUIDMatch;
 
-namespace NemLoginSigningWebApp.Logic
+namespace NemLoginSigningWebApp.Logic;
+
+public interface IUUIDMatchClient
 {
-    public interface IUUIDMatchClient
-    {
-        Task<SubjectMatchesSignerResult> SubjectMatchesSigner(SubjectMatchesSignerDTO request);
-    }
+    Task<SubjectMatchesSignerResult> SubjectMatchesSigner(SubjectMatchesSignerDTO request);
 }
