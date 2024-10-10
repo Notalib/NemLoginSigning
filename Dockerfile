@@ -13,9 +13,9 @@ RUN adduser --disabled-password --disabled-login --gecos "" service
 ENV LANG="en_DK.UTF-8"
 ENV LC_ALL="en_DK.UTF-8"
 
-#----------------------
-#| Compile authserver |
-#----------------------
+#---------------------------
+#| Compile signing service |
+#---------------------------
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 WORKDIR /src
@@ -23,7 +23,7 @@ ADD ./ /src
 
 RUN --mount=type=secret,id=NuGet.Config dotnet restore SignSDK.Net.Digst.sln --configfile /run/secrets/NuGet.Config
 
-RUN dotnet publish /src/src/NemLoginSigningWebApp.csproj -c Release -o /build
+RUN dotnet publish /src/src/NemLoginSigningWebApp/NemLoginSigningWebApp.csproj -c Release -o /build
 
 #------------------------
 #| Build runtime Image  |

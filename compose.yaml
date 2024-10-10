@@ -1,0 +1,17 @@
+services:
+  signing:
+    build:
+      dockerfile: Dockerfile
+      secrets:
+        - source: nuget.config
+          target: NuGet.Config
+    image: 'ghcr.io/notalib/nemloginsigning/nemloginsigning:develop'
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      
+secrets:
+  nuget.config:
+    file: ${APPDATA}\NuGet\NuGet.Docker.Config # Windows location
+    # "On Mac/Linux, the user config file location varies by tooling. Majority of users use tools that look for the user config file under the ~/.nuget/NuGet folder"
+    #file: ~/.nuget/NuGet/NuGet.Config # Linux/macOS location 1
+    #file: ~/.config/NuGet/NuGet.Config # Linux/macOS location 2
