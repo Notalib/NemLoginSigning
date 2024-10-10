@@ -18,7 +18,6 @@ using Serilog;
 using NemLoginSigningWebApp.Config;
 using NemLoginSigningWebApp.Logic;
 using NemLoginSigningWebApp.Utils;
-using Nemlogin.QualifiedSigning.SDK.Core.Configuration;
 using Nemlogin.QualifiedSigning.SDK.Core.Services;
 
 namespace NemLoginSigningWebApp;
@@ -50,7 +49,7 @@ public class Startup
 
         // Configuration dependencies
         IConfigurationSection configurationSection = Configuration.GetSection("NemloginConfiguration");
-        services.Configure<NemloginConfiguration>(configurationSection);
+        services.Configure<NemloginConfig>(configurationSection);
 
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -60,7 +59,7 @@ public class Startup
         services.AddTransient<IDocumentSigningService, DocumentSigningService>();
         services.AddTransient<ISigningValidationService, SigningValidationService>();
 
-        NemloginConfiguration nemloginConfiguration = configurationSection.Get<NemloginConfiguration>();
+        NemloginConfig nemloginConfiguration = configurationSection.Get<NemloginConfig>();
 
         X509Certificate2 ocesCertificate = new X509Certificate2(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
             nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);

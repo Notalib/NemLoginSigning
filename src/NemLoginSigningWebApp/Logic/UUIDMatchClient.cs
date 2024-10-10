@@ -5,10 +5,10 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-using NemLoginSigningDTO.UUIDMatch;
 using Microsoft.Extensions.Options;
-using Nemlogin.QualifiedSigning.SDK.Core.Configuration;
 using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
+using NemLoginSigningWebApp.Config;
+using NemLoginSigningDTO.UUIDMatch;
 
 namespace NemLoginSigningWebApp.Logic;
 
@@ -21,14 +21,14 @@ public class UUIDMatchClient : IUUIDMatchClient
     };
 
     private readonly HttpClient _httpClient;
-    private readonly NemloginConfiguration _nemLogInConfiguration;
+    private readonly NemloginConfig _nemLogInConfiguration;
 
     static UUIDMatchClient()
     {
         JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     }
 
-    public UUIDMatchClient(HttpClient httpClient, IOptions<NemloginConfiguration> nemLogInConfiguration)
+    public UUIDMatchClient(HttpClient httpClient, IOptions<NemloginConfig> nemLogInConfiguration)
     {
         _httpClient = httpClient;
         _nemLogInConfiguration = nemLogInConfiguration.Value;

@@ -13,6 +13,8 @@ using Nemlogin.QualifiedSigning.SDK.Core.Services;
 using Nemlogin.QualifiedSigning.SDK.Core.Utilities;
 
 using NemLoginSigningDTO.Signing;
+
+using NemLoginSigningWebApp.Config;
 using NemLoginSigningWebApp.Logic;
 
 namespace NemLoginSigningWebApp.Controllers;
@@ -23,12 +25,12 @@ public class SigningAPIController : ControllerBase
 {
     private readonly IDocumentSigningService _documentSigningService;
     private readonly ISignersDocumentLoader _signersDocumentLoader;
-    private readonly NemloginConfiguration _nemloginConfiguration;
+    private readonly NemloginConfig _nemloginConfiguration;
     private readonly SignatureKeysConfiguration _signatureKeysConfiguration;
     private readonly ISigningValidationService _signingValidationService;
 
     public SigningAPIController(IDocumentSigningService documentSigningService, ISignersDocumentLoader signersDocumentLoader,
-        ISigningValidationService signingValidationService, IOptions<NemloginConfiguration> nemloginConfiguration)
+        ISigningValidationService signingValidationService, IOptions<NemloginConfig> nemloginConfiguration)
     {
         ArgumentNullException.ThrowIfNull(nemloginConfiguration);
 
@@ -59,7 +61,7 @@ public class SigningAPIController : ControllerBase
 
         SignatureKeys keys = new SignatureKeysLoader()
             .WithKeyStorePath(_signatureKeysConfiguration.KeystorePath)
-            .WithKeyStorePassword(_signatureKeysConfiguration.KeyStorePassword)
+            .WithKeyStorePassword(_signatureKeysConfiguration.KeystorePassword)
             .WithPrivateKeyPassword(_signatureKeysConfiguration.PrivateKeyPassword)
             .LoadSignatureKeys();
 
