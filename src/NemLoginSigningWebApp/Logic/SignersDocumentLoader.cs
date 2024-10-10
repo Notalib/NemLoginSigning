@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using NemLoginSigningCore.Core;
+using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+
 using NemLoginSigningDTO.Signing;
 
-using static NemLoginSigningCore.Core.SignersDocumentFile;
+using static Nemlogin.QualifiedSigning.SDK.Core.Fundamental.SignersDocumentFile;
 
 namespace NemLoginSigningWebApp.Logic;
 

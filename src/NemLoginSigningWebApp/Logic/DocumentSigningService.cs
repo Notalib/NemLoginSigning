@@ -2,11 +2,14 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using NemLoginSigningCore.Configuration;
-using NemLoginSigningCore.Core;
-using NemLoginSigningCore.Format;
+
+using Nemlogin.QualifiedSigning.SDK.Core;
+using Nemlogin.QualifiedSigning.SDK.Core.Configuration;
+using Nemlogin.QualifiedSigning.SDK.Core.Enums;
+using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+using Nemlogin.QualifiedSigning.SDK.Core.Services;
+
 using NemLoginSigningDTO.Signing;
-using NemLoginSigningService.Services;
 
 namespace NemLoginSigningWebApp.Logic;
 

@@ -1,4 +1,5 @@
-﻿using NemLoginSigningCore.Core;
+﻿using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+
 using NemLoginSigningDTO.Signing;
 
 namespace NemLoginSigningWebApp.Logic;

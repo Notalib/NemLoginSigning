@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-using NemLoginSignatureValidationService.Model;
-using NemLoginSignatureValidationService.Service;
-using NemLoginSigningCore.Configuration;
-using NemLoginSigningCore.Core;
-using NemLoginSigningCore.Utilities;
+using Nemlogin.QualifiedSigning.SDK.Core.Configuration;
+using Nemlogin.QualifiedSigning.SDK.Core.Enums;
+using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+using Nemlogin.QualifiedSigning.SDK.Core.Model;
+using Nemlogin.QualifiedSigning.SDK.Core.Services;
+using Nemlogin.QualifiedSigning.SDK.Core.Utilities;
+
 using NemLoginSigningDTO.Signing;
 using NemLoginSigningWebApp.Logic;
-
-using SignatureFormat = NemLoginSigningCore.Format.SignatureFormat;
 
 namespace NemLoginSigningWebApp.Controllers;
 

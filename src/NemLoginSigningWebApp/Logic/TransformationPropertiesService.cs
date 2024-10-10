@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-using NemLoginSigningCore.Core;
-using NemLoginSigningCore.Format;
-using NemLoginSigningPades.Logic;
+using Nemlogin.QualifiedSigning.SDK.Core.Enums;
+using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+using Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 
 namespace NemLoginSigningWebApp.Logic;
 
@@ -17,7 +17,7 @@ public class TransformationPropertiesService : ITransformationPropertiesService
 
         ArgumentNullException.ThrowIfNull(signersDocument);
 
-        if (signatureFormat == NemLoginSigningCore.Format.SignatureFormat.PAdES && signersDocument.DocumentFormat != DocumentFormat.PDF)
+        if (signatureFormat == SignatureFormat.PAdES && signersDocument.DocumentFormat != DocumentFormat.PDF)
         {
             try
             {

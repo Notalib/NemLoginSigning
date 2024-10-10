@@ -1,5 +1,5 @@
-﻿using NemLoginSigningCore.Core;
-using NemLoginSigningCore.Format;
+﻿using Nemlogin.QualifiedSigning.SDK.Core.Enums;
+using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 
 namespace NemLoginSigningWebApp.Logic;
 

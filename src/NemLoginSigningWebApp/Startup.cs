@@ -15,13 +15,11 @@ using Microsoft.Extensions.Hosting;
 
 using Serilog;
 
-using NemLoginSigningService.Services;
-using NemLoginSignatureValidationService.Service;
-using NemLoginSigningCore.Configuration;
-
 using NemLoginSigningWebApp.Config;
 using NemLoginSigningWebApp.Logic;
 using NemLoginSigningWebApp.Utils;
+using Nemlogin.QualifiedSigning.SDK.Core.Configuration;
+using Nemlogin.QualifiedSigning.SDK.Core.Services;
 
 namespace NemLoginSigningWebApp;
 

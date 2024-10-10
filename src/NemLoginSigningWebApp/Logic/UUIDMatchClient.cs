@@ -6,9 +6,9 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using NemLoginSigningDTO.UUIDMatch;
-using NemLoginSigningCore.Exceptions;
-using NemLoginSigningCore.Configuration;
 using Microsoft.Extensions.Options;
+using Nemlogin.QualifiedSigning.SDK.Core.Configuration;
+using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
 
 namespace NemLoginSigningWebApp.Logic;
 

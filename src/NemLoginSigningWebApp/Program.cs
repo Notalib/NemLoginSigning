@@ -10,8 +10,6 @@ using Serilog.Exceptions.Core;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
-using NemLoginSigningCore.Logging;
-
 namespace NemLoginSigningWebApp;
 
 public static class Program
