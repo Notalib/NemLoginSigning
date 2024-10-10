@@ -31,10 +31,10 @@ public class SigningSigner : ISigner
 
         CmsSignedDataGenerator signedDataGenerator = new CmsSignedDataGenerator();
 
-        var cert = DotNetUtilities.FromX509Certificate(Certificate);
-        var allCerts = CertificateChain.OfType<X509Certificate2>().Select(item => DotNetUtilities.FromX509Certificate(item));
+        Org.BouncyCastle.X509.X509Certificate cert = DotNetUtilities.FromX509Certificate(Certificate);
+        IEnumerable<Org.BouncyCastle.X509.X509Certificate> allCerts = CertificateChain.OfType<X509Certificate2>().Select(item => DotNetUtilities.FromX509Certificate(item));
 
-        var store = CollectionUtilities.CreateStore(allCerts);
+        IStore<Org.BouncyCastle.X509.X509Certificate> store = CollectionUtilities.CreateStore(allCerts);
 
         signedDataGenerator.AddSigner(Key, cert, GetProperDigestAlgorithm(pdfVersion));
         signedDataGenerator.AddCertificates(store);

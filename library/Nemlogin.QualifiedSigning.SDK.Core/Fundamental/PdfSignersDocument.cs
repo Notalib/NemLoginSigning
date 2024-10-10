@@ -5,7 +5,7 @@
 /// </summary>
 public class PdfSignersDocument : SignersDocument
 {
-    public PdfSignersDocument(SignersDocumentFile signersDocumentFile) 
+    public PdfSignersDocument(SignersDocumentFile signersDocumentFile)
         : this(signersDocumentFile, null) { }
 
     public PdfSignersDocument(SignersDocumentFile signersDocumentFile, SignProperties signProperties)

@@ -21,9 +21,9 @@ public static class DebuggingWriter
             xmlDocument.WriteContentTo(writer);
             writer.Flush();
             mStream.Flush();
-                
+
             mStream.Position = 0;
-            
+
             string formattedXml = sReader.ReadToEnd();
 
             DoWrite(message, formattedXml);

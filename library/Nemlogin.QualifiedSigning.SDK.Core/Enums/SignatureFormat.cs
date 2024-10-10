@@ -6,7 +6,7 @@ namespace Nemlogin.QualifiedSigning.SDK.Core.Enums;
 /// <summary>
 /// Defines the valid DTBS (Data To Be Signed) formats.
 /// </summary>
-    
+
 public enum SignatureFormat
 {
     /// <summary>
@@ -20,7 +20,7 @@ public enum SignatureFormat
     /// </summary>
     [Description("PAdES-B-LTA")]
     PAdES,
-    
+
     [EnumMember(Value = "XML-NOT-ETSI")]
     XML_NOT_ETSI,
 
@@ -100,5 +100,5 @@ public enum SignatureFormat
     PKCS7_LTA,
 
     [EnumMember(Value = "UNKNOWN")]
-    UNKNOWN    
+    UNKNOWN
 }

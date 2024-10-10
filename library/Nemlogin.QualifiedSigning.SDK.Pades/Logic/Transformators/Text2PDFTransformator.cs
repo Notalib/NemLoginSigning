@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Xml;
 using System.Xml.Xsl;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Enums;
 using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
@@ -29,7 +30,7 @@ public class Text2PDFTransformator : PdfFormatTransformationService
 
             document.AppendChild(root);
 
-            var textFile = plainTextSignersDocument.DataAsText();
+            string textFile = plainTextSignersDocument.DataAsText();
 
             using (StringReader reader = new StringReader(textFile))
             {
@@ -43,7 +44,7 @@ public class Text2PDFTransformator : PdfFormatTransformationService
                 }
             }
 
-            var streamReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Nemlogin.QualifiedSigning.SDK.Pades.xslt.text-to-html.xsl"));
+            StreamReader streamReader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream("Nemlogin.QualifiedSigning.SDK.Pades.xslt.text-to-html.xsl"));
 
             XmlReader xsltReader = XmlReader.Create(streamReader);
 

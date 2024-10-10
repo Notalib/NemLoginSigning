@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Enums;
 using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
@@ -29,7 +30,7 @@ public class XML2PDFTransformator : PdfFormatTransformationService
             string xml = signersDocument.DataAsText();
             string xslt = signersDocument.XsltAsText();
 
-            var result = new XML2HTMLTransformLogic().Transform(xml, xslt);
+            string result = new XML2HTMLTransformLogic().Transform(xml, xslt);
             return result;
         }
         catch (Exception e)

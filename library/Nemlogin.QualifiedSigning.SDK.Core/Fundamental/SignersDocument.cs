@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Enums;
 
 namespace Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
@@ -9,7 +10,7 @@ namespace Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 public abstract class SignersDocument
 {
     public SignersDocument() { }
-                
+
     public DocumentFormat DocumentFormat { get; private set; }
 
     public SignersDocumentFile SignersDocumentFile { get; private set; }

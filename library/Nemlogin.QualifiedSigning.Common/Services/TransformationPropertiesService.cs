@@ -3,31 +3,31 @@ using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 
 namespace Nemlogin.QualifiedSigning.Common.Services;
 
-    public class TransformationPropertiesService : ITransformationPropertiesService
+public class TransformationPropertiesService : ITransformationPropertiesService
+{
+    private const string KeyPrefix = "nemlogin.signing.pdf-generator.";
+    private readonly string[] _fontExtensions = { "ttf", "otf" };
+
+    public TransformationProperties GetTransformationProperties(SignersDocument signersDocument, SignatureFormat signatureFormat)
     {
-        private const string KeyPrefix = "nemlogin.signing.pdf-generator.";
-        private readonly string[] _fontExtensions = { "ttf", "otf" };
+        string keyPrefix = KeyPrefix;
 
-        public TransformationProperties GetTransformationProperties(SignersDocument signersDocument, SignatureFormat signatureFormat)
+        if (signersDocument == null)
         {
-            string keyPrefix = KeyPrefix;
+            throw new ArgumentNullException(nameof(signersDocument));
+        }
 
-            if (signersDocument == null)
+        if (signatureFormat != SignatureFormat.PAdES || signersDocument.DocumentFormat == DocumentFormat.PDF)
+            return new TransformationProperties();
+        string path = signersDocument.SignersDocumentFile.Path;
+
+        //Look for font with same name
+        foreach (string fontExtension in _fontExtensions)
+        {
+            string fontFile = Path.ChangeExtension(path, fontExtension);
+            if (File.Exists(fontFile))
             {
-                throw new ArgumentNullException(nameof(signersDocument));
-            }
-
-            if (signatureFormat != SignatureFormat.PAdES || signersDocument.DocumentFormat == DocumentFormat.PDF)
-                return new TransformationProperties();
-            string path = signersDocument.SignersDocumentFile.Path;
-
-            //Look for font with same name
-            foreach (var fontExtension in _fontExtensions)
-            {
-                var fontFile = Path.ChangeExtension(path, fontExtension);
-                if (File.Exists(fontFile))
-                {
-                    TransformationProperties properties = new()
+                TransformationProperties properties = new()
                     {
                         { keyPrefix + "fonts", "embed, default" },
                         { keyPrefix + "font[0].name", Path.GetFileName(fontFile) },
@@ -36,10 +36,10 @@ namespace Nemlogin.QualifiedSigning.Common.Services;
                         { keyPrefix + "monospace-font", "medium Courier, " + Path.GetFileNameWithoutExtension(fontFile) }
                     };
 
-                    return properties;
-                }
+                return properties;
             }
-
-            return new TransformationProperties();
         }
+
+        return new TransformationProperties();
     }
+}

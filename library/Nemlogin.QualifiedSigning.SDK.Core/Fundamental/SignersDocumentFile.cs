@@ -1,155 +1,156 @@
 ﻿using System.Text;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Utilities;
 
 namespace Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 
-    /// <summary>
-    ///  Wraps the actual file of a SignersDocument}.
-    /// </summary>
-    public class SignersDocumentFile
+/// <summary>
+///  Wraps the actual file of a SignersDocument}.
+/// </summary>
+public class SignersDocumentFile
+{
+    public static readonly string DEFAULTNAME = "unnamed";
+    public static readonly int MAXFILESIZE = 1024 * 1024 * 20; // 20 mb
+
+    private byte[] _data;
+
+    public DateTime? CreationTime { get; protected set; }
+
+    public DateTime? LastModified { get; protected set; }
+
+    public string Name { get; protected set; }
+
+    // One of the following file sources
+    public string Path { get; protected set; }
+
+    public Uri Uri { get; set; }
+
+    public byte[] GetData()
     {
-        public static readonly string DEFAULTNAME = "unnamed";
-        public static readonly int MAXFILESIZE = 1024 * 1024 * 20; // 20 mb
-
-        private byte[] _data;
-
-        public DateTime? CreationTime { get; protected set; }
-
-        public DateTime? LastModified { get; protected set; }
-
-        public string Name { get; protected set; }
-
-        // One of the following file sources
-        public string Path { get; protected set; }
-
-        public Uri Uri { get; set; }
-
-        public byte[] GetData()
+        if (_data == null)
         {
-            if (_data == null)
+            if (!string.IsNullOrEmpty(Path))
             {
-                if (!string.IsNullOrEmpty(Path))
-                {
-                    _data = SignersDocumentFileLoader.LoadDataFromFileFromPath(Path);
-                }
-
-                if (Uri != null)
-                {
-                    _data = SignersDocumentFileLoader.LoadDataFromUri(Uri);
-                }
+                _data = SignersDocumentFileLoader.LoadDataFromFileFromPath(Path);
             }
 
-            return _data;
+            if (Uri != null)
+            {
+                _data = SignersDocumentFileLoader.LoadDataFromUri(Uri);
+            }
         }
 
-        public string GetDataAsString()
+        return _data;
+    }
+
+    public string GetDataAsString()
+    {
+        return Encoding.UTF8.GetString(GetData());
+    }
+
+    public class SignersDocumentFileBuilder
+    {
+        private SignersDocumentFile builderTemplate;
+
+        public SignersDocumentFileBuilder()
         {
-            return Encoding.UTF8.GetString(GetData());
+            builderTemplate = new SignersDocumentFile();
         }
 
-        public class SignersDocumentFileBuilder
+        public SignersDocumentFileBuilder WithCreationTime(DateTime? creationTime)
         {
-            private SignersDocumentFile builderTemplate;
+            builderTemplate.CreationTime = creationTime;
+            return this;
+        }
 
-            public SignersDocumentFileBuilder()
-            {
-                builderTemplate = new SignersDocumentFile();
-            }
+        public SignersDocumentFileBuilder WithLastModified(DateTime? lastModified)
+        {
+            builderTemplate.LastModified = lastModified;
+            return this;
+        }
 
-            public SignersDocumentFileBuilder WithCreationTime(DateTime? creationTime)
-            {
-                builderTemplate.CreationTime = creationTime;
-                return this;
-            }
+        public SignersDocumentFileBuilder WithName(string name)
+        {
+            builderTemplate.Name = name;
+            return this;
+        }
 
-            public SignersDocumentFileBuilder WithLastModified(DateTime? lastModified)
-            {
-                builderTemplate.LastModified = lastModified;
-                return this;
-            }
+        public SignersDocumentFileBuilder WithPath(string path)
+        {
+            builderTemplate.Path = path;
+            return this;
+        }
 
-            public SignersDocumentFileBuilder WithName(string name)
-            {
-                builderTemplate.Name = name;
-                return this;
-            }
+        public SignersDocumentFileBuilder WithUri(Uri uri)
+        {
+            builderTemplate.Uri = uri;
+            return this;
+        }
 
-            public SignersDocumentFileBuilder WithPath(string path)
-            {
-                builderTemplate.Path = path;
-                return this;
-            }
+        public SignersDocumentFileBuilder WithData(byte[] data)
+        {
+            builderTemplate._data = data;
+            return this;
+        }
 
-            public SignersDocumentFileBuilder WithUri(Uri uri)
-            {
-                builderTemplate.Uri = uri;
-                return this;
-            }
+        public SignersDocumentFile Build()
+        {
+            TrySetCreationTime();
 
-            public SignersDocumentFileBuilder WithData(byte[] data)
-            {
-                builderTemplate._data = data;
-                return this;
-            }
+            TrySetLastModified();
 
-            public SignersDocumentFile Build()
-            {
-                TrySetCreationTime();
-                
-                TrySetLastModified();
-                
-                TrySetName();
+            TrySetName();
 
-                return builderTemplate;
-            }
-            
-            private void TrySetName()
+            return builderTemplate;
+        }
+
+        private void TrySetName()
+        {
+            if (string.IsNullOrEmpty(builderTemplate.Name))
             {
-                if (string.IsNullOrEmpty(builderTemplate.Name))
+                if (!string.IsNullOrEmpty(builderTemplate.Path))
                 {
-                    if (!string.IsNullOrEmpty(builderTemplate.Path))
-                    {
-                        builderTemplate.Name = System.IO.Path.GetFileName(builderTemplate.Path);
-                    }
-                    else if (builderTemplate.Uri != null && builderTemplate.Uri.IsFile)
-                    {
-                        builderTemplate.Name = System.IO.Path.GetFileName(builderTemplate.Uri.LocalPath);
-                    }
-                    else
-                    {
-                        builderTemplate.Name = DEFAULTNAME;
-                    }
+                    builderTemplate.Name = System.IO.Path.GetFileName(builderTemplate.Path);
+                }
+                else if (builderTemplate.Uri != null && builderTemplate.Uri.IsFile)
+                {
+                    builderTemplate.Name = System.IO.Path.GetFileName(builderTemplate.Uri.LocalPath);
+                }
+                else
+                {
+                    builderTemplate.Name = DEFAULTNAME;
                 }
             }
+        }
 
-            private void TrySetLastModified()
+        private void TrySetLastModified()
+        {
+            if (builderTemplate.LastModified == null && !string.IsNullOrEmpty(builderTemplate.Path))
             {
-                if (builderTemplate.LastModified == null && !string.IsNullOrEmpty(builderTemplate.Path))
+                try
                 {
-                    try
-                    {
-                        builderTemplate.LastModified = File.GetLastWriteTime(builderTemplate.Path);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    builderTemplate.LastModified = File.GetLastWriteTime(builderTemplate.Path);
+                }
+                catch
+                {
+                    // ignored
                 }
             }
+        }
 
-            private void TrySetCreationTime()
+        private void TrySetCreationTime()
+        {
+            if (builderTemplate.CreationTime == null && !string.IsNullOrEmpty(builderTemplate.Path))
             {
-                if (builderTemplate.CreationTime == null && !string.IsNullOrEmpty(builderTemplate.Path))
+                try
                 {
-                    try
-                    {
-                        builderTemplate.CreationTime = File.GetCreationTime(builderTemplate.Path);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    builderTemplate.CreationTime = File.GetCreationTime(builderTemplate.Path);
+                }
+                catch
+                {
+                    // ignored
                 }
             }
         }
     }
+}

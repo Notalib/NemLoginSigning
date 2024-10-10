@@ -7,16 +7,16 @@ public static class SerializationExtensions
 {
     public static string ToJson<TEntity>(this TEntity entity)
     {
-        using (var stringWriter = new StringWriter())
-        using (var jsonWriter = new JsonTextWriter(stringWriter))
+        using (StringWriter stringWriter = new StringWriter())
+        using (JsonTextWriter jsonWriter = new JsonTextWriter(stringWriter))
         {
-            var serializer = new JsonSerializer
+            JsonSerializer serializer = new JsonSerializer
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 
             serializer.Serialize(jsonWriter, entity);
-                                
+
             return stringWriter.ToString();
         }
     }

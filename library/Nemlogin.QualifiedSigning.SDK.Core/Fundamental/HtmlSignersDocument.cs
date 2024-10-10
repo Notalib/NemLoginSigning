@@ -7,9 +7,10 @@ namespace Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 /// </summary>
 public class HtmlSignersDocument : SignersDocument
 {
-    public HtmlSignersDocument(SignersDocumentFile signersDocumentFile) : this(signersDocumentFile, null) { } 
-        
+    public HtmlSignersDocument(SignersDocumentFile signersDocumentFile) : this(signersDocumentFile, null) { }
+
 
     public HtmlSignersDocument(SignersDocumentFile signersDocumentFile, SignProperties signProperties) :
-        base(DocumentFormat.HTML, signersDocumentFile, signProperties) { }
+        base(DocumentFormat.HTML, signersDocumentFile, signProperties)
+    { }
 }

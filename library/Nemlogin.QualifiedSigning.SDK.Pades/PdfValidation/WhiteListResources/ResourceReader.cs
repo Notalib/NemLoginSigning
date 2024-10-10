@@ -9,7 +9,7 @@ public static class ResourceReader
     {
         List<string> resourceList = new();
 
-        using var streamReader = new StreamReader(typeof(ResourceReader).Assembly.GetManifestResourceStream(resource)!);
+        using StreamReader streamReader = new StreamReader(typeof(ResourceReader).Assembly.GetManifestResourceStream(resource)!);
         while (streamReader.ReadLine() is { } line)
         {
             resourceList.Add(line);

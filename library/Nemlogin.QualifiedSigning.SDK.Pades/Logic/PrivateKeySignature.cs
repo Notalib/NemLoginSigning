@@ -26,7 +26,7 @@ public class PrivateKeySignature
                 this.encryptionAlgorithm = "ECDSA";
                 break;
             default:
-                throw new ArgumentException($"unknown.key.algorithm.1 {(object) pk.ToString()}");
+                throw new ArgumentException($"unknown.key.algorithm.1 {(object)pk.ToString()}");
         }
     }
 

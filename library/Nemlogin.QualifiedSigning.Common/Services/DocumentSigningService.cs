@@ -38,7 +38,7 @@ public class DocumentSigningService : IDocumentSigningService
 
     public SigningPayloadDTO GenerateSigningPayload(SignatureFormat signatureFormat, SignatureKeys signatureKeys, string language, string referenceText, string filePath)
     {
-        var signersDocument = _signersDocumentLoader.CreateSignersDocumentFromFile(filePath);
+        SignersDocument signersDocument = _signersDocumentLoader.CreateSignersDocumentFromFile(filePath);
 
         SignatureParameters signatureParameters = new SignatureParameters.SignatureParametersBuilder()
             .WithFlowType(FlowType.ServiceProvider)
@@ -53,7 +53,7 @@ public class DocumentSigningService : IDocumentSigningService
 
         TransformationContext ctx = new TransformationContext(signersDocument, signatureKeys, signatureParameters, transformationProperties);
 
-        var signingPayload = _signingPayloadService.ProduceSigningPayload(ctx);
+        SigningPayload signingPayload = _signingPayloadService.ProduceSigningPayload(ctx);
 
         SigningPayloadDTO signingPayloadDto = new(signingPayload);
 

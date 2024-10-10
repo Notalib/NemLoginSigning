@@ -14,6 +14,6 @@ public class TransformationException : NemLoginException
     public TransformationException(string message, ErrorCode errorCode) : base(message, errorCode) { }
 
     public TransformationException(string message, ErrorCode errorCode, Exception innerException) : base(message, errorCode, innerException) { }
-        
+
     public TransformationException(string message, Exception innerException) : base(message, innerException) { }
 }

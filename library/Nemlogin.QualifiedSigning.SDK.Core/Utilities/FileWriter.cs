@@ -11,17 +11,17 @@ public class FileWriter
 {
     public static void WriteFileToPath(string path, string name, string extension, byte[] fileData)
     {
-        var rootDir = Environment.CurrentDirectory;
-        var targetPath = Path.Combine(rootDir, path);
+        string rootDir = Environment.CurrentDirectory;
+        string targetPath = Path.Combine(rootDir, path);
 
         if (!Directory.Exists(targetPath))
             return;
 
-        var number = new Random().Next(10000);
-        var datetime = DateTime.UtcNow.ToString("yyyy-dd-M--HH-mm-ss.ffff", CultureInfo.InvariantCulture);
-        var fileName = $"{number}_{datetime}_{name}_{Guid.NewGuid()}.{extension}";
+        int number = new Random().Next(10000);
+        string datetime = DateTime.UtcNow.ToString("yyyy-dd-M--HH-mm-ss.ffff", CultureInfo.InvariantCulture);
+        string fileName = $"{number}_{datetime}_{name}_{Guid.NewGuid()}.{extension}";
 
-        var fileNameAndPath = Path.Combine(targetPath, fileName);
+        string fileNameAndPath = Path.Combine(targetPath, fileName);
         File.WriteAllBytes(fileNameAndPath, fileData);
     }
 }

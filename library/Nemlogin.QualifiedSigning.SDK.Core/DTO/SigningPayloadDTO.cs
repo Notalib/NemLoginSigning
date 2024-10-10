@@ -14,7 +14,7 @@ public class SigningPayloadDTO
         SignatureParameters = signingPayload.SignatureParameters;
         Dtbs = Convert.ToBase64String(signingPayload.DataToBeSigned.GetData());
     }
-       
+
     public string SignatureParameters { get; set; }
 
     public string Dtbs { get; set; }

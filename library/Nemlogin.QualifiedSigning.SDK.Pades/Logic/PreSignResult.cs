@@ -7,7 +7,7 @@ public class PreSignResult
 {
     public PreSignResult(byte[] signedResult, byte[] signature)
     {
-        SignedResult = signedResult;   
+        SignedResult = signedResult;
         Signature = signature;
     }
 

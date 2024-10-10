@@ -1,89 +1,90 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 
 namespace Nemlogin.QualifiedSigning.SDK.Core.Utilities;
 
-    /// <summary>
-    /// Utility class for loading signaturekeys from the keystore
-    /// </summary>
-    public class SignatureKeysLoader
+/// <summary>
+/// Utility class for loading signaturekeys from the keystore
+/// </summary>
+public class SignatureKeysLoader
+{
+    private byte[] _keystore;
+
+    protected string KeystorePath { get; set; }
+
+    protected string KeyStoreType { get; set; }
+
+    protected string KeyStorePassWord { get; set; }
+
+    protected string PrivateKeyPassword { get; set; }
+
+    public SignatureKeysLoader WithKeyStorePath(string keystorePath)
     {
-        private byte[] _keystore;
-
-        protected string KeystorePath { get; set; }
-        
-        protected string KeyStoreType { get; set; }
-
-        protected string KeyStorePassWord { get; set; }
-
-        protected string PrivateKeyPassword { get; set; }
-    
-        public SignatureKeysLoader WithKeyStorePath(string keystorePath)
-        {
-            KeystorePath = keystorePath;
-            return this;
-        }
-
-        public SignatureKeysLoader WithKeyStoreType(string keystoreType)
-        {
-            KeyStoreType = keystoreType;
-            return this;
-        }
-
-        public SignatureKeysLoader WithKeyStore(byte[] keystore)
-        {
-            _keystore = keystore;
-            return this;
-        }
-
-        public SignatureKeysLoader WithKeyStorePassword(string keyStorePassword)
-        {
-            KeyStorePassWord = keyStorePassword;
-            return this;
-        }
-
-        public SignatureKeysLoader WithPrivateKeyPassword(string privateKeyPassword)
-        {
-            PrivateKeyPassword = privateKeyPassword;
-            return this;
-        }
-
-        public SignatureKeys LoadSignatureKeys()
-        {
-            if (string.IsNullOrEmpty(KeystorePath) && _keystore == null)
-            {
-                throw new ArgumentNullException("KeyStorePath or Keystore data must be defined");
-            }
-
-            if (PrivateKeyPassword == null)
-            {
-                throw new ArgumentNullException("The PrivateKeyPassword must be defined");
-            }
-
-            X509Certificate2Collection x509Certificate2Collection = ImportCertificateCollection(_keystore, KeystorePath);
-
-            if (x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Count() != 1)
-            {
-                throw new Exception("Certificate collection contains multiple certificates with a private key");
-            }
-
-            var certificate = x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Single();
-            
-            return new SignatureKeys(certificate, certificate.PrivateKey);
-        }
-
-        private X509Certificate2Collection ImportCertificateCollection(byte[] keystore, string keystorePath)
-        {
-            X509Certificate2Collection x509Collection = new X509Certificate2Collection();
-            if (_keystore != null)
-            {
-                x509Collection.Import(_keystore, PrivateKeyPassword, X509KeyStorageFlags.PersistKeySet);
-            }
-            else
-            {
-                x509Collection.Import(KeystorePath, PrivateKeyPassword, X509KeyStorageFlags.PersistKeySet);
-            }
-
-            return x509Collection;
-        }
+        KeystorePath = keystorePath;
+        return this;
     }
+
+    public SignatureKeysLoader WithKeyStoreType(string keystoreType)
+    {
+        KeyStoreType = keystoreType;
+        return this;
+    }
+
+    public SignatureKeysLoader WithKeyStore(byte[] keystore)
+    {
+        _keystore = keystore;
+        return this;
+    }
+
+    public SignatureKeysLoader WithKeyStorePassword(string keyStorePassword)
+    {
+        KeyStorePassWord = keyStorePassword;
+        return this;
+    }
+
+    public SignatureKeysLoader WithPrivateKeyPassword(string privateKeyPassword)
+    {
+        PrivateKeyPassword = privateKeyPassword;
+        return this;
+    }
+
+    public SignatureKeys LoadSignatureKeys()
+    {
+        if (string.IsNullOrEmpty(KeystorePath) && _keystore == null)
+        {
+            throw new ArgumentNullException("KeyStorePath or Keystore data must be defined");
+        }
+
+        if (PrivateKeyPassword == null)
+        {
+            throw new ArgumentNullException("The PrivateKeyPassword must be defined");
+        }
+
+        X509Certificate2Collection x509Certificate2Collection = ImportCertificateCollection(_keystore, KeystorePath);
+
+        if (x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Count() != 1)
+        {
+            throw new Exception("Certificate collection contains multiple certificates with a private key");
+        }
+
+        X509Certificate2 certificate = x509Certificate2Collection.OfType<X509Certificate2>().Where(c => c.HasPrivateKey).Single();
+
+        return new SignatureKeys(certificate, certificate.PrivateKey);
+    }
+
+    private X509Certificate2Collection ImportCertificateCollection(byte[] keystore, string keystorePath)
+    {
+        X509Certificate2Collection x509Collection = new X509Certificate2Collection();
+        if (_keystore != null)
+        {
+            x509Collection.Import(_keystore, PrivateKeyPassword, X509KeyStorageFlags.PersistKeySet);
+        }
+        else
+        {
+            x509Collection.Import(KeystorePath, PrivateKeyPassword, X509KeyStorageFlags.PersistKeySet);
+        }
+
+        return x509Collection;
+    }
+}

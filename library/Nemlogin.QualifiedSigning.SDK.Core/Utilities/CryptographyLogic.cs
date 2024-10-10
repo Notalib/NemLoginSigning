@@ -18,7 +18,7 @@ public static class CryptographyLogic
 
     public static byte[] Canonicalize(byte[] dtbs)
     {
-        var xmlDsigC14NTransform = new XmlDsigC14NTransform()
+        XmlDsigC14NTransform xmlDsigC14NTransform = new XmlDsigC14NTransform()
         {
             Algorithm = SignedXml.XmlDsigExcC14NTransformUrl
         };
@@ -26,7 +26,7 @@ public static class CryptographyLogic
         using (MemoryStream memoryStream = new MemoryStream(dtbs))
         {
             xmlDsigC14NTransform.LoadInput(memoryStream);
-            var xml = xmlDsigC14NTransform.GetXml();
+            System.Xml.XmlElement xml = xmlDsigC14NTransform.GetXml();
         }
 
         Type streamType = typeof(System.IO.Stream);

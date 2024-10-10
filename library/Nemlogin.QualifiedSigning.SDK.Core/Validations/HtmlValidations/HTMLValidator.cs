@@ -22,7 +22,7 @@ public class HTMLValidator : IValidator
             throw new ValidationException(validationErrors, ErrorCode.SDK010);
         }
     }
-        
+
     public bool CanValidate(DocumentFormat format)
     {
         return format == DocumentFormat.HTML;

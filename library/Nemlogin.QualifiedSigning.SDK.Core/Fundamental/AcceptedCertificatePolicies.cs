@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+
 using System.ComponentModel;
 
 namespace Nemlogin.QualifiedSigning.SDK.Core.Fundamental;

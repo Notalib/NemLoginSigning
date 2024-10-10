@@ -8,6 +8,6 @@ namespace Nemlogin.QualifiedSigning.Common.Services;
 public interface ISignersDocumentLoader
 {
     IEnumerable<SignersDocument> GetFiles();
-        
+
     SignersDocument CreateSignersDocumentFromFile(string filePath);
 }

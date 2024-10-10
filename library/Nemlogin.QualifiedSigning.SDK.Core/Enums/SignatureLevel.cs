@@ -70,7 +70,7 @@ public enum SignatureLevel
 
     [EnumMember(Value = "notAdES")]
     NOT_ADES,
-                
+
     [EnumMember(Value = "notApplicable")]
     NA
 }

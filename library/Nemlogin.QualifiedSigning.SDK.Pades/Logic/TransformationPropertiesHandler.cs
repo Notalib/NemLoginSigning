@@ -1,10 +1,11 @@
 ﻿using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+
 using PdfSharp;
 using PdfSharp.Drawing;
 
 namespace Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 
-public class TransformationPropertiesHandler 
+public class TransformationPropertiesHandler
 {
     public static string KEY_PREFIX = "nemlogin.signing.pdf-generator.";
     public static string KEY_COLOR_PROFILE = KEY_PREFIX + "color-profile";
@@ -16,12 +17,12 @@ public class TransformationPropertiesHandler
     public static string KEY_PAGE_SIZE = KEY_PREFIX + "page-size";
     public static string KEY_PAGE_ORIENTATION = KEY_PREFIX + "page-orientation";
     public static string KEY_PAGE_MARGIN = KEY_PREFIX + "page-margin";
-    
+
     private const string DEFAULT_COLOR_PROFILE = "Nemlogin.QualifiedSigning.SDK.Pades.Resources.sRGB.icc";
 
     private readonly TransformationProperties _properties;
 
-    public TransformationPropertiesHandler(TransformationProperties properties) 
+    public TransformationPropertiesHandler(TransformationProperties properties)
     {
         _properties = properties;
     }

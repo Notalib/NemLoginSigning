@@ -28,7 +28,7 @@ public static class ValidTransformation
 
     public static Transformation GetTransformation(DocumentFormat sdFormat, SignatureFormat dtbsFormat)
     {
-        return Transformations.FirstOrDefault(t => t.SdFormat == sdFormat && t.SignatureFormat == dtbsFormat) 
+        return Transformations.FirstOrDefault(t => t.SdFormat == sdFormat && t.SignatureFormat == dtbsFormat)
                ?? throw new InvalidSignatureParametersException($"No valid format for sdFormat: {sdFormat}, dtbsFormat: {dtbsFormat}");
     }
 }

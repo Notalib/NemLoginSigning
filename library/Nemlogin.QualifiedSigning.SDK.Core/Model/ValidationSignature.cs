@@ -1,4 +1,5 @@
 ﻿using Nemlogin.QualifiedSigning.SDK.Core.Enums;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -33,5 +34,5 @@ public class ValidationSignature
 
     public IList<string> Warnings { get; set; }
 
-    public IList<string> Infos{ get; set; }
+    public IList<string> Infos { get; set; }
 }

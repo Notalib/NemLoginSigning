@@ -27,13 +27,13 @@ namespace Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 /// 3. Set data to be signed to the document with the signature
 /// 4. Update the DTBS signed info with the base64 encoded signedInfo part.
 /// </summary>
-public class PdfSignatureStamperV2 : ISignatureStamper  
+public class PdfSignatureStamperV2 : ISignatureStamper
 {
     public const int SIGNATURE_SIZE = 16384;
     public const string SIGNATURE_TYPE = "/Sig";
     public const string SIGNATURE_NAME = "NemLog-In Signing SDK";
     private const int NO_CHANGE_PERMITTED = 1;
-   
+
 
     // public static readonly PdfName SIGNATURE_DEFAULT_FILTER = PdfName.ADOBE_PPKLITE;
     // public static readonly PdfName SIGNATURE_DEFAULT_SUBFILTER = PdfName.ETSI_CADES_DETACHED;
@@ -45,15 +45,15 @@ public class PdfSignatureStamperV2 : ISignatureStamper
 
     public void PreSignDocument(TransformationContext ctx)
     {
-        var data = ctx.DataToBeSigned.GetData();
-        
+        byte[] data = ctx.DataToBeSigned.GetData();
+
         CheckForExistingSignatures(data);
-        
+
         if (Capabilities.Build.IsCoreBuild && GlobalFontSettings.FontResolver is null)
             GlobalFontSettings.FontResolver = new FailsafeFontResolver();
 
-        var preSignResult = PreSignDocumentAndReturnDigest(ctx, ctx.DataToBeSigned.GetData());
-        
+        PreSignResult preSignResult = PreSignDocumentAndReturnDigest(ctx, ctx.DataToBeSigned.GetData());
+
         // Update the DTBS PDF document
         ctx.DataToBeSigned = new PadesDataToBeSigned(preSignResult.SignedResult, ctx.DataToBeSigned.FileName);
         //
@@ -71,7 +71,7 @@ public class PdfSignatureStamperV2 : ISignatureStamper
     {
         List<string> signatureNames = new();
         // Load the PDF document
-        
+
         using MemoryStream ms = new(pdfDocument);
         PdfDocument document = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
 
@@ -107,7 +107,7 @@ public class PdfSignatureStamperV2 : ISignatureStamper
         // Dispose the document
         document.Dispose();
     }
-    
+
     private static (PdfSignatureHandler, byte[]) SignPdf(PdfDocument pdfDocument, SignatureKeys signatureKeys)
     {
         PdfSignatureOptions options = new()
@@ -119,21 +119,21 @@ public class PdfSignatureStamperV2 : ISignatureStamper
             PageIndex = pdfDocument.PageCount - 1,
             AppearanceHandler = new SignAppearanceHandler()
         };
-        var privateKey = DotNetUtilities.GetKeyPair(signatureKeys.PrivateKey).Private;
+        Org.BouncyCastle.Crypto.AsymmetricKeyParameter privateKey = DotNetUtilities.GetKeyPair(signatureKeys.PrivateKey).Private;
         PdfSignatureHandler pdfSignatureHandler = new(new SigningSigner(GetCertificate(signatureKeys.X509Certificate2), privateKey), options);
         pdfSignatureHandler.AttachToDocument(pdfDocument);
-        
+
         MemoryStream stream = new();
         pdfDocument.Save(stream, false);
         // pdfDocument.Save("Signed-pdf.pdf");
-        
+
         return (pdfSignatureHandler, stream.ToArray());
     }
 
     private PreSignResult PreSignDocumentAndReturnDigest(TransformationContext ctx, byte[] pdfDocument)
     {
         SignatureKeys signatureKeys = new SignatureKeysProducer().CreateSignatureKeys();
-        
+
         return StampSignature(pdfDocument, signatureKeys, ctx);
     }
 
@@ -149,10 +149,10 @@ public class PdfSignatureStamperV2 : ISignatureStamper
         {
             clonedDocument.AddPage(page);
         }
-        
+
         TemplateSignatureContainer templateSignatureContainer = CreateTemplateSignatureContainer(ctx, signatureKeys);
 
-        var signatureHandler = SignPdf(clonedDocument, signatureKeys);
+        (PdfSignatureHandler, byte[]) signatureHandler = SignPdf(clonedDocument, signatureKeys);
 
         templateSignatureContainer.Sign(ms);
         return new PreSignResult(signatureHandler.Item2, signatureHandler.Item1.Digest);
@@ -160,22 +160,22 @@ public class PdfSignatureStamperV2 : ISignatureStamper
 
     private TemplateSignatureContainer CreateTemplateSignatureContainer(TransformationContext ctx, SignatureKeys signatureKeys)
     {
-        var certificateCollection = new Collection<Org.BouncyCastle.X509.X509Certificate> { DotNetUtilities.FromX509Certificate(signatureKeys.X509Certificate2) };
+        Collection<Org.BouncyCastle.X509.X509Certificate> certificateCollection = new Collection<Org.BouncyCastle.X509.X509Certificate> { DotNetUtilities.FromX509Certificate(signatureKeys.X509Certificate2) };
 
-        var privateKey = DotNetUtilities.GetKeyPair(signatureKeys.PrivateKey).Private;
+        Org.BouncyCastle.Crypto.AsymmetricKeyParameter privateKey = DotNetUtilities.GetKeyPair(signatureKeys.PrivateKey).Private;
 
         return new TemplateSignatureContainer(ctx, privateKey, certificateCollection);
     }
-    
+
     private static Tuple<X509Certificate2, X509Certificate2Collection> GetCertificate(X509Certificate2 certificate)
     {
-        var rawData = certificate.RawData;
+        byte[] rawData = certificate.RawData;
 
         X509Certificate2Collection collection = new X509Certificate2Collection();
         collection.Import(rawData, null, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
-        
-        
+
+
         return Tuple.Create(certificate, collection);
     }
-    
+
 }

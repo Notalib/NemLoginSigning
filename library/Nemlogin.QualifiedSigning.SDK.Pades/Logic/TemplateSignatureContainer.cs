@@ -1,7 +1,10 @@
 ﻿using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
+
 using Org.BouncyCastle.Crypto;
+
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 
@@ -12,7 +15,7 @@ namespace Nemlogin.QualifiedSigning.SDK.Pades.Logic;
 /// to be added to the PDF document using the service provider key/pair.
 /// The template signature is later overridden by the signing client.
 /// </summary>
-public class TemplateSignatureContainer 
+public class TemplateSignatureContainer
 {
     private TransformationContext _ctx;
     private readonly PrivateKeySignature _privateKeySignature;
@@ -27,10 +30,10 @@ public class TemplateSignatureContainer
     public TemplateSignatureContainer(TransformationContext ctx, ICipherParameters pk, ICollection<Org.BouncyCastle.X509.X509Certificate> certificateChain)
     {
         _ctx = ctx;
-        _privateKeySignature = new PrivateKeySignature(pk, SIGNING_ALGORITHM);;
+        _privateKeySignature = new PrivateKeySignature(pk, SIGNING_ALGORITHM); ;
         _certificateChain = certificateChain;
     }
-    
+
     /// <summary>
     /// Calculate the hash value of the content/data, sets a empty signature on the document
     /// and returns the digest of the encoded PKCS7 signedinfo part.
@@ -40,13 +43,13 @@ public class TemplateSignatureContainer
     public byte[] Sign(Stream data)
     {
         string hashAlgorithm = _privateKeySignature.GetHashAlgorithm();
-            
+
         PdfPkcs7 sgn = new(null, _certificateChain, hashAlgorithm, false);
         byte[] hash = DigestAlgorithms.Digest(data, SIGNING_ALGORITHM);
 
         byte[] sh = sgn.GetAuthenticatedAttributeBytes(hash, null, null, CryptoStandard.CMS);
         byte[] extSignature = _privateKeySignature.Sign(sh);
-            
+
         sgn.SetExternalDigest(extSignature, null, _privateKeySignature.GetEncryptionAlgorithm());
 
         _digest = sgn.GetEncodedPKCS7(hash, CryptoStandard.CMS);

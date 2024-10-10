@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Enums;
 using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
@@ -29,7 +30,7 @@ public class Html2PdfTransformer : ITransformer
 
         try
         {
-            var pdfDocument = html2PdfGenerator.GeneratePdfDocument(html, propertiesHandler).GetAwaiter().GetResult();
+            byte[] pdfDocument = html2PdfGenerator.GeneratePdfDocument(html, propertiesHandler).GetAwaiter().GetResult();
             // var pdfDocument = html2PdfGenerator.GeneratePdfDocument(html, propertiesHandler);
 
             ctx.DataToBeSigned = new PadesDataToBeSigned(pdfDocument, Path.ChangeExtension(signersDocument.SignersDocumentFile.Name, "pdf"));

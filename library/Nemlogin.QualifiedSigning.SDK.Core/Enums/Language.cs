@@ -18,7 +18,7 @@ public enum Language
     /// </summary>
     [Description("English")]
     en,
-        
+
     /// <summary>
     /// Greenlandic
     /// </summary>

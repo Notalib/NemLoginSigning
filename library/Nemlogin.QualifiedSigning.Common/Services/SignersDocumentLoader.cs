@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 
 namespace Nemlogin.QualifiedSigning.Common.Services;
@@ -17,11 +18,11 @@ public class SignersDocumentLoader : ISignersDocumentLoader
 
         string directory = string.Empty;
 
-        directory = Directory.Exists(".\\wwwroot\\content\\UploadedFiles") ? 
-                    ".\\wwwroot\\content\\UploadedFiles" : 
+        directory = Directory.Exists(".\\wwwroot\\content\\UploadedFiles") ?
+                    ".\\wwwroot\\content\\UploadedFiles" :
                     ".\\wwwroot\\content\\Files";
 
-        var files = Directory.EnumerateFiles(directory).Where(f => fileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
+        IEnumerable<string> files = Directory.EnumerateFiles(directory).Where(f => fileExtensions.Contains(Path.GetExtension(f).ToUpperInvariant()));
 
         if (!files.Any())
         {
@@ -31,7 +32,7 @@ public class SignersDocumentLoader : ISignersDocumentLoader
 
         List<SignersDocument> signersDocumentList = new List<SignersDocument>();
 
-        foreach (var item in files)
+        foreach (string item in files)
         {
             signersDocumentList.Add(CreateSignersDocumentFromFile(item));
         }
@@ -47,11 +48,11 @@ public class SignersDocumentLoader : ISignersDocumentLoader
                .WithPath(filePath)
                .Build();
 
-        var signProperties = GetSignProperties(filePath);
+        SignProperties signProperties = GetSignProperties(filePath);
 
         SignersDocument signersDocument = null;
 
-        var fileExtension = Path.GetExtension(fileName);
+        string fileExtension = Path.GetExtension(fileName);
 
         switch (fileExtension)
         {
@@ -95,8 +96,8 @@ public class SignersDocumentLoader : ISignersDocumentLoader
         {
             xsltFilename = Path.ChangeExtension(filePath, "xsl");
         }
-        
-        var path = Path.GetFullPath(xsltFilename);
+
+        string path = Path.GetFullPath(xsltFilename);
 
         return new SignersDocumentFile.SignersDocumentFileBuilder()
             .WithName(xsltFilename)
@@ -106,20 +107,20 @@ public class SignersDocumentLoader : ISignersDocumentLoader
 
     private SignProperties GetSignProperties(string filePath)
     {
-        var propertyFile = GetPropertyFileName(filePath);
+        string propertyFile = GetPropertyFileName(filePath);
 
         if (string.IsNullOrEmpty(propertyFile) || !File.Exists(propertyFile))
         {
             return new SignProperties();
         }
 
-        var properties = File.ReadAllLines(propertyFile).ToList();
+        List<string> properties = File.ReadAllLines(propertyFile).ToList();
 
         SignProperties signProperties = new SignProperties();
 
-        foreach (var item in properties)
+        foreach (string item in properties)
         {
-            var property = item.Split(new[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] property = item.Split(new[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
             signProperties.Add(property[0], new SignPropertyValue(property[1], SignPropertyValue.SignPropertyValueType.StringValue));
         }
 
@@ -128,7 +129,7 @@ public class SignersDocumentLoader : ISignersDocumentLoader
 
     private string GetPropertyFileName(string filePath)
     {
-        var propertiesFile = $"{Path.GetFileNameWithoutExtension(filePath)}.properties";
+        string propertiesFile = $"{Path.GetFileNameWithoutExtension(filePath)}.properties";
         return Path.Combine(Path.GetDirectoryName(filePath) ?? string.Empty, propertiesFile);
     }
 }

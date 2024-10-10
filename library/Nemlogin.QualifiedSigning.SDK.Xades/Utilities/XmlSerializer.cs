@@ -1,108 +1,109 @@
 ﻿using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+
 using Nemlogin.QualifiedSigning.SDK.Core.Utilities;
 using Nemlogin.QualifiedSigning.SDK.Xades.GeneratedSources;
 
 namespace Nemlogin.QualifiedSigning.SDK.Xades.Utilities;
 
-    /// <summary>
-    /// Logic for Serializing/Deserializing XML. 
-    /// </summary>
-    public static class XmlSerializer
+/// <summary>
+/// Logic for Serializing/Deserializing XML. 
+/// </summary>
+public static class XmlSerializer
+{
+    public static byte[] Serialize(SignedDocumentType obj)
     {
-        public static byte[] Serialize(SignedDocumentType obj)
+        MemoryStream memoryStream = new MemoryStream();
+
+        XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
+
+        // Ads namespaces needed for signing client to validate
+        XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+        namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
+        namespaces.Add("ds", "http://www.w3.org/2000/09/xmldsig#");
+
+        xmlWriterSettings.Encoding = new UTF8Encoding();
+
+        using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))
         {
-            MemoryStream memoryStream = new MemoryStream();
-
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-
-            // Ads namespaces needed for signing client to validate
-            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
-            namespaces.Add("ds", "http://www.w3.org/2000/09/xmldsig#");
-
-            xmlWriterSettings.Encoding = new UTF8Encoding();
-
-            using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))
-            {
-                System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(SignedDocumentType));
-                xmlSerializer.Serialize(xmlWriter, obj, namespaces);
-            }
-
-            string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
-            DebuggingWriter.WriteXMLDebugFormatted(nameof(SignedDocumentType), xmlString);
-
-            return memoryStream.ToArray();
+            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(SignedDocumentType));
+            xmlSerializer.Serialize(xmlWriter, obj, namespaces);
         }
 
-        public static byte[] Serialize(SignatureType obj)
+        string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
+        DebuggingWriter.WriteXMLDebugFormatted(nameof(SignedDocumentType), xmlString);
+
+        return memoryStream.ToArray();
+    }
+
+    public static byte[] Serialize(SignatureType obj)
+    {
+        return Serialize<SignatureType>(obj);
+    }
+
+    public static byte[] Serialize(SignTextType obj)
+    {
+        MemoryStream memoryStream = new MemoryStream();
+
+        XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
+
+        XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+        namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
+
+        xmlWriterSettings.Encoding = new UTF8Encoding();
+
+        using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))
         {
-            return Serialize<SignatureType>(obj);
+            System.Xml.Serialization.XmlSerializer xmlSerialiser = new System.Xml.Serialization.XmlSerializer(typeof(SignTextType));
+            xmlSerialiser.Serialize(xmlWriter, obj, namespaces);
         }
 
-        public static byte[] Serialize(SignTextType obj)
+        string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
+        DebuggingWriter.WriteXMLDebugFormatted(nameof(SignTextType), xmlString);
+
+        return memoryStream.ToArray();
+    }
+
+    private static byte[] Serialize<T>(T obj)
+    {
+        MemoryStream memoryStream = new MemoryStream();
+
+        XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
+
+        XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
+        namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
+
+        xmlWriterSettings.Encoding = new UTF8Encoding();
+
+        using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))
         {
-            MemoryStream memoryStream = new MemoryStream();
-
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-            
-            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
-
-            xmlWriterSettings.Encoding = new UTF8Encoding();
-
-            using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))
-            {
-                System.Xml.Serialization.XmlSerializer xmlSerialiser = new System.Xml.Serialization.XmlSerializer(typeof(SignTextType));
-                xmlSerialiser.Serialize(xmlWriter, obj, namespaces);
-            }
-
-            string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
-            DebuggingWriter.WriteXMLDebugFormatted(nameof(SignTextType), xmlString);
-
-            return memoryStream.ToArray();
+            System.Xml.Serialization.XmlSerializer xmlSerialiser = new System.Xml.Serialization.XmlSerializer(typeof(T));
+            xmlSerialiser.Serialize(xmlWriter, obj, namespaces);
         }
 
-        private static byte[] Serialize<T>(T obj)
+        string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
+        DebuggingWriter.WriteXMLDebugFormatted(nameof(T), xmlString);
+
+        return memoryStream.ToArray();
+    }
+
+    public static T Deserialize<T>(byte[] data)
+    {
+        MemoryStream memoryStream = new MemoryStream(data);
+
+        XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
+
+        using (XmlReader xmlReader = XmlReader.Create(memoryStream, xmlReaderSettings))
         {
-            MemoryStream memoryStream = new MemoryStream();
+            System.Xml.Serialization.XmlSerializer xmlSerialiser = new System.Xml.Serialization.XmlSerializer(typeof(T));
 
-            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-
-            XmlSerializerNamespaces namespaces = new XmlSerializerNamespaces();
-            namespaces.Add("", "http://dk.gov.certifikat/nemlogin/v0.0.1#");
-
-            xmlWriterSettings.Encoding = new UTF8Encoding();
-
-            using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream, xmlWriterSettings))
-            {
-                System.Xml.Serialization.XmlSerializer xmlSerialiser = new System.Xml.Serialization.XmlSerializer(typeof(T));
-                xmlSerialiser.Serialize(xmlWriter, obj, namespaces);
-            }
+            object deserializedObject = xmlSerialiser.Deserialize(xmlReader);
 
             string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
             DebuggingWriter.WriteXMLDebugFormatted(nameof(T), xmlString);
 
-            return memoryStream.ToArray();
-        }
-
-        public static T Deserialize<T>(byte[] data)
-        {
-            MemoryStream memoryStream = new MemoryStream(data);
-
-            XmlReaderSettings xmlReaderSettings = new XmlReaderSettings();
-
-            using (XmlReader xmlReader = XmlReader.Create(memoryStream, xmlReaderSettings))
-            {
-                System.Xml.Serialization.XmlSerializer xmlSerialiser = new System.Xml.Serialization.XmlSerializer(typeof(T));
-
-                var deserializedObject = xmlSerialiser.Deserialize(xmlReader);
-
-                string xmlString = Encoding.UTF8.GetString(memoryStream.ToArray());
-                DebuggingWriter.WriteXMLDebugFormatted(nameof (T), xmlString);
-
-                return (T)deserializedObject;
-            }
+            return (T)deserializedObject;
         }
     }
+}

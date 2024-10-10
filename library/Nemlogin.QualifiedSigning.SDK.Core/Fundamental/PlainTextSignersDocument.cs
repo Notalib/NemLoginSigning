@@ -7,7 +7,7 @@ namespace Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
 /// </summary>
 public class PlainTextSignersDocument : SignersDocument
 {
-    public PlainTextSignersDocument( SignersDocumentFile signersDocumentFile, SignProperties signProperties) : base(DocumentFormat.TEXT, signersDocumentFile, signProperties)
+    public PlainTextSignersDocument(SignersDocumentFile signersDocumentFile, SignProperties signProperties) : base(DocumentFormat.TEXT, signersDocumentFile, signProperties)
     {
     }
 

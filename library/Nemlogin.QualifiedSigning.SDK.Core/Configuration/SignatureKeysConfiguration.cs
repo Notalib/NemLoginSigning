@@ -23,7 +23,7 @@ public class SignatureKeysConfiguration
     /// Private key password for the keystore.
     /// </summary>
     public string PrivateKeyPassword { get; set; }
-        
+
     /// <summary>
     /// The certificate thumbprint for loading certificate from Windows store.
     /// </summary>
@@ -34,13 +34,14 @@ public class SignatureKeysConfiguration
     /// </summary>
     public StoreLocation CertificateStoreLocation { get; set; } = StoreLocation.LocalMachine;
 
-    public override string ToString() {
+    public override string ToString()
+    {
         return "SignatureKeysConfiguration {"
-            + " EntityId = " + EntityId 
+            + " EntityId = " + EntityId
             + " KeystorePath = " + KeystorePath
             + " CertificateThumbprint = " + CertificateThumbprint
             + " CertificateStoreLocation = " + CertificateStoreLocation
             + " }";
-    }  
+    }
 
 }

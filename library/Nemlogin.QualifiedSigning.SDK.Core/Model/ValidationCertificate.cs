@@ -6,7 +6,7 @@
 public class ValidationCertificate
 {
     public string SubjectDN { get; set; }
-        
+
     public string SerialNumber { get; set; }
 
     public DateTime? NotBefore { get; set; }
