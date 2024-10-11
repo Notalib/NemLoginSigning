@@ -3,36 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningXades", "library\NemLoginSigningXades\NemLoginSigningXades.csproj", "{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningValidation", "library\NemLoginSigningValidation\NemLoginSigningValidation.csproj", "{B05782D8-86F7-45FA-A209-E60AB4A6F364}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningService", "library\NemLoginSigningService\NemLoginSigningService.csproj", "{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningPades", "library\NemLoginSigningPades\NemLoginSigningPades.csproj", "{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SDK", "SDK", "{FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7D21B3F2-1E1E-40BE-850E-072025400F1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningCore", "library\NemLoginSigningCore\NemLoginSigningCore.csproj", "{D6E8DB11-3339-4583-BA38-0E9753C9D836}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningTest", "test\NemLoginSigningTest\NemLoginSigningTest.csproj", "{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSignatureValidationService", "library\NemLoginSignatureValidationService\NemLoginSignatureValidationService.csproj", "{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F72DFF53-52D6-422B-BB49-7C5CCCAB8AFE}"
-	ProjectSection(SolutionItems) = preProject
-		SignSDK.Common.props = SignSDK.Common.props
-	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningWebApp", "src\NemLoginSigningWebApp.csproj", "{554E9887-1C37-484C-912D-E03F3242E723}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nemlogin.QualifiedSigning.SDK.Core", "library\Nemlogin.QualifiedSigning.SDK.Core\Nemlogin.QualifiedSigning.SDK.Core.csproj", "{C9EF9890-59CB-4F9D-96AA-314C8D61A753}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningDTO", "library\NemLoginSigningDTO\NemLoginSigningDTO.csproj", "{36C40CA5-1E77-47C9-96B9-A4222FF31C06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nemlogin.QualifiedSigning.Common", "library\Nemlogin.QualifiedSigning.Common\Nemlogin.QualifiedSigning.Common.csproj", "{BE93A43C-B97A-4960-8EE9-B511EE682F5C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "itextsharp", "library\itextsharp-netstandard\src\core\itextsharp.csproj", "{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nemlogin.QualifiedSigning.SDK.Pades", "library\Nemlogin.QualifiedSigning.SDK.Pades\Nemlogin.QualifiedSigning.SDK.Pades.csproj", "{6F7DD766-8A1F-4852-B3AC-CF03525CCD7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "itextsharp.xmlworker", "library\itextsharp-netstandard\src\extras\itextsharp.xmlworker\itextsharp.xmlworker.csproj", "{675466BA-B7CD-48CB-A151-7728003ED9FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nemlogin.QualifiedSigning.SDK.Xades", "library\Nemlogin.QualifiedSigning.SDK.Xades\Nemlogin.QualifiedSigning.SDK.Xades.csproj", "{54177307-0D85-4A55-8246-9D2E014C8A80}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nemlogin.QualifiedSigning.SDK.Tests", "test\Nemlogin.QualifiedSigning.SDK.Tests\Nemlogin.QualifiedSigning.SDK.Tests.csproj", "{71B45CD8-EB25-4BBB-92ED-C732BDDA3AF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningWebApp", "src\NemLoginSigningWebApp\NemLoginSigningWebApp.csproj", "{CB920F47-EF98-4DA4-AF1F-C5B99EB7B19A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NemLoginSigningDTO", "src\NemLoginSigningDTO\NemLoginSigningDTO.csproj", "{8510BE47-85B8-4D3B-98BB-030CD462DEDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,65 +29,44 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B05782D8-86F7-45FA-A209-E60AB4A6F364}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6E8DB11-3339-4583-BA38-0E9753C9D836}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466}.Release|Any CPU.Build.0 = Release|Any CPU
-		{554E9887-1C37-484C-912D-E03F3242E723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{554E9887-1C37-484C-912D-E03F3242E723}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{554E9887-1C37-484C-912D-E03F3242E723}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{554E9887-1C37-484C-912D-E03F3242E723}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36C40CA5-1E77-47C9-96B9-A4222FF31C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36C40CA5-1E77-47C9-96B9-A4222FF31C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36C40CA5-1E77-47C9-96B9-A4222FF31C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36C40CA5-1E77-47C9-96B9-A4222FF31C06}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{675466BA-B7CD-48CB-A151-7728003ED9FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9EF9890-59CB-4F9D-96AA-314C8D61A753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9EF9890-59CB-4F9D-96AA-314C8D61A753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9EF9890-59CB-4F9D-96AA-314C8D61A753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9EF9890-59CB-4F9D-96AA-314C8D61A753}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE93A43C-B97A-4960-8EE9-B511EE682F5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE93A43C-B97A-4960-8EE9-B511EE682F5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE93A43C-B97A-4960-8EE9-B511EE682F5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE93A43C-B97A-4960-8EE9-B511EE682F5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7DD766-8A1F-4852-B3AC-CF03525CCD7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7DD766-8A1F-4852-B3AC-CF03525CCD7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7DD766-8A1F-4852-B3AC-CF03525CCD7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7DD766-8A1F-4852-B3AC-CF03525CCD7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54177307-0D85-4A55-8246-9D2E014C8A80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54177307-0D85-4A55-8246-9D2E014C8A80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54177307-0D85-4A55-8246-9D2E014C8A80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54177307-0D85-4A55-8246-9D2E014C8A80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71B45CD8-EB25-4BBB-92ED-C732BDDA3AF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71B45CD8-EB25-4BBB-92ED-C732BDDA3AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71B45CD8-EB25-4BBB-92ED-C732BDDA3AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71B45CD8-EB25-4BBB-92ED-C732BDDA3AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB920F47-EF98-4DA4-AF1F-C5B99EB7B19A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB920F47-EF98-4DA4-AF1F-C5B99EB7B19A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB920F47-EF98-4DA4-AF1F-C5B99EB7B19A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB920F47-EF98-4DA4-AF1F-C5B99EB7B19A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8510BE47-85B8-4D3B-98BB-030CD462DEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8510BE47-85B8-4D3B-98BB-030CD462DEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8510BE47-85B8-4D3B-98BB-030CD462DEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8510BE47-85B8-4D3B-98BB-030CD462DEDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2A21EBAE-045A-4AE6-BD80-D4E748DD5AE1} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{B05782D8-86F7-45FA-A209-E60AB4A6F364} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{A1A258D8-A68D-4B49-BB00-2C0A3300CE94} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{B51CFD34-45FA-4112-86F4-2DAA3E4D8111} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{D6E8DB11-3339-4583-BA38-0E9753C9D836} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{7B7ECFBB-536F-45D9-8D2C-0DBBFBD4519B} = {7D21B3F2-1E1E-40BE-850E-072025400F1D}
-		{45D4D8C6-3668-4EFA-A2A8-5897A20A9466} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{36C40CA5-1E77-47C9-96B9-A4222FF31C06} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{FF9FCC6A-B768-4A39-923A-E02A593CC4B8} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
-		{675466BA-B7CD-48CB-A151-7728003ED9FE} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{C9EF9890-59CB-4F9D-96AA-314C8D61A753} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{BE93A43C-B97A-4960-8EE9-B511EE682F5C} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{6F7DD766-8A1F-4852-B3AC-CF03525CCD7C} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{54177307-0D85-4A55-8246-9D2E014C8A80} = {FAA274B2-D092-44E5-AB5F-E0E0511BAC3C}
+		{71B45CD8-EB25-4BBB-92ED-C732BDDA3AF1} = {7D21B3F2-1E1E-40BE-850E-072025400F1D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8DABADC-A37D-4DE2-A46A-D9D365C103F5}
