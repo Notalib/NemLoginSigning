@@ -21,7 +21,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 ADD ./ /src
 
-RUN --mount=type=secret,id=NuGet.Config dotnet restore SignSDK.Net.Digst.sln --configfile /run/secrets/NuGet.Config
+RUN --mount=type=secret,id=NuGet.Config dotnet restore NemLoginSigningService.sln --configfile /run/secrets/NuGet.Config
 
 RUN dotnet publish /src/src/NemLoginSigningWebApp/NemLoginSigningWebApp.csproj -c Release -o /build
 
@@ -32,6 +32,7 @@ FROM base AS runtime
 
 # Copy over build binaries
 COPY --from=build /build /app/
+COPY cert /app/cert
 
 USER service
 WORKDIR /app
