@@ -1,6 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using Nemlogin.QualifiedSigning.SDK.Core;
 using Nemlogin.QualifiedSigning.SDK.Core.Enums;
 using Nemlogin.QualifiedSigning.SDK.Core.Fundamental;
@@ -10,12 +11,12 @@ using Nemlogin.QualifiedSigning.SDK.Core.Validations.PlainTextValidation;
 using Nemlogin.QualifiedSigning.SDK.Core.Validations.XMLValidation;
 using Nemlogin.QualifiedSigning.SDK.Pades.Logic.Transformators;
 using Nemlogin.QualifiedSigning.SDK.Pades.PdfValidation;
-using Nemlogin.QualifiedSigning.SDK.Pades.PdfValidation.WhiteListResources;
 using Nemlogin.QualifiedSigning.SDK.Xades.Logic;
+
 using Xunit;
 
 namespace Nemlogin.QualifiedSigning.SDK.Tests
-{ 
+{
     /// <summary>
     /// Testing multiple files transforming Signers Documents and 
     /// generating Data-To-Be-Signed with the use of 'SigningPayloadService'.
