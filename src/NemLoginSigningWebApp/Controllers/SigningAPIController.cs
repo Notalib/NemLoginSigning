@@ -113,11 +113,4 @@ public class SigningAPIController : ControllerBase
 
         return Ok(validationReport);
     }
-
-    [HttpGet]
-    [Route("Ping")]
-    public IActionResult Ping()
-    {
-        return Ok(new { pong = DateTime.UtcNow });
-    }
 }

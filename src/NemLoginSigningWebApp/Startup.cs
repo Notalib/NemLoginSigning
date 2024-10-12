@@ -23,6 +23,7 @@ using Nemlogin.QualifiedSigning.SDK.Core.Validations.PlainTextValidation;
 using Nemlogin.QualifiedSigning.SDK.Core.Validations.XMLValidation;
 using Nemlogin.QualifiedSigning.SDK.Core.Validations;
 using Nemlogin.QualifiedSigning.SDK.Pades.PdfValidation;
+using Nota.SystemTest;
 
 namespace NemLoginSigningWebApp;
 
@@ -68,6 +69,8 @@ public class Startup
         services.AddTransient<ITransformationPropertiesService, TransformationPropertiesService>();
         services.AddTransient<IDocumentSigningService, DocumentSigningService>();
         services.AddTransient<ISigningValidationService, SigningValidationService>();
+
+        services.AddTransient<ISystemTester, SystemTester>();
 
         NemloginConfig nemloginConfiguration = configurationSection.Get<NemloginConfig>();
 
