@@ -32,7 +32,7 @@
         <ProjectReference Include="..\..\library\Nemlogin.QualifiedSigning.Common\Nemlogin.QualifiedSigning.Common.csproj" />
         <ProjectReference Include="..\..\library\Nemlogin.QualifiedSigning.SDK.Pades\Nemlogin.QualifiedSigning.SDK.Pades.csproj" />
         <ProjectReference Include="..\..\library\Nemlogin.QualifiedSigning.SDK.Xades\Nemlogin.QualifiedSigning.SDK.Xades.csproj" />
-        <ProjectReference Include="..\..\src\NemLoginSigningWebApp.csproj" />
+        <ProjectReference Include="..\..\src\NemLoginSigningWebApp\NemLoginSigningWebApp.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -154,7 +154,7 @@
 
     <ItemGroup>
       <Reference Include="PdfSharp">
-        <HintPath>..\..\src\Nemlogin.QualifiedSigning.SDK.Pades\PdfSharp\PdfSharp.dll</HintPath>
+        <HintPath>..\..\library\Nemlogin.QualifiedSigning.SDK.Pades\PdfSharp\PdfSharp.dll</HintPath>
       </Reference>
     </ItemGroup>
 
