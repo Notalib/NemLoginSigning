@@ -1,4 +1,6 @@
-﻿using Nemlogin.QualifiedSigning.SDK.Core.Enums;
+﻿using Microsoft.Extensions.Logging;
+
+using Nemlogin.QualifiedSigning.SDK.Core.Enums;
 using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
 using Nemlogin.QualifiedSigning.SDK.Core.Model;
 
@@ -14,10 +16,12 @@ namespace Nemlogin.QualifiedSigning.SDK.Core.Services;
 public class SigningValidationService : ISigningValidationService
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<SigningValidationService> _logger;
 
-    public SigningValidationService(IHttpClientFactory httpClientFactory)
+    public SigningValidationService(IHttpClientFactory httpClientFactory, ILogger<SigningValidationService> logger)
     {
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        _logger = logger;
     }
 
     /// <summary>
@@ -39,7 +43,7 @@ public class SigningValidationService : ISigningValidationService
                     httpClient.Timeout = new TimeSpan(0, 0, ctx.Timeout);
                 }
 
-                httpClient.BaseAddress = new Uri(ctx.ValidationServiceUrl);
+                httpClient.BaseAddress =  new Uri(new Uri(ctx.ValidationServiceUrl).GetLeftPart(System.UriPartial.Authority));
 
                 multipartFormDataContent.Add(byteArrayContent, "file", ctx.DocumentName);
 
@@ -55,13 +59,17 @@ public class SigningValidationService : ISigningValidationService
                         TypeNameHandling = TypeNameHandling.Auto,
                         ContractResolver = new CamelCasePropertyNamesContractResolver()
                     });
+
+                    return validationReport;
                 }
+
+                throw new NemLoginException($"Validation service returned {await result.Content.ReadAsStringAsync()}");
             }
 
-            return validationReport;
         }
         catch (Exception e)
         {
+            _logger.LogError(e, "");
             throw new NemLoginException("Error validating signature", ErrorCode.SDK011, e);
         }
     }
