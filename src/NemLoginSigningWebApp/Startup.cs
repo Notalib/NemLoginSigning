@@ -73,14 +73,18 @@ public class Startup
         services.AddTransient<ISystemTester, SystemTester>();
 
         NemloginConfig nemloginConfiguration = configurationSection.Get<NemloginConfig>();
+        X509Certificate2 ocesCertificate = null;
 
-        X509Certificate2 ocesCertificate = new(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
-            nemloginConfiguration.SignatureKeysConfiguration.PrivateKeyPassword);
+        if (!string.IsNullOrWhiteSpace(nemloginConfiguration?.SignatureKeysConfiguration?.KeystorePath))
+        {
+            ocesCertificate = new(nemloginConfiguration.SignatureKeysConfiguration.KeystorePath,
+                nemloginConfiguration?.SignatureKeysConfiguration?.PrivateKeyPassword);
 
-        Log.Information("Loaded OCES Certificate {SubjectName}, has {PrivateKeySize} bit key.", ocesCertificate.Subject, ocesCertificate.GetRSAPrivateKey().KeySize);
+            Log.Information("Loaded OCES Certificate {SubjectName}, has {PrivateKeySize} bit key.", ocesCertificate.Subject, ocesCertificate.GetRSAPrivateKey().KeySize);
+        }
 
         // Configure HTTPClients
-        services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new System.Uri(nemloginConfiguration.ValidationServiceURL));
+        services.AddHttpClient("ValidationServiceClient", c => c.BaseAddress = new Uri(nemloginConfiguration.ValidationServiceURL));
         services.AddHttpClient<IUUIDMatchClient, UUIDMatchClient>(c =>
         {
             c.BaseAddress = new Uri(nemloginConfiguration.UUIDMatchServiceURL);

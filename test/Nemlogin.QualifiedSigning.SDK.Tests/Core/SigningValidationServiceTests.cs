@@ -2,6 +2,9 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging.Abstractions;
+
 using Moq;
 using Moq.Protected;
 using Nemlogin.QualifiedSigning.SDK.Core.Exceptions;
@@ -21,7 +24,7 @@ namespace Nemlogin.QualifiedSigning.SDK.Tests.Core
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
 
             var template = new SignatureValidationContext(null);
-            
+
             var httpClient = new HttpClient(mockHandler.Object)
             {
                 BaseAddress = new Uri("http://example.com")
@@ -35,7 +38,7 @@ namespace Nemlogin.QualifiedSigning.SDK.Tests.Core
                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                 .Throws(new HttpRequestException("Invalid request"));
 
-            var service = new SigningValidationService(mockHttpClientFactory.Object);
+            var service = new SigningValidationService(mockHttpClientFactory.Object, new NullLogger<SigningValidationService>());
 
             // Act & Assert
             await Assert.ThrowsAsync<NemLoginException>(() => service.Validate(template));
