@@ -111,6 +111,8 @@ public class SigningAPIController : ControllerBase
 
         ValidationReport validationReport = await _signingValidationService.Validate(ctx);
 
+        Serilog.Log.Verbose("Validation service returned {@ValidationReport}", validationReport);
+
         return Ok(validationReport);
     }
 }
